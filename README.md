@@ -15,4 +15,10 @@ pipenv run start
 ```
 npm install
 npm run dev
+_________________
+
+Antes de ejecutar en el server de APP.py:
+
+npm run build
+
 ```
