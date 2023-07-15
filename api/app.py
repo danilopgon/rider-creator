@@ -2,14 +2,15 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory,Blueprint
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 
 #modulos
 from utils.db import db
-
+from utils.crypt import bcrypt
+from routes.api import api
 
 app = Flask(__name__)
 
@@ -27,6 +28,7 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+app.register_blueprint(api, url_prefix="/api")
 
 @app.route("/")
 @app.route('/<path:path>', methods =["GET"])
