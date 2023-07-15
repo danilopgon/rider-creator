@@ -3,6 +3,10 @@ import json
 from models.users import User
 from utils.db import db 
 from utils.crypt import bcrypt
+import datetime
+from flask_jwt_extended import create_access_token
+
+
 def set_register(data):
     if data is None:
         return {'message': 'Missing data'}, 400
@@ -25,7 +29,9 @@ def set_login(data):
     find_user = User.query.filter_by(email=data.get('email')).first()
     if find_user:
         if bcrypt.check_password_hash(find_user.password, data.get('password')):
-            return {'message': 'Login successful'}, 200
+            access_token = create_access_token(identity=find_user.id)
+            
+            return {'message': 'Login successful', 'token': access_token}, 200
         else:
             return {'message': 'Invalid password'}, 400
     else:

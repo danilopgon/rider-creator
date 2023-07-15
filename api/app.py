@@ -5,7 +5,7 @@ import os
 from flask import Flask, send_from_directory,Blueprint
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_jwt_extended import JWTManager
 
 #modulos
 from utils.db import db
@@ -15,6 +15,10 @@ from routes.api import api
 app = Flask(__name__)
 
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..","app", "dist")
+
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = "super-secret"
+jwt = JWTManager(app)
 
 # configure the SQLite database, relative to the app instance folder
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
