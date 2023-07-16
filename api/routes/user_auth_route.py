@@ -21,4 +21,8 @@ def user_login():
         return {'error': 'No data received'}
     response = set_login(data)
     return jsonify(response)
+
+@user_auth.route('/active/<token>', methods=['POST'])
+def user_active(token):
     
+    return jsonify({'status': 'ok'})

@@ -1,6 +1,7 @@
 from flask import Flask, request
 import json
 from models.users import User
+from models.token_provisional import Provisional_token
 from utils.db import db 
 from utils.crypt import bcrypt
 import datetime
@@ -20,6 +21,7 @@ def set_register(data):
             user.email = data.get('email')
             password_hash = bcrypt.generate_password_hash(data.get('password'))
             user.password = password_hash
+            user.active = False
             db.session.add(user)
             db.session.commit()
             return {'message': 'User created successfully'}, 201
@@ -36,3 +38,13 @@ def set_login(data):
             return {'message': 'Invalid password'}, 400
     else:
         return {'message': 'User not found'}, 404
+    
+def set_active(token):
+    find_token = Provisional_token.query.filter_by(token=token).first()
+    if find_token:
+        user_id = find_token.user_id
+        find_user = User.query.filter_by(id=user_id).first()
+        if find_user:
+            find_user.active = True
+            db.session.commit()
+        return {'message': 'User activated'}, 200

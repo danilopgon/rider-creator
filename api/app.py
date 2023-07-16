@@ -9,12 +9,16 @@ from flask_jwt_extended import JWTManager
 
 #modulos
 from utils.db import db
+from utils.mail import mail
 from utils.crypt import bcrypt
 from routes.api import api
 
 app = Flask(__name__)
 
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..","app", "dist")
+
+#init mail app
+mail.init_app(app)
 
 # Setup the Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = "super-secret"
