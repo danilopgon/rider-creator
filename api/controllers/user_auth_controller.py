@@ -6,7 +6,7 @@ from utils.db import db
 from utils.crypt import bcrypt
 import datetime
 from flask_jwt_extended import create_access_token
-
+from services.send_mail import send_email
 
 def set_register(data):
     if data is None:
@@ -16,7 +16,7 @@ def set_register(data):
         if User.query.filter_by(email=data['email']).first() or User.query.filter_by(username=data['username']).first():
             return {'message': 'User already exists'}, 400
         else:
-            user = User(username=data['username'], email=data['email'], password=data['password'])
+            user = User()
             user.username = data.get('username')
             user.email = data.get('email')
             password_hash = bcrypt.generate_password_hash(data.get('password'))
@@ -24,7 +24,20 @@ def set_register(data):
             user.active = False
             db.session.add(user)
             db.session.commit()
+            
+            token = Provisional_token()
+            token.user_id = user.id
+            hash_token = create_access_token(identity=user.id)
+            token.token = hash_token
+            token.expiration_date = datetime.datetime+datetime.timedelta('15 minutes')
+            db.session.add(token)
+            db.session.commit()
+            
+            send_email('activacion', 'from_email@activacion', 'to_email@activacion', 'Por favor active su cuenta', 'activacion.html')
+            
             return {'message': 'User created successfully'}, 201
+        
+        
         
 def set_login(data):
     data = json.loads(data)

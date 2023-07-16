@@ -1,4 +1,4 @@
-from controllers.user_auth_controller import set_register, set_login
+from controllers.user_auth_controller import set_register, set_login, set_active
 from flask import Flask, request, Blueprint,jsonify
 from models.users import User
 from flask_bcrypt import Bcrypt
@@ -24,5 +24,6 @@ def user_login():
 
 @user_auth.route('/active/<token>', methods=['POST'])
 def user_active(token):
-    
-    return jsonify({'status': 'ok'})
+    if token is None:
+        return {'error': 'No token received'}
+    set_active(token)
