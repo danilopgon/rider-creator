@@ -33,7 +33,7 @@ def set_register(data):
             db.session.add(token)
             db.session.commit()
             
-            send_email('activacion', 'from_email@activacion', 'to_email@activacion', 'Por favor active su cuenta', 'activacion.html')
+            send_mail('activacion', 'from_email@activacion', 'to_email@activacion', 'Por favor active su cuenta', 'activacion.html')
             
             return {'message': 'User created successfully'}, 201
         
@@ -55,9 +55,13 @@ def set_login(data):
 def set_active(token):
     find_token = Provisional_token.query.filter_by(token=token).first()
     if find_token:
+        if find_token.expiration_date < datetime.datetime.now():
+            return {'message': 'Token expired'}, 400
         user_id = find_token.user_id
         find_user = User.query.filter_by(id=user_id).first()
         if find_user:
             find_user.active = True
             db.session.commit()
-        return {'message': 'User activated'}, 200
+            Provisional_token.query.filter_by(token=token).delete()
+            db.session.commit()
+            return {'message': 'User activated'}, 200
