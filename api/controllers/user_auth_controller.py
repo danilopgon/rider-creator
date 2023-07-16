@@ -6,7 +6,7 @@ from utils.db import db
 from utils.crypt import bcrypt
 import datetime
 from flask_jwt_extended import create_access_token
-from services.send_mail import send_email
+from services.send_mail import send_mail
 
 def set_register(data):
     if data is None:

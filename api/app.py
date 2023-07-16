@@ -6,10 +6,11 @@ from flask import Flask, send_from_directory,Blueprint
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
+from flask_mail import Mail
 
 #modulos
 from utils.db import db
-from utils.mail import mail
+
 from utils.crypt import bcrypt
 from routes.api import api
 
@@ -17,6 +18,7 @@ app = Flask(__name__)
 
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..","app", "dist")
 
+mail = Mail(app)
 #init mail app
 mail.init_app(app)
 

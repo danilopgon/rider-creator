@@ -1,5 +1,7 @@
-from utils.mail import mail
-from flask_mail import Message
+
+from flask_mail import Message, Mail
+
+mail = Mail()
 
 def send_mail(Title, _from, _to, text_body, html_body):
     subject = Title
@@ -13,4 +15,3 @@ def send_mail(Title, _from, _to, text_body, html_body):
     
     return 'send mail success'
 
-send_mail('title', 'from', 'to', 'text', 'html')
