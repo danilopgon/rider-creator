@@ -1,6 +1,4 @@
-/* RiderCreationStyles.css */
 
-/* Centrar el contenido vertical y horizontalmente */
 .container {
     display: flex;
     justify-content: center;
@@ -8,7 +6,7 @@
     height: 100vh;
   }
   
-  /* Estilos del formulario */
+  
   .card {
     width: 400px;
     padding: 20px;
@@ -44,7 +42,7 @@
     background-color: #0056b3;
   }
   
-  /* Estilos adicionales para hacer el título más grande */
+
   h1 {
     font-size: 4rem;
     text-align: center;
