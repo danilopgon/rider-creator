@@ -1,13 +1,25 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import "./App.css";
+import { LoginProvider } from "./context/LoginContext";
+import NavBar from "./components/NavBar";
+import Home from "./views/Home";
+import Login from "./views/Login";
+import Dashboard from "./views/Dashboard";
 
 function App() {
   return (
-    <div className="mockup-phone">
-      <div className="camera"></div>
-      <div className="display">
-        <div className="artboard artboard-demo phone-1">Hi.</div>
-      </div>
-    </div>
+    <BrowserRouter basename="/">
+      <LoginProvider>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="*" element={<h1>Not Found</h1>}></Route>
+        </Routes>
+      </LoginProvider>
+    </BrowserRouter>
   );
 }
 
