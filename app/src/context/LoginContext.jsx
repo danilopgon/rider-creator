@@ -15,27 +15,28 @@ export const LoginProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const handleLogin = async (userInfo) => {
-    await login(userInfo);
+    try {
+      await login(userInfo);
 
-    if (localStorage.getItem("jwt-token") === null) {
-      return alert("Failed to login. Please check your credentials.");
+      setLoggedIn(true);
+      alert("You're logged in");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      alert("Failed to login. Please check your credentials.");
     }
-
-    // setLoggedIn(true);
-    // alert("You're logged in");
-    // navigate("/");
   };
 
   const handleSignup = async (userInfo) => {
-    const response = await signup(userInfo);
-
-    if (response.status === 400) {
-      return alert("Failed to signup. Please check your info.");
+    try {
+      await signup(userInfo);
+      alert("Te has registrado correctamente");
+      setSignupMode(false);
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      alert("Failed to signup. Please check your credentials.");
     }
-
-    alert("Te has registrado correctamente");
-    setSignupMode(false);
-    navigate("/login");
   };
 
   const actions = {

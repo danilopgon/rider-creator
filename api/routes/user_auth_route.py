@@ -8,7 +8,7 @@ user_auth = Blueprint("user_auth", __name__)
 
 @user_auth.route("/register", methods=["POST"])
 def user_register():
-    return user_register()
+    return set_register()
 
 
 @user_auth.route("/login", methods=["POST"])
