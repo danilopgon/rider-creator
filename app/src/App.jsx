@@ -5,6 +5,7 @@ import { LoginProvider } from "./context/LoginContext";
 import NavBar from "./components/NavBar";
 import Home from "./views/Home";
 import Login from "./views/Login";
+import RiderCreation from "./views/RiderCreation";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/rider_creation" element={<RiderCreation />} />
         </Routes>
       </LoginProvider>
     </BrowserRouter>
