@@ -1,5 +1,5 @@
-const signup = async (data) => {
-  const { username, password, email } = data;
+const signup = async (userInfo) => {
+  const { username, password, email } = userInfo;
 
   try {
     const response = await fetch(
