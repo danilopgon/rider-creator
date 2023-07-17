@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
+import { LoginProvider } from "./context/LoginContext";
 import NavBar from "./components/NavBar";
 import Home from "./views/Home";
 import Login from "./views/Login";
@@ -8,11 +9,13 @@ import Login from "./views/Login";
 function App() {
   return (
     <BrowserRouter basename="/">
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
+      <LoginProvider>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </LoginProvider>
     </BrowserRouter>
   );
 }
