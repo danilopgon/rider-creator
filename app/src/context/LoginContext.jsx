@@ -2,9 +2,7 @@ import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import login from "../services/login";
 import signup from "../services/signup";
-
-// import signup from "../services/signup";
-// import checkTokenValidity from "../services/checkTokenValidity";
+import checkTokenValidity from "../services/checkTokenValidity";
 
 const LoginContext = createContext();
 
@@ -20,11 +18,16 @@ export const LoginProvider = ({ children }) => {
 
       setLoggedIn(true);
       alert("You're logged in");
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
       alert("Failed to login. Please check your credentials.");
     }
+  };
+
+  const handleValidationLogin = () => {
+    setLoggedIn(true);
+    navigate("/dashboard");
   };
 
   const handleSignup = async (userInfo) => {
@@ -39,11 +42,23 @@ export const LoginProvider = ({ children }) => {
     }
   };
 
+  const handleLogout = () => {
+    setLoggedIn(false);
+    localStorage.removeItem("jwt-token");
+    alert("You have been logged out");
+    navigate("/login");
+  };
+
+  useEffect(() => {
+    checkTokenValidity(handleLogout, handleValidationLogin);
+  }, [loggedIn]);
+
   const actions = {
     setSignupMode,
     setLoggedIn,
     handleLogin,
     handleSignup,
+    handleLogout,
   };
 
   const store = {

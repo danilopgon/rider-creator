@@ -1,7 +1,11 @@
 from flask import request, jsonify
 from models import User, Provisional_token
 from utils import db, bcrypt
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import (
+    create_access_token,
+    get_jwt_identity,
+    verify_jwt_in_request,
+)
 from services.send_mail import send_mail
 import datetime
 
@@ -88,3 +92,17 @@ def set_active(token):
             db.session.commit()
             return jsonify({"message": "User activated"}), 200
     return jsonify({"message": "Invalid token"}), 404
+
+
+def validate_token():
+    try:
+        response = verify_jwt_in_request()
+        current_user = get_jwt_identity()
+
+        if not response:
+            return {"message": "Invalid token"}, 401
+
+        return {"message": "Token is valid", "user": current_user}, 200
+
+    except Exception as e:
+        return {"message": "An error occurred while validating the token"}, 500

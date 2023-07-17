@@ -1,8 +1,12 @@
 import SwitchTheme from "./SwitchTheme";
 import { Link } from "react-router-dom";
 import { FiLogIn, FiHome } from "react-icons/fi";
+import { ImExit } from "react-icons/im";
+import useLoginContext from "../context/LoginContext";
 
 const NavBar = () => {
+  const { store, actions } = useLoginContext();
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -12,7 +16,11 @@ const NavBar = () => {
               <Link to={"/"}>Inicio</Link>
             </li>
             <li>
-              <Link to={"/login"}>Login</Link>
+              {store.loggedIn ? (
+                <Link onClick={actions.handleLogout}>Logout</Link>
+              ) : (
+                <Link to={"/login"}>Login</Link>
+              )}
             </li>
           </ul>
         </div>
@@ -26,9 +34,15 @@ const NavBar = () => {
               </Link>
             </li>
             <li>
-              <Link to={"/login"}>
-                <FiLogIn />
-              </Link>
+              {store.loggedIn ? (
+                <Link onClick={actions.handleLogout}>
+                  <ImExit />
+                </Link>
+              ) : (
+                <Link to={"/login"}>
+                  <FiLogIn />
+                </Link>
+              )}
             </li>
           </ul>
         </div>

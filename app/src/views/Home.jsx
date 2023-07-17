@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import useLoginContext from "../context/LoginContext";
 
 const Home = () => {
+  const { actions, store } = useLoginContext();
+
   return (
     <>
       <div
@@ -19,9 +22,15 @@ const Home = () => {
               excepturi exercitationem quasi. In deleniti eaque aut repudiandae
               et a id nisi.
             </p>
-            <Link to={"/login"} className="btn btn-primary">
-              ¡Comienza a crear!
-            </Link>
+            {store.loggedIn ? (
+              <Link to={"/dashboard"} className="btn btn-primary">
+                ¡Comienza a crear!
+              </Link>
+            ) : (
+              <Link to={"/login"} className="btn btn-primary">
+                ¡Comienza a crear!
+              </Link>
+            )}
           </div>
         </div>
       </div>
