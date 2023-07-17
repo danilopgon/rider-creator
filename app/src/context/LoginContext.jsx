@@ -1,6 +1,8 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import login from "../services/login";
+import login from "../services/login";
+import signup from "../services/signup";
+
 // import signup from "../services/signup";
 // import checkTokenValidity from "../services/checkTokenValidity";
 
@@ -10,68 +12,37 @@ export const LoginProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [signupMode, setSignupMode] = useState(false);
 
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  //   useEffect(() => {
-  //     checkTokenValidity(handleLogout, handleValidationLogin);
-  //   }, []);
+  const handleLogin = async (userInfo) => {
+    await login(userInfo);
 
-  //   const handleUserInput = (event) => {
-  //     const { name, value } = event.target;
+    if (localStorage.getItem("jwt-token") === null) {
+      return alert("Failed to login. Please check your credentials.");
+    }
 
-  //     setUserInput((prevState) => ({
-  //       ...prevState,
-  //       [name]: value.trim(),
-  //     }));
-  //   };
+    // setLoggedIn(true);
+    // alert("You're logged in");
+    // navigate("/");
+  };
 
-  //   const handleLogin = async (event) => {
-  //     event.preventDefault();
+  const handleSignup = async (userInfo) => {
+    const response = await signup(userInfo);
 
-  //     await login(userInput);
+    if (response.status === 400) {
+      return alert("Failed to signup. Please check your info.");
+    }
 
-  //     if (localStorage.getItem("jwt-token") === null) {
-  //       return alert("Failed to login. Please check your credentials.");
-  //     }
-
-  //     setLoggedIn(true);
-  //     setUserInput({
-  //       username: "",
-  //       email: "",
-  //       password: "",
-  //     });
-  //     alert("You're logged in");
-  //     navigate("/");
-  //   };
-
-  //   const handleValidationLogin = () => {
-  //     setLoggedIn(true);
-  //     navigate("/");
-  //   };
-
-  //   const handleSignup = async (event) => {
-  //     event.preventDefault();
-
-  //     await signup(userInput);
-  //     setUserInput({
-  //       username: "",
-  //       email: "",
-  //       password: "",
-  //     });
-  //     alert("¡Registro completado!");
-  //     navigate("/login");
-  //   };
-
-  //   const handleLogout = () => {
-  //     setLoggedIn(false);
-  //     localStorage.removeItem("jwt-token");
-  //     alert("You have been logged out");
-  //     navigate("/login");
-  //   };
+    alert("Te has registrado correctamente");
+    setSignupMode(false);
+    navigate("/login");
+  };
 
   const actions = {
     setSignupMode,
     setLoggedIn,
+    handleLogin,
+    handleSignup,
   };
 
   const store = {
