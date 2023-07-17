@@ -1,16 +1,19 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import "./App.css";
-import SwitchTheme from "./components/SwitchTheme";
+import NavBar from "./components/NavBar";
+import Home from "./views/Home";
+import Login from "./views/Login";
 
 function App() {
   return (
-    <div className="mockup-phone">
-      <div className="camera"></div>
-      <div className="display">
-        <div className="artboard artboard-demo phone-1">
-          <SwitchTheme />
-        </div>
-      </div>
-    </div>
+    <BrowserRouter basename="/">
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
