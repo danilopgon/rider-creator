@@ -1,55 +1,44 @@
-import React, {useState} from "react";
+// RoleSelectionForm.js
+import React from "react";
+import { Formik, Form, Field } from "formik";
 
-const RoleSelection = ({onSubmit}) => {
+const RoleSelectionForm = ({ onSubmit }) => {
+  const initialValues = {
+    selectedRole: "",
+  };
 
-    const [selectedRole, setSelectedRole] = useState("");
+  const handleSubmit = (values) => {
+    onSubmit(values.selectedRole);
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if(selectedRole){
-            onSubmit(selectedRole);
-        }
-    };
+  return (
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Form>
+        <div>
+          <h2>Elige tu rol:</h2>
+          <div>
+            <label>
+              <Field type="radio" name="selectedRole" value="Músico" />
+              Músico
+            </label>
+          </div>
+          <div>
+            <label>
+              <Field type="radio" name="selectedRole" value="Técnico" />
+              Técnico
+            </label>
+          </div>
+          <div>
+            <label>
+              <Field type="radio" name="selectedRole" value="Promotor" />
+              Promotor
+            </label>
+          </div>
+        </div>
+        <button type="submit">Continuar</button>
+      </Form>
+    </Formik>
+  );
+};
 
-    return (
-
-        <form onSubmit={handleSubmit}>
-            <div>
-                <h2>Elige tu rol:</h2>
-                <div>
-                  <input 
-                    type="radio"
-                    id="musician"
-                    value="Músico"
-                    checked= {selectedRole === "Músico"}
-                    onChange={() => setSelectedRole("Músico")}
-                    />
-                    <label htmlFor="musician">Músico</label>
-                </div>
-                <div>
-                  <input 
-                    type="radio"
-                    id="technician"
-                    value="Técnico"
-                    checked= {selectedRole === "Técnico"}
-                    onChange={() => setSelectedRole("Técnico")}
-                    />
-                    <label htmlFor="technician">Técnico</label>
-                </div>
-                <div>
-                  <input 
-                    type="radio"
-                    id="promoter"
-                    value="Músico"
-                    checked= {selectedRole === "Promotor"}
-                    onChange={() => setSelectedRole("Promotor")}
-                    />
-                    <label htmlFor="promoter">Promotor</label>
-                </div>
-            </div>
-            <button type="submit">Continuar</button>
-        </form>
-    )
-}
-
-export default RoleSelection;
+export default RoleSelectionForm;
