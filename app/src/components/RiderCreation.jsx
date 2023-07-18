@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/RiderCreationStyles.css";
-import "tailwindcss/tailwind.css"; // Make sure the path to the Tailwind CSS file is correct
+import "tailwindcss/tailwind.css"; 
 
 const RiderCreation = () => {
   return (
