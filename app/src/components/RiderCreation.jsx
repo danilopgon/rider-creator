@@ -1,5 +1,4 @@
 import React from "react";
-import "../styles/RiderCreationStyles.css";
 import "tailwindcss/tailwind.css"; 
 
 const RiderCreation = () => {
