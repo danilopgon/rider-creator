@@ -47,6 +47,7 @@ const RoleSelection = ({onSubmit}) => {
                     <label htmlFor="promoter">Promotor</label>
                 </div>
             </div>
+            <button type="submit">Continuar</button>
         </form>
     )
 }
