@@ -1,7 +1,9 @@
+import RoleSelectionForm from "../components/RoleSelectionForm";
+
 const Dashboard = () => {
   return (
     <div>
-      <h1>Dashboard</h1>
+      <RoleSelectionForm />
     </div>
   );
 };
