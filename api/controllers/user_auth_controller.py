@@ -6,6 +6,7 @@ from flask_jwt_extended import (
     get_jwt_identity,
     verify_jwt_in_request,
 )
+from templates_email.activation_acount import msg_activation
 from services.send_mail import send_mail
 import datetime
 
@@ -48,12 +49,14 @@ def set_register():
         db.session.add(token)
         db.session.commit()
 
+        html_activation = msg_activation(hash_token, user.username)
+        
         send_mail(
             "activacion",  # subject
             "from_email@activacion.com",  # from
             user.email,
             "Por favor active su cuenta",  # text_body
-            "activacion.html",  # html_body
+            html_activation  # html_body
         )
 
         return jsonify({"message": "User created successfully"}), 201
@@ -82,7 +85,8 @@ def set_active(token):
     find_token = Provisional_token.query.filter_by(token=token).first()
     if find_token:
         if find_token.expiration_date < datetime.datetime.now():
-            return jsonify({"message": "Token expired"}), 400
+            Provisional_token.query.filter_by(token=token).delete()
+            return jsonify({"message": "Token expired"}), 403
         user_id = find_token.user_id
         find_user = User.query.filter_by(id=user_id).first()
         if find_user:
