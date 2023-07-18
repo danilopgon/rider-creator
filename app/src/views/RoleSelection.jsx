@@ -22,7 +22,7 @@ const RoleSelection = ({onSubmit}) => {
                     id="musician"
                     value="Músico"
                     checked= {selectedRole === "Músico"}
-                    onChange={setSelectedRole("Músico")}
+                    onChange={() => setSelectedRole("Músico")}
                     />
                     <label htmlFor="musician">Músico</label>
                 </div>
@@ -32,7 +32,7 @@ const RoleSelection = ({onSubmit}) => {
                     id="technician"
                     value="Técnico"
                     checked= {selectedRole === "Técnico"}
-                    onChange={setSelectedRole("Técnico")}
+                    onChange={() => setSelectedRole("Técnico")}
                     />
                     <label htmlFor="technician">Técnico</label>
                 </div>
@@ -42,7 +42,7 @@ const RoleSelection = ({onSubmit}) => {
                     id="promoter"
                     value="Músico"
                     checked= {selectedRole === "Promotor"}
-                    onChange={setSelectedRole("Promotor")}
+                    onChange={() => setSelectedRole("Promotor")}
                     />
                     <label htmlFor="promoter">Promotor</label>
                 </div>
