@@ -13,7 +13,6 @@ const login = async (userInfo) => {
       }
     );
     const data = await response.json();
-    console.log(data);
     localStorage.setItem("jwt-token", data.token);
   } catch (error) {
     console.log(error);

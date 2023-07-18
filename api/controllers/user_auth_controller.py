@@ -1,63 +1,67 @@
-from flask import Flask, request, jsonify
-from models.users import User
-from models.token_provisional import Provisional_token
-from utils.db import db
-from utils.crypt import bcrypt
-import datetime
-from flask_jwt_extended import create_access_token
+from flask import request, jsonify
+from models import User, Provisional_token
+from utils import db, bcrypt
+from flask_jwt_extended import (
+    create_access_token,
+    get_jwt_identity,
+    verify_jwt_in_request,
+)
 from services.send_mail import send_mail
+import datetime
 
-app = Flask(__name__)
 
-
-@app.route("/register", methods=["POST"])
 def set_register():
-    data = request.json
-    if not data:
-        return jsonify({"message": "Missing data"}), 400
+    try:
+        email = request.json.get("email", None)
+        username = request.json.get("username", None)
+        password = request.json.get("password", None)
 
-    username = data.get("username")
-    email = data.get("email")
-    password = data.get("password")
+        if not username:
+            return jsonify({"message": "Missing username"}), 400
 
-    if not (username and email and password):
-        return jsonify({"message": "Invalid data"}), 400
+        if not email:
+            return jsonify({"message": "Missing email"}), 400
 
-    if (
-        User.query.filter_by(email=email).first()
-        or User.query.filter_by(username=username).first()
-    ):
-        return jsonify({"message": "User already exists"}), 400
+        if not password:
+            return jsonify({"message": "Missing password"}), 400
 
-    user = User()
-    user.username = username
-    user.email = email
-    password_hash = bcrypt.generate_password_hash(password)
-    user.password = password_hash
-    user.active = False
-    db.session.add(user)
-    db.session.commit()
+        if User.query.filter_by(email=email).first():
+            return jsonify({"message": "Email already exists"}), 400
 
-    token = Provisional_token()
-    token.user_id = user.id
-    hash_token = create_access_token(identity=user.id)
-    token.token = hash_token
-    token.expiration_date = datetime.datetime.now() + datetime.timedelta(minutes=15)
-    db.session.add(token)
-    db.session.commit()
+        if User.query.filter_by(username=username).first():
+            return jsonify({"message": "Username already exists"}), 400
 
-    send_mail(
-        "activacion",
-        "from_email@activacion",
-        "to_email@activacion",
-        "Por favor active su cuenta",
-        "activacion.html",
-    )
+        user = User()
+        user.username = username
+        user.email = email
+        password_hash = bcrypt.generate_password_hash(password)
+        user.password = password_hash
+        user.active = False
+        db.session.add(user)
+        db.session.commit()
 
-    return jsonify({"message": "User created successfully"}), 201
+        token = Provisional_token()
+        token.user_id = user.id
+        hash_token = create_access_token(identity=user.id)
+        token.token = hash_token
+        token.token_exp = datetime.datetime.now() + datetime.timedelta(minutes=15)
+        db.session.add(token)
+        db.session.commit()
+
+        send_mail(
+            "activacion",  # subject
+            "from_email@activacion.com",  # from
+            user.email,
+            "Por favor active su cuenta",  # text_body
+            "activacion.html",  # html_body
+        )
+
+        return jsonify({"message": "User created successfully"}), 201
+    except Exception as error:
+        print(error)
+        return jsonify({"message": "Internal server error"}), 500
 
 
-@app.route("/login", methods=["POST"])
 def set_login():
     data = request.json
     email = data.get("email")
@@ -74,7 +78,6 @@ def set_login():
         return jsonify({"message": "User not found"}), 404
 
 
-@app.route("/activate/<token>", methods=["POST"])
 def set_active(token):
     find_token = Provisional_token.query.filter_by(token=token).first()
     if find_token:
@@ -89,3 +92,17 @@ def set_active(token):
             db.session.commit()
             return jsonify({"message": "User activated"}), 200
     return jsonify({"message": "Invalid token"}), 404
+
+
+def validate_token():
+    try:
+        response = verify_jwt_in_request()
+        current_user = get_jwt_identity()
+
+        if not response:
+            return {"message": "Invalid token"}, 401
+
+        return {"message": "Token is valid", "user": current_user}, 200
+
+    except Exception as e:
+        return {"message": "An error occurred while validating the token"}, 500
