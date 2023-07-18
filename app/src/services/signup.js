@@ -10,7 +10,7 @@ const signup = async (userInfo) => {
         body: JSON.stringify({ username, password, email }),
       }
     );
-    console.log(response);
+    return response;
   } catch (error) {
     console.log(error);
   }

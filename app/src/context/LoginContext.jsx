@@ -14,14 +14,19 @@ export const LoginProvider = ({ children }) => {
 
   const handleLogin = async (userInfo) => {
     try {
-      await login(userInfo);
+      const response = await login(userInfo);
+
+      if (response.status !== 200) {
+        alert("Error al conectar. Comprueba tus datos");
+        return;
+      }
 
       setLoggedIn(true);
-      alert("You're logged in");
+      alert("Estás conectado");
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
-      alert("Failed to login. Please check your credentials.");
+      alert("Error al conectar. Comprueba tus datos");
     }
   };
 
@@ -32,21 +37,29 @@ export const LoginProvider = ({ children }) => {
 
   const handleSignup = async (userInfo) => {
     try {
-      await signup(userInfo);
+      const response = await signup(userInfo);
+
+      console.log(response);
+
+      if (response.status !== 200) {
+        alert("Error al registrarte. Comprueba tus datos");
+        return;
+      }
+
       alert("Te has registrado correctamente");
       setSignupMode(false);
       navigate("/login");
     } catch (error) {
       console.log(error);
-      alert("Failed to signup. Please check your credentials.");
+      alert("Error al registrarte. Comprueba tus datos");
     }
   };
 
   const handleLogout = () => {
     setLoggedIn(false);
     localStorage.removeItem("jwt-token");
-    alert("You have been logged out");
     navigate("/login");
+    alert("Te has desconectado");
   };
 
   useEffect(() => {
