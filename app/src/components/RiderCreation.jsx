@@ -1,5 +1,4 @@
-import React from "react";
-import "tailwindcss/tailwind.css"; 
+import "tailwindcss/tailwind.css";
 
 const RiderCreation = () => {
   return (
@@ -33,11 +32,7 @@ const RiderCreation = () => {
               <label htmlFor="exampleInputDate" className="form-label">
                 Fecha
               </label>
-              <input
-                type="date"
-                className="form-input"
-                id="exampleInputDate"
-              />
+              <input type="date" className="form-input" id="exampleInputDate" />
             </div>
             <div className="text-center">
               <button
