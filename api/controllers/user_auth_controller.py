@@ -1,3 +1,6 @@
+import datetime
+import uuid
+
 from flask import request, jsonify
 from models import User, Provisional_token
 from utils import db, bcrypt
@@ -6,9 +9,8 @@ from flask_jwt_extended import (
     get_jwt_identity,
     verify_jwt_in_request,
 )
-from templates_email.activation_acount import msg_activation
+from templates_email.activation_account import msg_activation
 from services.send_mail import send_mail
-import datetime
 
 
 def set_register():
@@ -43,20 +45,20 @@ def set_register():
 
         token = Provisional_token()
         token.user_id = user.id
-        hash_token = create_access_token(identity=user.id)
+        hash_token = uuid.uuid4().hex
         token.token = hash_token
         token.token_exp = datetime.datetime.now() + datetime.timedelta(minutes=15)
         db.session.add(token)
         db.session.commit()
 
         html_activation = msg_activation(hash_token, user.username)
-        
+
         send_mail(
-            "activacion",  # subject
-            "from_email@activacion.com",  # from
+            "Activación de tu cuenta",  # subject
+            "riderapp22@gmail.com",  # from
             user.email,
             "Por favor active su cuenta",  # text_body
-            html_activation  # html_body
+            html_activation,  # html_body
         )
 
         return jsonify({"message": "User created successfully"}), 201

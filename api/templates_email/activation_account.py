@@ -1,4 +1,4 @@
-def msg_activation(url="",username=""):
+def msg_activation(url="", username=""):
     html_email = f"""
     <html>
     <body>
@@ -10,8 +10,9 @@ def msg_activation(url="",username=""):
                  Estamos encantados de que hayas decidido unirte a nuestra comunidad. Para comenzar a aprovechar al máximo nuestros servicios, es necesario que actives tu cuenta siguiendo unos sencillos pasos.
             </p>
             <p style="text-align:center; color: white">Haz clic en el siguiente enlace de activación</p>
-            <a href="{url}" style="text-decoration:none; border:1px; padding: 8px; background:#641AE6; border-radius:10px;color:white; text-align: center; ">Active your acount</a>
+            <a href="{url}" style="text-decoration:none; border:1px; padding: 8px; background:#641AE6; border-radius:10px;color:white; text-align: center; ">Active your account</a>
         </div>
     </body>
     </html>
     """
+    return html_email

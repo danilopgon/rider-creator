@@ -1,1 +1,1 @@
-from .activation_acount import msg_activation
+from .activation_account import msg_activation
