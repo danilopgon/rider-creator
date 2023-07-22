@@ -87,7 +87,10 @@ def set_login():
 def set_active(token):
     find_token = Provisional_token.query.filter_by(token=token).first()
     if find_token:
-        if find_token.expiration_date < datetime.datetime.now():
+        if (
+            datetime.datetime.strptime(find_token.token_exp, "%Y-%m-%d %H:%M:%S.%f")
+            < datetime.datetime.now()
+        ):
             Provisional_token.query.filter_by(token=token).delete()
             return jsonify({"message": "Token expired"}), 403
         user_id = find_token.user_id

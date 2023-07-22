@@ -21,9 +21,10 @@ def user_login():
     return set_login()
 
 
-@user_auth.route("/active/<token>", methods=["POST"])
+@user_auth.route("/active/<token>", methods=["GET"])
 def user_active(token):
-    return set_active(token)
+    set_active(token)
+    return "Cuenta activada"
 
 
 @user_auth.route("/validate-token", methods=["GET"])
