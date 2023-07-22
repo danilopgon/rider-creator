@@ -1,12 +1,17 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+from dotenv import load_dotenv
+
+load_dotenv()
+
 import os
 from flask import Flask, send_from_directory, Blueprint
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from flask_mail import Message
 
 # modulos
 from utils import db, mail
@@ -20,11 +25,11 @@ static_file_dir = os.path.join(
 
 # init mail app
 app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
-app.config["MAIL_PORT"] = os.getenv("MAIL_PORT")
+app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT"))
 app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
 app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
-app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS")
-app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL")
+app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS") == "True"
+app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL") == "True"
 
 mail.init_app(app)
 

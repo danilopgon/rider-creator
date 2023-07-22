@@ -1,5 +1,6 @@
 import datetime
 import uuid
+import os
 
 from flask import request, jsonify
 from models import User, Provisional_token
@@ -54,11 +55,11 @@ def set_register():
         html_activation = msg_activation(hash_token, user.username)
 
         send_mail(
-            "Activación de tu cuenta",  # subject
-            "riderapp22@gmail.com",  # from
-            user.email,
-            "Por favor active su cuenta",  # text_body
-            html_activation,  # html_body
+            subject="Activación de tu cuenta",
+            sender=os.getenv("MAIL_USERNAME"),
+            recipients=[user.email],
+            body="Por favor active su cuenta",
+            html=html_activation,
         )
 
         return jsonify({"message": "User created successfully"}), 201

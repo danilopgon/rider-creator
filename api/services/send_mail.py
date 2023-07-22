@@ -2,11 +2,9 @@ from utils import mail
 from flask_mail import Message
 
 
-def send_mail(subject, sender, recipients, text_body, html_body):
-    msg = Message(subject, sender, recipients, text_body, html_body)
+def send_mail(subject, sender, recipients, body, html):
+    msg = Message(subject, sender, [recipients], body, html)
     mail.send(msg)
-
-    return "send mail success"
 
 
 # def send_mail(Title, _from, _to, text_body, html_body):
