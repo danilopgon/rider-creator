@@ -41,7 +41,7 @@ export const LoginProvider = ({ children }) => {
 
       console.log(response);
 
-      if (response.status !== 200) {
+      if (response.status !== 201) {
         alert("Error al registrarte. Comprueba tus datos");
         return;
       }
