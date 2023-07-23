@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import login from "../services/login";
 import signup from "../services/signup";
 import checkTokenValidity from "../services/checkTokenValidity";
+import recovery from "../services/recovery";
 
 const LoginContext = createContext();
 
@@ -62,6 +63,23 @@ export const LoginProvider = ({ children }) => {
     alert("Te has desconectado");
   };
 
+  const handleResetPassword = async (userInfo) => {
+    try {
+      const response = await recovery(userInfo);
+
+      if (response.status !== 200) {
+        alert("Error al enviar el email de recuperación");
+        return;
+      }
+
+      alert("Email de recuperación enviado");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      alert("Error al enviar el email de recuperación");
+    }
+  };
+
   useEffect(() => {
     checkTokenValidity(handleLogout, handleValidationLogin);
   }, [loggedIn]);
@@ -72,6 +90,7 @@ export const LoginProvider = ({ children }) => {
     handleLogin,
     handleSignup,
     handleLogout,
+    handleResetPassword,
   };
 
   const store = {

@@ -11,6 +11,7 @@ from flask_jwt_extended import (
     verify_jwt_in_request,
 )
 from templates_email.activation_account import msg_activation
+from templates_email.recover_password import msg_recovery
 from services.send_mail import send_mail
 
 
@@ -128,7 +129,7 @@ def forgot_password():
         db.session.add(token)
         db.session.commit()
 
-        html_activation = msg_activation(hash_token, find_user.username)
+        html_recover_password = msg_recovery(hash_token, find_user.username)
 
         send_mail(
             subject="Recuperación de contraseña",

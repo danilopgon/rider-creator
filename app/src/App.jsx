@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import Home from "./views/Home";
 import Login from "./views/Login";
 import Dashboard from "./views/Dashboard";
+import ResetPassword from "./views/ResetPassword";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="*" element={<h1>Not Found</h1>}></Route>
           </Routes>
         </AppProvider>

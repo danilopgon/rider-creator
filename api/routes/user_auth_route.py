@@ -35,7 +35,7 @@ def user_forgot_password():
 
 
 @user_auth.route("/recover-password/<token>", methods=["GET"])
-def user_forgot_password(token):
+def user_recover_password(token):
     recover_password(token)
     return "Contraseña actualizada"
 
