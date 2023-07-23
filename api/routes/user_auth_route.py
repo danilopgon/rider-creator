@@ -3,6 +3,8 @@ from controllers.user_auth_controller import (
     set_login,
     set_active,
     validate_token,
+    forgot_password,
+    recover_password,
 )
 from flask import Flask, request, Blueprint, jsonify
 from flask_bcrypt import Bcrypt
@@ -25,6 +27,17 @@ def user_login():
 def user_active(token):
     set_active(token)
     return "Cuenta activada"
+
+
+@user_auth.route("/forgot-password", methods=["POST"])
+def user_forgot_password():
+    return forgot_password()
+
+
+@user_auth.route("/recover-password/<token>", methods=["GET"])
+def user_forgot_password(token):
+    recover_password(token)
+    return "Contraseña actualizada"
 
 
 @user_auth.route("/validate-token", methods=["GET"])

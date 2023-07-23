@@ -14,8 +14,11 @@ def msg_activation(url="", username=""):
             </p>
             <p style="text-align:center; color: white">Haz clic en el siguiente enlace de activación</p>
             <a href="{f"{os.getenv('BACK_URL')}api/auth/active/{url}"}" style="text-decoration:none; border:1px; padding: 8px; background:#641AE6; border-radius:10px;color:white; text-align: center; ">Active your account</a>
-        </div>
+            <p> Si no te has registrado, ignora este correo. </p>
+            <p> Si no puedes acceder al enlace, copia y pega la siguiente dirección en tu navegador: {f"{os.getenv('BACK_URL')}api/auth/active/{url}"}</p>
     </body>
+        </div>
+        
     </html>
     """
     return html_email

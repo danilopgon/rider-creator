@@ -86,22 +86,93 @@ def set_login():
 
 def set_active(token):
     find_token = Provisional_token.query.filter_by(token=token).first()
-    if find_token:
+    if not find_token:
+        return jsonify({"message": "Invalid token"}), 404
+
+    if (
+        datetime.datetime.strptime(find_token.token_exp, "%Y-%m-%d %H:%M:%S.%f")
+        < datetime.datetime.now()
+    ):
+        Provisional_token.query.filter_by(token=token).delete()
+        return jsonify({"message": "Token expired"}), 403
+
+    user_id = find_token.user_id
+    find_user = User.query.filter_by(id=user_id).first()
+    if not find_user:
+        return jsonify({"message": "User not found"}), 404
+
+    find_user.active = True
+    db.session.commit()
+    Provisional_token.query.filter_by(token=token).delete()
+    db.session.commit()
+    return jsonify({"message": "User activated"}), 200
+
+
+def forgot_password():
+    try:
+        email = request.json.get("email", None)
+
+        if not email:
+            return jsonify({"message": "Missing email"}), 400
+
+        find_user = User.query.filter_by(email=email).first()
+
+        if not find_user:
+            return jsonify({"message": "User not found in database"}), 404
+
+        token = Provisional_token()
+        token.user_id = find_user.id
+        hash_token = uuid.uuid4().hex
+        token.token = hash_token
+        token.token_exp = datetime.datetime.now() + datetime.timedelta(minutes=15)
+        db.session.add(token)
+        db.session.commit()
+
+        html_activation = msg_activation(hash_token, find_user.username)
+
+        send_mail(
+            subject="Recuperación de contraseña",
+            sender=os.getenv("MAIL_USERNAME"),
+            recipients=[find_user.email],
+            body="Por favor active su cuenta",
+            html=html_recover_password,
+        )
+        return jsonify({"message": "Email sent"}), 200
+    except Exception as error:
+        print(error)
+        return jsonify({"message": "Internal server error"}), 500
+
+
+def recover_password(token):
+    try:
+        find_token = Provisional_token.query.filter_by(token=token).first()
+        if not find_token:
+            return jsonify({"message": "Invalid token"}), 404
+
         if (
             datetime.datetime.strptime(find_token.token_exp, "%Y-%m-%d %H:%M:%S.%f")
             < datetime.datetime.now()
         ):
             Provisional_token.query.filter_by(token=token).delete()
             return jsonify({"message": "Token expired"}), 403
+
         user_id = find_token.user_id
         find_user = User.query.filter_by(id=user_id).first()
-        if find_user:
-            find_user.active = True
-            db.session.commit()
-            Provisional_token.query.filter_by(token=token).delete()
-            db.session.commit()
-            return jsonify({"message": "User activated"}), 200
-    return jsonify({"message": "Invalid token"}), 404
+        if not find_user:
+            return jsonify({"message": "User not found"}), 404
+
+        password = request.json.get("password", None)
+        if not password:
+            return jsonify({"message": "Missing password"}), 400
+
+        password_hash = bcrypt.generate_password_hash(password)
+        find_user.password = password_hash
+        Provisional_token.query.filter_by(token=token).delete()
+        db.session.commit()
+        return jsonify({"message": "Password updated"}), 200
+    except Exception as error:
+        print(error)
+        return jsonify({"message": "Internal server error"}), 500
 
 
 def validate_token():
