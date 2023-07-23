@@ -162,7 +162,33 @@ def recover_password(token):
         if not find_user:
             return jsonify({"message": "User not found"}), 404
 
+        return jsonify({"message": "Puedes cambiar tu contraseña"})
+    except Exception as error:
+        print(error)
+        return jsonify({"message": "Internal server error"}), 500
+
+
+def change_password(token):
+    try:
+        find_token = Provisional_token.query.filter_by(token=token).first()
+        if not find_token:
+            return jsonify({"message": "Invalid token"}), 404
+
+        if (
+            datetime.datetime.strptime(find_token.token_exp, "%Y-%m-%d %H:%M:%S.%f")
+            < datetime.datetime.now()
+        ):
+            Provisional_token.query.filter_by(token=token).delete()
+            return jsonify({"message": "Token expired"}), 403
+
         password = request.json.get("password", None)
+
+        user_id = find_token.user_id
+        find_user = User.query.filter_by(id=user_id).first()
+
+        if not find_user:
+            return jsonify({"message": "User not found"}), 404
+
         if not password:
             return jsonify({"message": "Missing password"}), 400
 

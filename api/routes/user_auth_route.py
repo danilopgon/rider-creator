@@ -5,8 +5,9 @@ from controllers.user_auth_controller import (
     validate_token,
     forgot_password,
     recover_password,
+    change_password,
 )
-from flask import Flask, request, Blueprint, jsonify
+from flask import Flask, request, Blueprint, jsonify, redirect
 from flask_bcrypt import Bcrypt
 
 
@@ -37,7 +38,12 @@ def user_forgot_password():
 @user_auth.route("/recover-password/<token>", methods=["GET"])
 def user_recover_password(token):
     recover_password(token)
-    return "Contraseña actualizada"
+    return redirect("/change-password/" + token)
+
+
+@user_auth.route("/get-new-password/<token>", methods=["POST"])
+def user_change_password(token):
+    return change_password(token)
 
 
 @user_auth.route("/validate-token", methods=["GET"])
