@@ -4,6 +4,7 @@ import login from "../services/login";
 import signup from "../services/signup";
 import checkTokenValidity from "../services/checkTokenValidity";
 import recovery from "../services/recovery";
+import changePassword from "../services/changePassword";
 
 const LoginContext = createContext();
 
@@ -80,6 +81,23 @@ export const LoginProvider = ({ children }) => {
     }
   };
 
+  const handleChangePassword = async (userInfo, token) => {
+    try {
+      const response = await changePassword(userInfo, token);
+
+      if (response.status !== 200) {
+        alert("Error al cambiar la contraseña");
+        return;
+      }
+
+      alert("Contraseña cambiada correctamente");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      alert("Error al cambiar la contraseña");
+    }
+  };
+
   useEffect(() => {
     checkTokenValidity(handleLogout, handleValidationLogin);
   }, [loggedIn]);
@@ -91,6 +109,7 @@ export const LoginProvider = ({ children }) => {
     handleSignup,
     handleLogout,
     handleResetPassword,
+    handleChangePassword,
   };
 
   const store = {

@@ -8,6 +8,7 @@ import Home from "./views/Home";
 import Login from "./views/Login";
 import Dashboard from "./views/Dashboard";
 import ResetPassword from "./views/ResetPassword";
+import NewPassword from "./views/NewPassword";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route
+              path="api/auth/recover-password/:token"
+              element={<NewPassword />}
+            />
             <Route path="*" element={<h1>Not Found</h1>}></Route>
           </Routes>
         </AppProvider>

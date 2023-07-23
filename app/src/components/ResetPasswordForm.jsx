@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import useLoginContext from "../context/LoginContext";
 
 const ResetPasswordForm = () => {
-  const { store, actions } = useLoginContext();
+  const { actions } = useLoginContext();
 
   const emailRegExp = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}/g;
 
