@@ -10,6 +10,7 @@ import Dashboard from "./views/Dashboard";
 import ResetPassword from "./views/ResetPassword";
 import NewPassword from "./views/NewPassword";
 
+import { PageActivation } from "./views/PageActivation";
 function App() {
   return (
     <BrowserRouter basename="/">
@@ -26,6 +27,7 @@ function App() {
               element={<NewPassword />}
             />
             <Route path="*" element={<h1>Not Found</h1>}></Route>
+            <Route path="/activation" element={<PageActivation/>}></Route>
           </Routes>
         </AppProvider>
       </LoginProvider>
