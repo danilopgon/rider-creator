@@ -2,6 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import useLoginContext from "../context/LoginContext";
+import { Link } from "react-router-dom";
 
 const ContactForm = () => {
   const { store, actions } = useLoginContext();
@@ -121,18 +122,26 @@ const ContactForm = () => {
               </a>
             </span>
           ) : (
-            <span className="text-center">
-              ¿No eres miembro?
-              <a
-                className="mx-1 font-semibold"
-                onClick={() => {
-                  actions.setSignupMode(true);
-                }}
-                href="#"
-              >
-                Regístrate
-              </a>
-            </span>
+            <>
+              <span className="text-center my-3">
+                ¿No eres miembro?
+                <a
+                  className="mx-1 font-semibold"
+                  onClick={() => {
+                    actions.setSignupMode(true);
+                  }}
+                  href="#"
+                >
+                  Regístrate
+                </a>
+              </span>
+              <span className="text-center">
+                ¿Olvidaste tu contraseña?
+                <Link className="mx-1 font-semibold" to={"/reset-password"}>
+                  Recupérala
+                </Link>
+              </span>
+            </>
           )}
         </Form>
       </Formik>

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import login from "../services/login";
 import signup from "../services/signup";
 import checkTokenValidity from "../services/checkTokenValidity";
+import recovery from "../services/recovery";
+import changePassword from "../services/changePassword";
 
 const LoginContext = createContext();
 
@@ -62,6 +64,40 @@ export const LoginProvider = ({ children }) => {
     alert("Te has desconectado");
   };
 
+  const handleResetPassword = async (userInfo) => {
+    try {
+      const response = await recovery(userInfo);
+
+      if (response.status !== 200) {
+        alert("Error al enviar el email de recuperación");
+        return;
+      }
+
+      alert("Email de recuperación enviado");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      alert("Error al enviar el email de recuperación");
+    }
+  };
+
+  const handleChangePassword = async (userInfo, token) => {
+    try {
+      const response = await changePassword(userInfo, token);
+
+      if (response.status !== 200) {
+        alert("Error al cambiar la contraseña");
+        return;
+      }
+
+      alert("Contraseña cambiada correctamente");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      alert("Error al cambiar la contraseña");
+    }
+  };
+
   useEffect(() => {
     checkTokenValidity(handleLogout, handleValidationLogin);
   }, [loggedIn]);
@@ -72,6 +108,8 @@ export const LoginProvider = ({ children }) => {
     handleLogin,
     handleSignup,
     handleLogout,
+    handleResetPassword,
+    handleChangePassword,
   };
 
   const store = {
