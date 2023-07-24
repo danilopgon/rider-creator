@@ -11,6 +11,7 @@ from flask_jwt_extended import (
     verify_jwt_in_request,
 )
 from templates_email.activation_account import msg_activation
+from templates_email.activation_account import email_text
 from templates_email.recover_password import msg_recovery
 from services.send_mail import send_mail
 
@@ -59,7 +60,7 @@ def set_register():
             subject="Activación de tu cuenta",
             sender=os.getenv("MAIL_USERNAME"),
             recipients=[user.email],
-            body="Por favor active su cuenta",
+            body=email_text,
             html=html_activation,
         )
 
