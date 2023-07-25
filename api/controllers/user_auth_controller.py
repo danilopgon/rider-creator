@@ -75,6 +75,8 @@ def set_login():
     password = data.get("password")
 
     find_user = User.query.filter_by(email=email).first()
+    if find_user.active is False:
+        return jsonify({"message": "User not activated"}), 400
     if find_user:
         if bcrypt.check_password_hash(find_user.password, password):
             access_token = create_access_token(identity=find_user.id)
