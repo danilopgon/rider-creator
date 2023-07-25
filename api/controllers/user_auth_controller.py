@@ -11,7 +11,9 @@ from flask_jwt_extended import (
     verify_jwt_in_request,
 )
 from templates_email.activation_account import msg_activation
+from templates_email.activation_account import email_activation_text
 from templates_email.recover_password import msg_recovery
+from templates_email.recover_password import email_recovery_text
 from services.send_mail import send_mail
 
 
@@ -59,10 +61,9 @@ def set_register():
             subject="Activación de tu cuenta",
             sender=os.getenv("MAIL_USERNAME"),
             recipients=[user.email],
-            body="Por favor active su cuenta",
+            body=email_activation_text(),
             html=html_activation,
         )
-
         return jsonify({"message": "User created successfully"}), 201
     except Exception as error:
         print(error)
@@ -76,7 +77,7 @@ def set_login():
 
     find_user = User.query.filter_by(email=email).first()
     if find_user.active is False:
-        return jsonify({"message": "User not activated"}), 400
+        return jsonify({"message": "User not activated"}), 403
     if find_user:
         if bcrypt.check_password_hash(find_user.password, password):
             access_token = create_access_token(identity=find_user.id)
@@ -137,7 +138,7 @@ def forgot_password():
             subject="Recuperación de contraseña",
             sender=os.getenv("MAIL_USERNAME"),
             recipients=[find_user.email],
-            body="Por favor active su cuenta",
+            body=email_recovery_text(),
             html=html_recover_password,
         )
         return jsonify({"message": "Email sent"}), 200

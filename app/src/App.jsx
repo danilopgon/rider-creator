@@ -9,7 +9,9 @@ import Login from "./views/Login";
 import Dashboard from "./views/Dashboard";
 import ResetPassword from "./views/ResetPassword";
 import NewPassword from "./views/NewPassword";
+import { NotFound } from "./views/NotFound";
 
+import { PageActivation } from "./views/PageActivation";
 function App() {
   return (
     <BrowserRouter basename="/">
@@ -21,11 +23,12 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="recover-password/:token" element={<NewPassword />} />
             <Route
-              path="api/auth/recover-password/:token"
-              element={<NewPassword />}
-            />
-            <Route path="*" element={<h1>Not Found</h1>}></Route>
+              path="/activation/:token"
+              element={<PageActivation />}
+            ></Route>
+            <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </AppProvider>
       </LoginProvider>
