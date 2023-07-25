@@ -21,11 +21,19 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="recover-password/:token" element={<NewPassword />} />
             <Route
+<<<<<<< Updated upstream
               path="api/auth/recover-password/:token"
               element={<NewPassword />}
             />
             <Route path="*" element={<h1>Not Found</h1>}></Route>
+=======
+              path="/activation/:token"
+              element={<PageActivation />}
+            ></Route>
+            <Route path="*" element={<NotFound />}></Route>
+>>>>>>> Stashed changes
           </Routes>
         </AppProvider>
       </LoginProvider>

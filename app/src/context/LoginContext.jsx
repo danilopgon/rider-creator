@@ -5,6 +5,7 @@ import signup from "../services/signup";
 import checkTokenValidity from "../services/checkTokenValidity";
 import recovery from "../services/recovery";
 import changePassword from "../services/changePassword";
+import activeAccount from "../services/activeAccount";
 
 const LoginContext = createContext();
 
@@ -17,6 +18,11 @@ export const LoginProvider = ({ children }) => {
   const handleLogin = async (userInfo) => {
     try {
       const response = await login(userInfo);
+
+      if (response.status === 403) {
+        alert("Tu cuenta no está activada");
+        return;
+      }
 
       if (response.status !== 200) {
         alert("Error al conectar. Comprueba tus datos");
@@ -98,6 +104,20 @@ export const LoginProvider = ({ children }) => {
     }
   };
 
+  const handleActiveAccount = async (token) => {
+    try {
+      const response = await activeAccount(token);
+
+      if (response.status !== 200) {
+        alert("Error al activar la cuenta");
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error al activar la cuenta");
+    }
+  };
+
   useEffect(() => {
     checkTokenValidity(handleLogout, handleValidationLogin);
   }, [loggedIn]);
@@ -110,6 +130,7 @@ export const LoginProvider = ({ children }) => {
     handleLogout,
     handleResetPassword,
     handleChangePassword,
+    handleActiveAccount,
   };
 
   const store = {

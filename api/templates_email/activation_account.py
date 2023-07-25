@@ -1,6 +1,19 @@
 import os
 
 
+<<<<<<< Updated upstream
+=======
+def email_text(username="", url=""):
+    return f""" 
+    Estimado/a {username}
+    ¡Bienvenido/a a [Nombre de la empresa/organización]!
+    Estamos encantados de que hayas decidido unirte a nuestra comunidad. Para comenzar a aprovechar al máximo nuestros servicios, es necesario que actives tu cuenta siguiendo unos sencillos pasos.
+    Haz clic en el siguiente enlace de activación
+    {os.getenv('FRONT_URL')}api/auth/active/{url}
+    """
+
+
+>>>>>>> Stashed changes
 def msg_activation(url="", username=""):
     html_email = f"""
     <html>
@@ -13,9 +26,9 @@ def msg_activation(url="", username=""):
                  Estamos encantados de que hayas decidido unirte a nuestra comunidad. Para comenzar a aprovechar al máximo nuestros servicios, es necesario que actives tu cuenta siguiendo unos sencillos pasos.
             </p>
             <p style="text-align:center; color: white">Haz clic en el siguiente enlace de activación</p>
-            <a href="{f"{os.getenv('FRONT_URL')}api/auth/active/{url}"}" style="text-decoration:none; border:1px; padding: 8pFRONTground:#641AE6; border-radius:10px;color:white; text-align: center; ">Activa tu cuenta</a>
+            <a href="{f"{os.getenv('FRONT_URL')}activation/{url}"}" style="text-decoration:none; border:1px; padding: 8px; background:#641AE6; border-radius:10px;color:white; text-align: center; ">Activa tu cuenta</a>
             <p> Si no te has registrado, ignora este correo. </p>
-            <p> Si no puedes acceder al enlace, copia y pega la siguiente dirección en tu navegador: {f"{os.getenv('FRONT_URL')}api/auth/active/{url}"}</p>
+            <p> Si no puedes acceder al enlace, copia y pega la siguiente dirección en tu navegador: {f"{os.getenv('FRONT_URL')}activation/{url}"}</p>
     </body>
         </div>
         

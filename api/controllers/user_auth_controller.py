@@ -59,10 +59,16 @@ def set_register():
             subject="Activación de tu cuenta",
             sender=os.getenv("MAIL_USERNAME"),
             recipients=[user.email],
+<<<<<<< Updated upstream
             body="Por favor active su cuenta",
             html=html_activation,
         )
 
+=======
+            body=email_text(),
+            html=html_activation,
+        )
+>>>>>>> Stashed changes
         return jsonify({"message": "User created successfully"}), 201
     except Exception as error:
         print(error)
@@ -75,6 +81,11 @@ def set_login():
     password = data.get("password")
 
     find_user = User.query.filter_by(email=email).first()
+<<<<<<< Updated upstream
+=======
+    if find_user.active is False:
+        return jsonify({"message": "User not activated"}), 403
+>>>>>>> Stashed changes
     if find_user:
         if bcrypt.check_password_hash(find_user.password, password):
             access_token = create_access_token(identity=find_user.id)
