@@ -1,16 +1,9 @@
-import Lottie from "react-lottie";
+import Lottie from "lottie-react";
 import check from "../assets/animations/UYite2OzKA.json";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useLoginContext from "../context/LoginContext";
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: check,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice",
-  },
-};
+
 
 export const PageActivation = () => {
   const { token } = useParams();
@@ -38,12 +31,10 @@ export const PageActivation = () => {
       <h1 className="mt-5 text-4xl font-bold text-center text-white">
         Your account is activated
       </h1>
-      <Lottie
-        options={{ animationData: check, ...defaultOptions }}
-        width={600}
-        height={600}
-        background={"#1D232A"}
-      />
+      <div className='w-[50%] h-auto'>
+        <Lottie animationData={check}/>
+      </div>
+      
       <h3 className="text-xl text-center">
         Sera redirigido para iniciar sesion en:
       </h3>
