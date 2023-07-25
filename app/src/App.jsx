@@ -23,12 +23,12 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="recover-password/:token" element={<NewPassword />} />
             <Route
-              path="api/auth/recover-password/:token"
-              element={<NewPassword />}
-            />
-            <Route path="/activation" element={<PageActivation/>}></Route>
-            <Route path="*" element={<NotFound/>}></Route>
+              path="/activation/:token"
+              element={<PageActivation />}
+            ></Route>
+            <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </AppProvider>
       </LoginProvider>

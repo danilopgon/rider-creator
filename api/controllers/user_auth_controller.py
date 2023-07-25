@@ -60,10 +60,9 @@ def set_register():
             subject="Activación de tu cuenta",
             sender=os.getenv("MAIL_USERNAME"),
             recipients=[user.email],
-            body=email_text,
+            body=email_text(),
             html=html_activation,
         )
-        redirect(url_for('/activation'))
         return jsonify({"message": "User created successfully"}), 201
     except Exception as error:
         print(error)
@@ -77,7 +76,7 @@ def set_login():
 
     find_user = User.query.filter_by(email=email).first()
     if find_user.active is False:
-        return jsonify({"message": "User not activated"}), 400
+        return jsonify({"message": "User not activated"}), 403
     if find_user:
         if bcrypt.check_password_hash(find_user.password, password):
             access_token = create_access_token(identity=find_user.id)
@@ -145,7 +144,7 @@ def forgot_password():
     except Exception as error:
         print(error)
         return jsonify({"message": "Internal server error"}), 500
-    
+
 
 def change_password(token):
     try:
