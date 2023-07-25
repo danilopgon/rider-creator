@@ -23,7 +23,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="recover-password/:token" element={<NewPassword />} />
+            <Route path="/recover-password/:token" element={<NewPassword />} />
             <Route
               path="/activation/:token"
               element={<PageActivation />}

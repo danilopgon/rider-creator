@@ -57,6 +57,7 @@ app.register_blueprint(api, url_prefix="/api")
 @app.route("/")
 @app.route("/<path:path>", methods=["GET"])
 def serve_any_other_file(path="index.html"):
+    path = path if os.path.isfile(os.path.join(static_file_dir, path)) else "index.html"
     response = send_from_directory(static_file_dir, path)
     return response
 

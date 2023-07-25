@@ -25,7 +25,7 @@ def user_login():
 
 @user_auth.route("/active/<token>", methods=["PUT"])
 def user_active(token):
-    set_active(token)
+    return set_active(token)
 
 
 @user_auth.route("/forgot-password", methods=["POST"])
