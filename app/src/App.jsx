@@ -9,6 +9,7 @@ import Login from "./views/Login";
 import Dashboard from "./views/Dashboard";
 import ResetPassword from "./views/ResetPassword";
 import NewPassword from "./views/NewPassword";
+import { NotFound } from "./views/NotFound";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
               path="api/auth/recover-password/:token"
               element={<NewPassword />}
             />
-            <Route path="*" element={<h1>Not Found</h1>}></Route>
+            <Route path="*" element={<NotFound/>}></Route>
           </Routes>
         </AppProvider>
       </LoginProvider>
