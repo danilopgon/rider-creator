@@ -1,6 +1,16 @@
 import os
 
 
+def email_recovery_text(username="", url=""):
+    return f""" 
+    Estimado/a {username}
+    ¡Bienvenido/a a [Nombre de la empresa/organización]!
+    Estamos encantados de que hayas decidido unirte a nuestra comunidad. Para comenzar a aprovechar al máximo nuestros servicios, es necesario que actives tu cuenta siguiendo unos sencillos pasos.
+    Haz clic en el siguiente enlace de activación
+    {os.getenv('FRONT_URL')}recover-password/{url}
+    """
+
+
 def msg_recovery(url="", username=""):
     html_email = f"""
    <html>

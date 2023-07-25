@@ -2,7 +2,7 @@ import datetime
 import uuid
 import os
 
-from flask import request, jsonify, redirect, url_for
+from flask import request, jsonify
 from models import User, Provisional_token
 from utils import db, bcrypt
 from flask_jwt_extended import (
@@ -11,8 +11,9 @@ from flask_jwt_extended import (
     verify_jwt_in_request,
 )
 from templates_email.activation_account import msg_activation
-from templates_email.activation_account import email_text
+from templates_email.activation_account import email_activation_text
 from templates_email.recover_password import msg_recovery
+from templates_email.recover_password import email_recovery_text
 from services.send_mail import send_mail
 
 
@@ -60,7 +61,7 @@ def set_register():
             subject="Activación de tu cuenta",
             sender=os.getenv("MAIL_USERNAME"),
             recipients=[user.email],
-            body=email_text(),
+            body=email_activation_text(),
             html=html_activation,
         )
         return jsonify({"message": "User created successfully"}), 201
@@ -137,7 +138,7 @@ def forgot_password():
             subject="Recuperación de contraseña",
             sender=os.getenv("MAIL_USERNAME"),
             recipients=[find_user.email],
-            body="Por favor active su cuenta",
+            body=email_recovery_text(),
             html=html_recover_password,
         )
         return jsonify({"message": "Email sent"}), 200
