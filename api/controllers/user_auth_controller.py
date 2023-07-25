@@ -2,7 +2,7 @@ import datetime
 import uuid
 import os
 
-from flask import request, jsonify
+from flask import request, jsonify, redirect, url_for
 from models import User, Provisional_token
 from utils import db, bcrypt
 from flask_jwt_extended import (
@@ -63,7 +63,7 @@ def set_register():
             body=email_text,
             html=html_activation,
         )
-
+        redirect(url_for('/activation'))
         return jsonify({"message": "User created successfully"}), 201
     except Exception as error:
         print(error)
@@ -145,7 +145,7 @@ def forgot_password():
     except Exception as error:
         print(error)
         return jsonify({"message": "Internal server error"}), 500
-
+    
 
 def change_password(token):
     try:

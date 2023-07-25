@@ -11,6 +11,7 @@ import ResetPassword from "./views/ResetPassword";
 import NewPassword from "./views/NewPassword";
 import { NotFound } from "./views/NotFound";
 
+import { PageActivation } from "./views/PageActivation";
 function App() {
   return (
     <BrowserRouter basename="/">
@@ -26,6 +27,7 @@ function App() {
               path="api/auth/recover-password/:token"
               element={<NewPassword />}
             />
+            <Route path="/activation" element={<PageActivation/>}></Route>
             <Route path="*" element={<NotFound/>}></Route>
           </Routes>
         </AppProvider>
