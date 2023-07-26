@@ -1,3 +1,4 @@
-instance/
 migrations/
+instance/
 .env
+*.db
