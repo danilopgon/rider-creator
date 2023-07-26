@@ -1,5 +1,7 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+
 import login from "../services/login";
 import signup from "../services/signup";
 import checkTokenValidity from "../services/checkTokenValidity";
@@ -20,21 +22,21 @@ export const LoginProvider = ({ children }) => {
       const response = await login(userInfo);
 
       if (response.status === 403) {
-        alert("Tu cuenta no está activada");
+        toast.error("Tu cuenta no está activada");
         return;
       }
 
       if (response.status !== 200) {
-        alert("Error al conectar. Comprueba tus datos");
+        toast.error("Error al conectar. Comprueba tus datos");
         return;
       }
 
       setLoggedIn(true);
-      alert("Estás conectado");
+      toast.success("Estás conectado");
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
-      alert("Error al conectar. Comprueba tus datos");
+      toast.error("Error al conectar. Comprueba tus datos");
     }
   };
 

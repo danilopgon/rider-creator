@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import useLoginContext from "../context/LoginContext";
-import toast from "react-hot-toast";
 
 const Home = () => {
-  const { actions, store } = useLoginContext();
+  const { store } = useLoginContext();
 
   return (
     <>
