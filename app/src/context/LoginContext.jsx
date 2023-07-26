@@ -91,7 +91,7 @@ export const LoginProvider = ({ children }) => {
     setLoggedIn(false);
     localStorage.removeItem("jwt-token");
     navigate("/login");
-    toast.info("Te has desconectado");
+    toast.success("Te has desconectado");
   };
 
   const handleResetPassword = async (userInfo) => {
