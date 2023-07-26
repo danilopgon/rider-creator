@@ -76,6 +76,8 @@ def set_login():
     password = data.get("password")
 
     find_user = User.query.filter_by(email=email).first()
+    if not find_user:
+        return jsonify({"message": "User not found"}), 404
     if find_user.active is False:
         return jsonify({"message": "User not activated"}), 403
     if find_user:
@@ -84,8 +86,6 @@ def set_login():
             return jsonify({"message": "Login successful", "token": access_token}), 200
         else:
             return jsonify({"message": "Invalid password"}), 400
-    else:
-        return jsonify({"message": "User not found"}), 404
 
 
 def set_active(token):
