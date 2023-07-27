@@ -32,7 +32,96 @@ const RiderCreation = () => {
       <div className="w-full max-w-md">
         <h1 className="text-center mb-4 text-3xl font-bold">Crea tu rider</h1>
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-<<<<<<<<< Temporary merge branch 1
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <Form className="flex flex-col">
+              <div className="mb-4">
+                <label
+                  htmlFor="banda"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Selecciona tu banda
+                </label>
+                <Field
+                  type="text"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="banda"
+                  name="banda"
+                  placeholder="Nombre de la banda"
+                />
+                <ErrorMessage
+                  name="banda"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="sala"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  ¿En qué sala?
+                </label>
+                <Field
+                  type="text"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="sala"
+                  name="sala"
+                  placeholder="Nombre de la sala"
+                />
+                <ErrorMessage
+                  name="sala"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="fecha"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Fecha
+                </label>
+                <Field
+                  type="date"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="fecha"
+                  name="fecha"
+                />
+                <ErrorMessage
+                  name="fecha"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+              <div className="text-center">
+                <button
+                  type="submit"
+                  className="bg-violet-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  ¡Comienza a crear!
+                </button>
+              </div>
+            </Form>
+          </Formik>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RiderCreation;
+import "tailwindcss/tailwind.css";
+
+const RiderCreation = () => {
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-full max-w-md">
+        <h1 className="text-center mb-4 text-3xl font-bold">Crea tu rider</h1>
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <form className="flex flex-col">
             <div className="mb-4">
               <label htmlFor="exampleInputText" className="form-label">
@@ -70,58 +159,6 @@ const RiderCreation = () => {
               </button>
             </div>
           </form>
-=========
-          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-            <Form className="flex flex-col">
-              <div className="mb-4">
-                <label htmlFor="banda" className="block text-gray-700 text-sm font-bold mb-2">
-                  Selecciona tu banda
-                </label>
-                <Field
-                  type="text"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="banda"
-                  name="banda"
-                  placeholder="Nombre de la banda"
-                />
-                <ErrorMessage name="banda" component="div" className="text-red-500 text-sm" />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="sala" className="block text-gray-700 text-sm font-bold mb-2">
-                  ¿En qué sala?
-                </label>
-                <Field
-                  type="text"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="sala"
-                  name="sala"
-                  placeholder="Nombre de la sala"
-                />
-                <ErrorMessage name="sala" component="div" className="text-red-500 text-sm" />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="fecha" className="block text-gray-700 text-sm font-bold mb-2">
-                  Fecha
-                </label>
-                <Field
-                  type="date"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="fecha"
-                  name="fecha"
-                />
-                <ErrorMessage name="fecha" component="div" className="text-red-500 text-sm" />
-              </div>
-              <div className="text-center">
-                <button
-                  type="submit"
-                  className="bg-violet-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  ¡Comienza a crear!
-                </button>
-              </div>
-            </Form>
-          </Formik>
->>>>>>>>> Temporary merge branch 2
         </div>
       </div>
     </div>
