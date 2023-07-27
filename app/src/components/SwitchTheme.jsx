@@ -3,15 +3,20 @@ import { themeChange } from "theme-change";
 import { FiMoon, FiSun } from "react-icons/fi";
 
 const SwitchTheme = () => {
-  const [theme, setTheme] = useState();
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme ? savedTheme : "dark";
+  });
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   useEffect(() => {
-    const body = document.body;
-    body.setAttribute("data-theme", theme);
+    const html = document.documentElement;
+    html.setAttribute("data-theme", theme);
   }, [theme]);
 
   useEffect(() => {

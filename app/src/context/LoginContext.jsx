@@ -1,8 +1,13 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import login from "../services/login";
-// import signup from "../services/signup";
-// import checkTokenValidity from "../services/checkTokenValidity";
+import { toast } from "react-hot-toast";
+
+import login from "../services/login";
+import signup from "../services/signup";
+import checkTokenValidity from "../services/checkTokenValidity";
+import recovery from "../services/recovery";
+import changePassword from "../services/changePassword";
+import activeAccount from "../services/activeAccount";
 
 const LoginContext = createContext();
 
@@ -10,68 +15,166 @@ export const LoginProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [signupMode, setSignupMode] = useState(false);
 
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  //   useEffect(() => {
-  //     checkTokenValidity(handleLogout, handleValidationLogin);
-  //   }, []);
+  const handleLogin = async (userInfo) => {
+    const loadingLogin = toast.loading("Conectando...");
+    try {
+      const response = await login(userInfo);
 
-  //   const handleUserInput = (event) => {
-  //     const { name, value } = event.target;
+      if (response.status === 404) {
+        toast.error("¡Aún no estás registrado!", {
+          id: loadingLogin,
+        });
+        return;
+      }
 
-  //     setUserInput((prevState) => ({
-  //       ...prevState,
-  //       [name]: value.trim(),
-  //     }));
-  //   };
+      if (response.status === 403) {
+        toast.error("Tu cuenta no está activada", {
+          id: loadingLogin,
+        });
+        return;
+      }
 
-  //   const handleLogin = async (event) => {
-  //     event.preventDefault();
+      if (response.status !== 200) {
+        toast.error("Error al conectar. Comprueba tus datos", {
+          id: loadingLogin,
+        });
+        return;
+      }
 
-  //     await login(userInput);
+      setLoggedIn(true);
+      toast.success("Estás conectado", {
+        id: loadingLogin,
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+      toast.error("Error al conectar", {
+        id: loadingLogin,
+      });
+    }
+  };
 
-  //     if (localStorage.getItem("jwt-token") === null) {
-  //       return alert("Failed to login. Please check your credentials.");
-  //     }
+  const handleValidationLogin = () => {
+    setLoggedIn(true);
+    navigate("/dashboard");
+  };
 
-  //     setLoggedIn(true);
-  //     setUserInput({
-  //       username: "",
-  //       email: "",
-  //       password: "",
-  //     });
-  //     alert("You're logged in");
-  //     navigate("/");
-  //   };
+  const handleSignup = async (userInfo) => {
+    const signupToast = toast.loading("Registrando tu cuenta...");
+    try {
+      const response = await signup(userInfo);
 
-  //   const handleValidationLogin = () => {
-  //     setLoggedIn(true);
-  //     navigate("/");
-  //   };
+      console.log(response);
 
-  //   const handleSignup = async (event) => {
-  //     event.preventDefault();
+      if (response.status !== 201) {
+        toast.error("Error al registrarte. Comprueba tus datos", {
+          id: signupToast,
+        });
+        return;
+      }
 
-  //     await signup(userInput);
-  //     setUserInput({
-  //       username: "",
-  //       email: "",
-  //       password: "",
-  //     });
-  //     alert("¡Registro completado!");
-  //     navigate("/login");
-  //   };
+      toast.success("¡Cuenta registrada!", {
+        id: signupToast,
+      });
+      setSignupMode(false);
+      navigate("/login");
+    } catch (error) {
+      toast.error("Error al registrarte", {
+        id: signupToast,
+      });
+    }
+  };
 
-  //   const handleLogout = () => {
-  //     setLoggedIn(false);
-  //     localStorage.removeItem("jwt-token");
-  //     alert("You have been logged out");
-  //     navigate("/login");
-  //   };
+  const handleLogout = () => {
+    setLoggedIn(false);
+    localStorage.removeItem("jwt-token");
+    navigate("/login");
+    toast.success("Te has desconectado");
+  };
+
+  const handleResetPassword = async (userInfo) => {
+    const resetPasswordToast = toast.loading(
+      "Enviando email de recuperación..."
+    );
+    try {
+      const response = await recovery(userInfo);
+
+      if (response.status !== 200) {
+        toast.error("Error al enviar email de recuperación", {
+          id: resetPasswordToast,
+        });
+        return;
+      }
+
+      toast.success("Email de recuperación enviado", {
+        id: resetPasswordToast,
+      });
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      toast.error("Error al enviar el email de recuperación", {
+        id: resetPasswordToast,
+      });
+    }
+  };
+
+  const handleChangePassword = async (userInfo, token) => {
+    const resetPasswordToast = toast.loading("Cambiando contraseña...");
+    try {
+      const response = await changePassword(userInfo, token);
+
+      if (response.status !== 200) {
+        toast.error("Error al cambiar la contraseña", {
+          id: resetPasswordToast,
+        });
+        return;
+      }
+
+      toast.success("Contraseña cambiada", {
+        id: resetPasswordToast,
+      });
+      navigate("/login");
+    } catch (error) {
+      toast.error("Error al cambiar la contraseña, vuelve a intentarlo", {
+        id: resetPasswordToast,
+      });
+    }
+  };
+
+  const handleActiveAccount = async (token) => {
+    const activeAccountToast = toast.loading("Activando cuenta...");
+    try {
+      const response = await activeAccount(token);
+
+      if (response.status !== 200) {
+        toast.error("Error al activar la cuenta", {
+          id: activeAccountToast,
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error al activar la cuenta, vuelve a intentarlo", {
+        id: activeAccountToast,
+      });
+    }
+  };
+
+  useEffect(() => {
+    checkTokenValidity(handleLogout, handleValidationLogin);
+  }, [loggedIn]);
 
   const actions = {
     setSignupMode,
     setLoggedIn,
+    handleLogin,
+    handleSignup,
+    handleLogout,
+    handleResetPassword,
+    handleChangePassword,
+    handleActiveAccount,
   };
 
   const store = {

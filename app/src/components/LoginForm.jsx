@@ -1,36 +1,58 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
 
 import useLoginContext from "../context/LoginContext";
+import { Link } from "react-router-dom";
 
 const ContactForm = () => {
   const { store, actions } = useLoginContext();
 
   const emailRegExp = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}/g;
 
+  const loginValidationSchema = Yup.object({
+    email: Yup.string()
+      .email("Email no válido")
+      .required("Requerido")
+      .matches(emailRegExp, "La dirección de correo no es válida")
+      .trim(),
+    password: Yup.string()
+      .max(20, "Tu contraseña es demasiado larga")
+      .min(10, "Tu contraseña es demasiado corta")
+      .required("Requerido")
+      .trim(),
+  });
+
+  const signupValidationSchema = Yup.object({
+    username: Yup.string()
+      .max(20, "Tu nombre de usuario es demasiado largo")
+      .min(6, "Tu nombre de usuario es demasiado corto")
+      .trim()
+      .required("Requerido"),
+    email: Yup.string()
+      .email("Dirección de correo no válida")
+      .required("Requerido")
+      .matches(emailRegExp, "La dirección de correo no es válida")
+      .trim(),
+    password: Yup.string()
+      .max(20, "Tu contraseña es demasiado larga")
+      .min(10, "Tu contraseña es demasiado corta")
+      .required("Requerido")
+      .trim(),
+  });
+
   return (
     <div className="w-4/5 md:w-2/5 bg-base-100 p-10 rounded-lg">
       <Formik
-        initialValues={{ username: "", email: "", password: "" }}
-        validationSchema={Yup.object({
-          username: Yup.string()
-            .max(20, "Must be 15 characters or less")
-            .min(6, "Must be 6 characters or more")
-            .trim()
-            .required("Required"),
-          email: Yup.string()
-            .email("Invalid email address")
-            .required("Required")
-            .matches(emailRegExp, "Email is not a valid direction")
-            .trim(),
-          password: Yup.string()
-            .max(50, "Must be 15 characters or less")
-            .min(10, "Must be 10 characters or more")
-            .required("Required")
-            .trim(),
-        })}
-        // onSubmit={}
+        enableReinitialize
+        initialValues={
+          store.signupMode
+            ? { username: "", email: "", password: "" }
+            : { email: "", password: "" }
+        }
+        validationSchema={
+          store.signupMode ? signupValidationSchema : loginValidationSchema
+        }
+        onSubmit={store.signupMode ? actions.handleSignup : actions.handleLogin}
       >
         <Form className="form-control gap-1 w-full">
           {store.signupMode ? (
@@ -54,7 +76,7 @@ const ContactForm = () => {
           )}
 
           <label htmlFor="email" className="label">
-            Email
+            Correo electrónico
           </label>
           <Field
             name="email"
@@ -84,7 +106,7 @@ const ContactForm = () => {
           <input
             type="submit"
             className="btn btn-primary container-fluid my-3"
-            value={store.signupMode ? "Sign up" : "Login"}
+            value={store.signupMode ? "Registrarme" : "Iniciar sesión"}
           ></input>
           {store.signupMode ? (
             <span className="text-center">
@@ -100,18 +122,26 @@ const ContactForm = () => {
               </a>
             </span>
           ) : (
-            <span className="text-center">
-              ¿No eres miembro?
-              <a
-                className="mx-1 font-semibold"
-                onClick={() => {
-                  actions.setSignupMode(true);
-                }}
-                href="#"
-              >
-                Regístrate
-              </a>
-            </span>
+            <>
+              <span className="text-center my-3">
+                ¿No eres miembro?
+                <a
+                  className="mx-1 font-semibold"
+                  onClick={() => {
+                    actions.setSignupMode(true);
+                  }}
+                  href="#"
+                >
+                  Regístrate
+                </a>
+              </span>
+              <span className="text-center">
+                ¿Olvidaste tu contraseña?
+                <Link className="mx-1 font-semibold" to={"/reset-password"}>
+                  Recupérala
+                </Link>
+              </span>
+            </>
           )}
         </Form>
       </Formik>
