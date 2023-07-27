@@ -1,3 +1,7 @@
+import datetime
+import uuid
+import os
+
 from flask import request, jsonify
 from models import User, Provisional_token
 from utils import db, bcrypt
@@ -6,8 +10,11 @@ from flask_jwt_extended import (
     get_jwt_identity,
     verify_jwt_in_request,
 )
+from templates_email.activation_account import msg_activation
+from templates_email.activation_account import email_activation_text
+from templates_email.recover_password import msg_recovery
+from templates_email.recover_password import email_recovery_text
 from services.send_mail import send_mail
-import datetime
 
 
 def set_register():
@@ -42,20 +49,21 @@ def set_register():
 
         token = Provisional_token()
         token.user_id = user.id
-        hash_token = create_access_token(identity=user.id)
+        hash_token = uuid.uuid4().hex
         token.token = hash_token
         token.token_exp = datetime.datetime.now() + datetime.timedelta(minutes=15)
         db.session.add(token)
         db.session.commit()
 
-        send_mail(
-            "activacion",  # subject
-            "from_email@activacion.com",  # from
-            user.email,
-            "Por favor active su cuenta",  # text_body
-            "activacion.html",  # html_body
-        )
+        html_activation = msg_activation(hash_token, user.username)
 
+        send_mail(
+            subject="Activación de tu cuenta",
+            sender=os.getenv("MAIL_USERNAME"),
+            recipients=[user.email],
+            body=email_activation_text(),
+            html=html_activation,
+        )
         return jsonify({"message": "User created successfully"}), 201
     except Exception as error:
         print(error)
@@ -68,30 +76,109 @@ def set_login():
     password = data.get("password")
 
     find_user = User.query.filter_by(email=email).first()
+    if not find_user:
+        return jsonify({"message": "User not found"}), 404
+    if find_user.active is False:
+        return jsonify({"message": "User not activated"}), 403
     if find_user:
         if bcrypt.check_password_hash(find_user.password, password):
             access_token = create_access_token(identity=find_user.id)
             return jsonify({"message": "Login successful", "token": access_token}), 200
         else:
             return jsonify({"message": "Invalid password"}), 400
-    else:
-        return jsonify({"message": "User not found"}), 404
 
 
 def set_active(token):
     find_token = Provisional_token.query.filter_by(token=token).first()
-    if find_token:
-        if find_token.expiration_date < datetime.datetime.now():
-            return jsonify({"message": "Token expired"}), 400
+    if not find_token:
+        return jsonify({"message": "Invalid token"}), 404
+
+    if (
+        datetime.datetime.strptime(find_token.token_exp, "%Y-%m-%d %H:%M:%S.%f")
+        < datetime.datetime.now()
+    ):
+        Provisional_token.query.filter_by(token=token).delete()
+        return jsonify({"message": "Token expired"}), 403
+
+    user_id = find_token.user_id
+    find_user = User.query.filter_by(id=user_id).first()
+    if not find_user:
+        return jsonify({"message": "User not found"}), 404
+
+    find_user.active = True
+    db.session.commit()
+    Provisional_token.query.filter_by(token=token).delete()
+    db.session.commit()
+    return jsonify({"message": "User activated"}), 200
+
+
+def forgot_password():
+    try:
+        email = request.json.get("email", None)
+
+        if not email:
+            return jsonify({"message": "Missing email"}), 400
+
+        find_user = User.query.filter_by(email=email).first()
+
+        if not find_user:
+            return jsonify({"message": "User not found in database"}), 404
+
+        token = Provisional_token()
+        token.user_id = find_user.id
+        hash_token = uuid.uuid4().hex
+        token.token = hash_token
+        token.token_exp = datetime.datetime.now() + datetime.timedelta(minutes=15)
+        db.session.add(token)
+        db.session.commit()
+
+        html_recover_password = msg_recovery(hash_token, find_user.username)
+
+        send_mail(
+            subject="Recuperación de contraseña",
+            sender=os.getenv("MAIL_USERNAME"),
+            recipients=[find_user.email],
+            body=email_recovery_text(),
+            html=html_recover_password,
+        )
+        return jsonify({"message": "Email sent"}), 200
+    except Exception as error:
+        print(error)
+        return jsonify({"message": "Internal server error"}), 500
+
+
+def change_password(token):
+    try:
+        find_token = Provisional_token.query.filter_by(token=token).first()
+        if not find_token:
+            return jsonify({"message": "Invalid token"}), 404
+
+        if (
+            datetime.datetime.strptime(find_token.token_exp, "%Y-%m-%d %H:%M:%S.%f")
+            < datetime.datetime.now()
+        ):
+            Provisional_token.query.filter_by(token=token).delete()
+            return jsonify({"message": "Token expired"}), 403
+
+        password = request.json.get("password", None)
+
         user_id = find_token.user_id
         find_user = User.query.filter_by(id=user_id).first()
-        if find_user:
-            find_user.active = True
-            db.session.commit()
-            Provisional_token.query.filter_by(token=token).delete()
-            db.session.commit()
-            return jsonify({"message": "User activated"}), 200
-    return jsonify({"message": "Invalid token"}), 404
+
+        if not find_user:
+            return jsonify({"message": "User not found"}), 404
+
+        if not password:
+            return jsonify({"message": "Missing password"}), 400
+
+        password_hash = bcrypt.generate_password_hash(password)
+        find_user.password = password_hash
+        Provisional_token.query.filter_by(token=token).delete()
+        db.session.commit()
+        return jsonify({"message": "Password updated"}), 200
+    except Exception as error:
+        print(error)
+        return jsonify({"message": "Internal server error"}), 500
 
 
 def validate_token():
