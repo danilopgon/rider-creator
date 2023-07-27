@@ -1,5 +1,3 @@
-from flask_mail import Message
-
 from controllers.user_auth_controller import (
     set_register,
     set_login,
