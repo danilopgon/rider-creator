@@ -1,5 +1,7 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+
 import login from "../services/login";
 import signup from "../services/signup";
 import checkTokenValidity from "../services/checkTokenValidity";
@@ -16,25 +18,41 @@ export const LoginProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const handleLogin = async (userInfo) => {
+    const loadingLogin = toast.loading("Conectando...");
     try {
       const response = await login(userInfo);
 
+      if (response.status === 404) {
+        toast.error("¡Aún no estás registrado!", {
+          id: loadingLogin,
+        });
+        return;
+      }
+
       if (response.status === 403) {
-        alert("Tu cuenta no está activada");
+        toast.error("Tu cuenta no está activada", {
+          id: loadingLogin,
+        });
         return;
       }
 
       if (response.status !== 200) {
-        alert("Error al conectar. Comprueba tus datos");
+        toast.error("Error al conectar. Comprueba tus datos", {
+          id: loadingLogin,
+        });
         return;
       }
 
       setLoggedIn(true);
-      alert("Estás conectado");
+      toast.success("Estás conectado", {
+        id: loadingLogin,
+      });
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
-      alert("Error al conectar. Comprueba tus datos");
+      toast.error("Error al conectar", {
+        id: loadingLogin,
+      });
     }
   };
 
@@ -44,22 +62,28 @@ export const LoginProvider = ({ children }) => {
   };
 
   const handleSignup = async (userInfo) => {
+    const signupToast = toast.loading("Registrando tu cuenta...");
     try {
       const response = await signup(userInfo);
 
       console.log(response);
 
       if (response.status !== 201) {
-        alert("Error al registrarte. Comprueba tus datos");
+        toast.error("Error al registrarte. Comprueba tus datos", {
+          id: signupToast,
+        });
         return;
       }
 
-      alert("Te has registrado correctamente");
+      toast.success("¡Cuenta registrada!", {
+        id: signupToast,
+      });
       setSignupMode(false);
       navigate("/login");
     } catch (error) {
-      console.log(error);
-      alert("Error al registrarte. Comprueba tus datos");
+      toast.error("Error al registrarte", {
+        id: signupToast,
+      });
     }
   };
 
@@ -67,54 +91,74 @@ export const LoginProvider = ({ children }) => {
     setLoggedIn(false);
     localStorage.removeItem("jwt-token");
     navigate("/login");
-    alert("Te has desconectado");
+    toast.success("Te has desconectado");
   };
 
   const handleResetPassword = async (userInfo) => {
+    const resetPasswordToast = toast.loading(
+      "Enviando email de recuperación..."
+    );
     try {
       const response = await recovery(userInfo);
 
       if (response.status !== 200) {
-        alert("Error al enviar el email de recuperación");
+        toast.error("Error al enviar email de recuperación", {
+          id: resetPasswordToast,
+        });
         return;
       }
 
-      alert("Email de recuperación enviado");
+      toast.success("Email de recuperación enviado", {
+        id: resetPasswordToast,
+      });
       navigate("/login");
     } catch (error) {
       console.log(error);
-      alert("Error al enviar el email de recuperación");
+      toast.error("Error al enviar el email de recuperación", {
+        id: resetPasswordToast,
+      });
     }
   };
 
   const handleChangePassword = async (userInfo, token) => {
+    const resetPasswordToast = toast.loading("Cambiando contraseña...");
     try {
       const response = await changePassword(userInfo, token);
 
       if (response.status !== 200) {
-        alert("Error al cambiar la contraseña");
+        toast.error("Error al cambiar la contraseña", {
+          id: resetPasswordToast,
+        });
         return;
       }
 
-      alert("Contraseña cambiada correctamente");
+      toast.success("Contraseña cambiada", {
+        id: resetPasswordToast,
+      });
       navigate("/login");
     } catch (error) {
-      console.log(error);
-      alert("Error al cambiar la contraseña");
+      toast.error("Error al cambiar la contraseña, vuelve a intentarlo", {
+        id: resetPasswordToast,
+      });
     }
   };
 
   const handleActiveAccount = async (token) => {
+    const activeAccountToast = toast.loading("Activando cuenta...");
     try {
       const response = await activeAccount(token);
 
       if (response.status !== 200) {
-        alert("Error al activar la cuenta");
+        toast.error("Error al activar la cuenta", {
+          id: activeAccountToast,
+        });
         return;
       }
     } catch (error) {
       console.log(error);
-      alert("Error al activar la cuenta");
+      toast.error("Error al activar la cuenta, vuelve a intentarlo", {
+        id: activeAccountToast,
+      });
     }
   };
 
