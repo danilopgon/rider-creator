@@ -10,13 +10,27 @@ const Dashboard = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    lugar: Yup.string().required('Este campo es obligatorio'),
-    sala: Yup.string().required('Este campo es obligatorio'),
-    tecnico: Yup.string().required('Este campo es obligatorio'),
+    lugar: Yup.string()
+      .trim()
+      .required('Este campo es obligatorio')
+      .min(3, 'El lugar debe tener al menos 3 caracteres')
+      .max(50, 'El lugar no puede tener más de 50 caracteres'),
+    sala: Yup.string()
+      .trim()
+      .required('Este campo es obligatorio')
+      .min(5, 'La sala debe tener al menos 5 caracteres')
+      .max(100, 'La sala no puede tener más de 100 caracteres'),
+    tecnico: Yup.string()
+      .trim()
+      .required('Este campo es obligatorio')
+      .min(2, 'El técnico debe tener al menos 2 caracteres')
+      .max(30, 'El técnico no puede tener más de 30 caracteres'),
   });
+  
+  
 
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = (e) => {
+    console.log(e);
   };
 
   return (
@@ -41,7 +55,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div class="container mx-auto px-4 shadow-md">
+        <div className="container mx-auto px-4 shadow-md">
           <h1 className="text-4xl font-bold mb-6 flex justify-center">Tu Rider</h1>
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
             <Form className="bg-white px-8 pt-6 pb-8 mb-4">
@@ -94,15 +108,15 @@ const Dashboard = () => {
             </Form>
           </Formik>
         </div>
-        <div class="container mx-auto px-12 py-2 flex justify-center">
+        <div className="container mx-auto px-12 py-2 flex justify-center">
           <button
-            class="rounded-md bg-violet-700 h-10 w-80 text-white"
+            className="rounded-md bg-violet-700 h-10 w-80 text-white"
             type="button"
           >
             Comienza a crear
           </button>
         </div>
-        <div class="container mx-auto px-4 shadow-md mt-4">
+        <div className="container mx-auto px-4 shadow-md mt-4">
           <h1 className="text-4xl font-bold mb-6 flex justify-center">Tus Grupos</h1>
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
             <Form className="bg-white px-8 pt-6 pb-8 mb-4">
