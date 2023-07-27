@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import useLoginContext from "../context/LoginContext";
 
 const Home = () => {
-  const { actions, store } = useLoginContext();
+  const { store } = useLoginContext();
 
   return (
     <>
