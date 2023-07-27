@@ -11,8 +11,8 @@ import Dashboard from "./views/Dashboard";
 import ResetPassword from "./views/ResetPassword";
 import NewPassword from "./views/NewPassword";
 import { NotFound } from "./views/NotFound";
-
 import { PageActivation } from "./views/PageActivation";
+
 function App() {
   return (
     <BrowserRouter basename="/">
