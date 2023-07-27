@@ -12,6 +12,7 @@ import ResetPassword from "./views/ResetPassword";
 import NewPassword from "./views/NewPassword";
 import { NotFound } from "./views/NotFound";
 import { PageActivation } from "./views/PageActivation";
+import RiderCreation from "./views/RiderCreation";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
               path="/activation/:token"
               element={<PageActivation />}
             ></Route>
+            <Route path="/ridercreation" element={<RiderCreation />} />
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </AppProvider>
