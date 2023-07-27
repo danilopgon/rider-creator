@@ -1,4 +1,24 @@
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
 const Dashboard = () => {
+  const initialValues = {
+    lugar: '',
+    sala: '',
+    tecnico: '',
+  };
+
+  const validationSchema = Yup.object().shape({
+    lugar: Yup.string().required('Este campo es obligatorio'),
+    sala: Yup.string().required('Este campo es obligatorio'),
+    tecnico: Yup.string().required('Este campo es obligatorio'),
+  });
+
+  const handleSubmit = (values) => {
+    console.log(values);
+  };
+
   return (
     <div
       className="hero min-h-screen"
@@ -23,57 +43,56 @@ const Dashboard = () => {
         </div>
         <div class="container mx-auto px-4 shadow-md">
           <h1 className="text-4xl font-bold mb-6 flex justify-center">Tu Rider</h1>
-          <form class="bg-white px-8 pt-6 pb-8 mb-4">
-            <div class="mb-4">
-              <label class="block text-gray-700 text-sm font-bold mb-2" for="lugar">
-                Lugar
-              </label>
-              <input
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="lugar"
-                type="text"
-                placeholder="Hotel Sur"
-              />
-            </div>
-            <div class="mb-4">
-              <label class="block text-gray-700 text-sm font-bold mb-2" for="sala">
-                Sala
-              </label>
-              <input
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="sala"
-                type="text"
-                placeholder="Sala el Perro"
-              />
-            </div>
-            <div class="mb-4">
-              <label class="block text-gray-700 text-sm font-bold mb-2" for="tecnico">
-                Técnico
-              </label>
-              <input
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="tectnico"
-                type="text"
-                placeholder="Busca técnico"
-              />
-            </div>
-            <div class="flex items-center justify-between">
-              <button
-                class="rounded-md bg-violet-700 h-10 w-96 text-white mb-4 mt-4"
-                type="button"
-              >
-                Buscar técnico
-              </button>
-            </div>
-            <div class="flex items-center justify-between">
-              <button
-                class="rounded-md bg-violet-700 h-10 w-96 text-white"
-                type="button"
-              >
-                Editar
-              </button>
-            </div>
-          </form>
+          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+            <Form className="bg-white px-8 pt-6 pb-8 mb-4">
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lugar">
+                  Lugar
+                </label>
+                <Field
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  name="lugar"
+                  placeholder="Hotel Sur"
+                />
+                <ErrorMessage name="lugar" component="div" className="text-red-500 text-sm" />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="sala">
+                  Sala
+                </label>
+                <Field
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  name="sala"
+                  placeholder="Sala el Perro"
+                />
+                <ErrorMessage name="sala" component="div" className="text-red-500 text-sm" />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tecnico">
+                  Técnico
+                </label>
+                <Field
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  name="tecnico"
+                  placeholder="Busca técnico"
+                />
+                <ErrorMessage name="tecnico" component="div" className="text-red-500 text-sm" />
+              </div>
+              <div className="flex items-center justify-between">
+                <button className="rounded-md bg-violet-700 h-10 w-96 text-white mb-4 mt-4" type="submit">
+                  Buscar técnico
+                </button>
+              </div>
+              <div className="flex items-center justify-between">
+                <button className="rounded-md bg-violet-700 h-10 w-96 text-white" type="button">
+                  Editar
+                </button>
+              </div>
+            </Form>
+          </Formik>
         </div>
         <div class="container mx-auto px-12 py-2 flex justify-center">
           <button
@@ -83,39 +102,36 @@ const Dashboard = () => {
             Comienza a crear
           </button>
         </div>
-      <div class="container mx-auto px-4 shadow-md mt-4">
+        <div class="container mx-auto px-4 shadow-md mt-4">
           <h1 className="text-4xl font-bold mb-6 flex justify-center">Tus Grupos</h1>
-          <form class="bg-white px-8 pt-6 pb-8 mb-4">
-            <div class="mb-4">
-              <label class="block text-gray-700 text-sm font-bold mb-2" for="lugar">
-                Lugar
-              </label>
-              <input
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="lugar"
-                type="text"
-                placeholder="Hotel Sur"
-              />
-            </div>
-            <div class="flex items-center justify-between mb-4">
-              <button
-                class="rounded-md bg-violet-700 h-10 w-96 text-white"
-                type="button"
-              >
-                Editar
-              </button>
-            </div>
-            <div class="flex items-center justify-between">
-              <button
-                class="rounded-md bg-violet-700 h-10 w-96 text-white"
-                type="button"
-              >
-                Añadir
-              </button>
-            </div>
-          </form>
-          </div>
-          </div>
+          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+            <Form className="bg-white px-8 pt-6 pb-8 mb-4">
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lugar">
+                  Lugar
+                </label>
+                <Field
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  name="lugar"
+                  placeholder="Hotel Sur"
+                />
+                <ErrorMessage name="lugar" component="div" className="text-red-500 text-sm" />
+              </div>
+              <div className="flex items-center justify-between mb-4">
+                <button className="rounded-md bg-violet-700 h-10 w-96 text-white" type="button">
+                  Editar
+                </button>
+              </div>
+              <div className="flex items-center justify-between">
+                <button className="rounded-md bg-violet-700 h-10 w-96 text-white" type="button">
+                  Añadir
+                </button>
+              </div>
+            </Form>
+          </Formik>
+        </div>
+      </div>
     </div>
   );
 };
