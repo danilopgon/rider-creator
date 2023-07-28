@@ -64,7 +64,7 @@ const Dashboard = () => {
                   Lugar
                 </label>
                 <Field
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-white-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   name="lugar"
                   placeholder="Hotel Sur"
@@ -76,7 +76,7 @@ const Dashboard = () => {
                   Sala
                 </label>
                 <Field
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-white-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   name="sala"
                   placeholder="Sala el Perro"
@@ -88,7 +88,7 @@ const Dashboard = () => {
                   Técnico
                 </label>
                 <Field
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-white-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   name="tecnico"
                   placeholder="Busca técnico"
@@ -125,7 +125,7 @@ const Dashboard = () => {
                   Lugar
                 </label>
                 <Field
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-white-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   name="lugar"
                   placeholder="Hotel Sur"
