@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import checkTokenValidity from '../services/checkTokenValidity';
@@ -15,6 +15,8 @@ const Dashboard = () => {
       navigate('/login');
     }
   }
+
+  useEffect(() => {validationToken()}, []);
 
   const initialValues = {
     lugar: '',
