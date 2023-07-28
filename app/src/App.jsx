@@ -13,6 +13,7 @@ import NewPassword from "./views/NewPassword";
 import { NotFound } from "./views/NotFound";
 import { PageActivation } from "./views/PageActivation";
 import RiderCreation from "./views/RiderCreation";
+import PrivateRoutes from "./components/PrivateRoutes";
 
 function App() {
   return (
@@ -24,15 +25,18 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/recover-password/:token" element={<NewPassword />} />
             <Route
               path="/activation/:token"
               element={<PageActivation />}
             ></Route>
-            <Route path="/ridercreation" element={<RiderCreation />} />
             <Route path="*" element={<NotFound />}></Route>
+            <Route element={<PrivateRoutes />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/ridercreation" element={<RiderCreation />} />
+            </Route>
           </Routes>
         </AppProvider>
       </LoginProvider>
