@@ -1,5 +1,3 @@
-from flask_mail import Message
-
 from controllers.user_auth_controller import (
     set_register,
     set_login,
@@ -43,12 +41,3 @@ def user_change_password(token):
 @user_auth.route("/validate-token", methods=["GET"])
 def validate_route():
     return validate_token()
-
-@user_auth.route("/")
-def index():
-
-    msg = Message("Hello",
-                  sender="from@example.com",
-                  recipients=["to@example.com"])
-
-

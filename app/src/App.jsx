@@ -8,6 +8,11 @@ import NavBar from "./components/NavBar";
 import Home from "./views/Home";
 import Login from "./views/Login";
 import Dashboard from "./views/Dashboard";
+import ResetPassword from "./views/ResetPassword";
+import NewPassword from "./views/NewPassword";
+import { NotFound } from "./views/NotFound";
+import { PageActivation } from "./views/PageActivation";
+import RiderCreation from "./views/RiderCreation";
 
 function App() {
   return (
@@ -35,13 +40,22 @@ function App() {
         }}
       />
       <LoginProvider>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="*" element={<h1>Not Found</h1>}></Route>
-        </Routes>
+        <AppProvider>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/recover-password/:token" element={<NewPassword />} />
+            <Route
+              path="/activation/:token"
+              element={<PageActivation />}
+            ></Route>
+            <Route path="/ridercreation" element={<RiderCreation />} />
+            <Route path="*" element={<NotFound />}></Route>
+          </Routes>
+        </AppProvider>
       </LoginProvider>
     </BrowserRouter>
   );
