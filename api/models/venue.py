@@ -1,5 +1,5 @@
 from utils.db import db
-from models.address import Address
+
 
 class Venue(db.Model):
     __tablename__ = "venue"
@@ -7,3 +7,11 @@ class Venue(db.Model):
     name = db.Column(db.String(255), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
     address = db.relationship("Address", backref="venue", lazy=True)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "capacity": self.capacity,
+            "address": self.address.serialize(),
+        }

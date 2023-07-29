@@ -12,3 +12,13 @@ class User(db.Model):
 
     def serialize(self):
         return {"id": self.id, "username": self.username, "email": self.email}
+
+    def serialize_for_jwt(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "musician_id": self.musician.id if self.musician else None,
+            "manager_id": self.manager.id if self.manager else None,
+            "technician_id": self.technician.id if self.tech else None,
+        }
