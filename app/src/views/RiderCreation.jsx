@@ -27,7 +27,6 @@ const RiderCreation = () => {
     console.log(values);
   };
 
-
   return (
     <div
       className="hero min-h-screen bg-accent-content"
@@ -39,7 +38,9 @@ const RiderCreation = () => {
       <div className="flex justify-center items-center h-screen">
         <div className="w-full max-w-md">
           <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 ">
-            <h1 className="text-center mb-4 text-3xl font-bold  text-neutral-focus">Crea tu rider</h1>
+            <h1 className="text-center mb-4 text-3xl font-bold text-neutral-focus">
+              Crea tu rider
+            </h1>
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -95,7 +96,7 @@ const RiderCreation = () => {
                   </label>
                   <Field
                     type="date"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-white-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-neutral-focus leading-tight focus:outline-none focus:shadow-outline"
                     id="fecha"
                     name="fecha"
                   />
