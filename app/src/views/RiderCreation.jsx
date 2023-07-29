@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-const RiderCreation = () => {
+const RiderCreation = ({ theme }) => {
   const initialValues = {
     banda: "",
     sala: "",
@@ -27,11 +27,21 @@ const RiderCreation = () => {
     console.log(values);
   };
 
+  const getFormClassNames = () => {
+    
+    const lightThemeClass = "bg-white text-gray-700";
+    const darkThemeClass = "bg-gray-800 text-white";
+
+    return theme === "dark" ? darkThemeClass : lightThemeClass;
+  };
+
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className={`flex justify-center items-center h-screen ${getFormClassNames()}`}>
       <div className="w-full max-w-md">
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <h1 className="text-center mb-4 text-3xl font-bold text-gray-700">Crea tu rider</h1>
+        <div className="shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <h1 className="text-center mb-4 text-3xl font-bold">
+            Crea tu rider
+          </h1>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

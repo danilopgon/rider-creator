@@ -1,22 +1,8 @@
 import React, { useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import checkTokenValidity from '../services/checkTokenValidity';
-import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-
-  const navigate = useNavigate();
-
-  async function validationToken() {
-    const token = localStorage.getItem('token');
-    const tokenIsValid = await checkTokenValidity(token);
-    if (!tokenIsValid) {
-      navigate('/login');
-    }
-  }
-
-  useEffect(() => {validationToken()}, []);
 
   const initialValues = {
     lugar: '',
