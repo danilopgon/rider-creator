@@ -36,13 +36,13 @@ const Dashboard = () => {
 
   return (
     <div
-      className="hero min-h-screen"
+      className="hero min-h-screen bg-primary-content"
       style={{
         backgroundImage:
           "url(https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)",
       }}
     >
-      <div className="w-96 m-auto shadow-md rounded bg-white pt-10 mt-4">
+      <div className="w-96 m-auto shadow-md rounded bg-primary-content pt-10 mt-4">
         <div className="flex justify-center">
           <div className="text-center">
             <img
@@ -61,11 +61,11 @@ const Dashboard = () => {
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
             <Form className="bg-white px-8 pt-6 pb-8 mb-4">
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lugar">
+                <label className="block text-primary-content text-sm font-bold mb-2" htmlFor="lugar">
                   Lugar
                 </label>
                 <Field
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-primary-content leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   name="lugar"
                   placeholder="Hotel Sur"
@@ -73,11 +73,11 @@ const Dashboard = () => {
                 <ErrorMessage name="lugar" component="div" className="text-red-500 text-sm" />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="sala">
+                <label className="block text-primary-content text-sm font-bold mb-2" htmlFor="sala">
                   Sala
                 </label>
                 <Field
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-primary-content leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   name="sala"
                   placeholder="Sala el Perro"
@@ -85,11 +85,11 @@ const Dashboard = () => {
                 <ErrorMessage name="sala" component="div" className="text-red-500 text-sm" />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tecnico">
+                <label className="block text-primary-content text-sm font-bold mb-2" htmlFor="tecnico">
                   Técnico
                 </label>
                 <Field
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-primary-content leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   name="tecnico"
                   placeholder="Busca técnico"
@@ -122,11 +122,11 @@ const Dashboard = () => {
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
             <Form className="bg-white px-8 pt-6 pb-8 mb-4">
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lugar">
+                <label className="block text-primary-content text-sm font-bold mb-2" htmlFor="lugar">
                   Lugar
                 </label>
                 <Field
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-primary-content leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   name="lugar"
                   placeholder="Hotel Sur"
