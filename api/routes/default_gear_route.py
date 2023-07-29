@@ -12,4 +12,5 @@ def get_default_gear_route():
 
 @default_gear.route("/database-configuration", methods=["GET"])
 def config_default_gear_route():
-    return config_default_gear()
+    config_default_gear()
+    return "Default gear configuration complete."
