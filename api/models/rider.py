@@ -6,12 +6,12 @@ class Rider(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     venue_id = db.Column(db.Integer, db.ForeignKey("venue.id"), nullable=False)
     gig_id = db.Column(db.Integer, db.ForeignKey("gig.id"), nullable=False)
-    band_id = db.Column(db.Integer, db.ForeignKey("band.id"), nullable=False)
+    band_id = db.Column(db.Integer, db.ForeignKey("bands.id"), nullable=False)
     technician_id = db.Column(
         db.Integer, db.ForeignKey("technician.id"), nullable=False
     )
 
-    gear = db.relationship("Gear", backref="rider_gear", lazy=True)
+    gear = db.relationship("Gear", backref="rider", lazy=True, secondary="rider_gear")
 
     def serialize(self):
         return {
