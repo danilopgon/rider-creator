@@ -14,6 +14,7 @@ const LoginContext = createContext();
 export const LoginProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [signupMode, setSignupMode] = useState(false);
+  const [token, setToken] = useState(null);
 
   const navigate = useNavigate();
 
@@ -44,6 +45,7 @@ export const LoginProvider = ({ children }) => {
       }
 
       setLoggedIn(true);
+      setToken(localStorage.getItem("jwt-token"));
       toast.success("Estás conectado", {
         id: loadingLogin,
       });
@@ -59,14 +61,16 @@ export const LoginProvider = ({ children }) => {
   const handleValidationLogin = () => {
     setLoggedIn(true);
     navigate("/dashboard");
+    setToken(localStorage.getItem("jwt-token"));
+    toast.success("¡Hola de nuevo!", {
+      id: "clipboard",
+    });
   };
 
   const handleSignup = async (userInfo) => {
     const signupToast = toast.loading("Registrando tu cuenta...");
     try {
       const response = await signup(userInfo);
-
-      console.log(response);
 
       if (response.status !== 201) {
         toast.error("Error al registrarte. Comprueba tus datos", {
@@ -89,6 +93,7 @@ export const LoginProvider = ({ children }) => {
 
   const handleLogout = () => {
     setLoggedIn(false);
+    setToken(null);
     localStorage.removeItem("jwt-token");
     navigate("/login");
     toast.success("Te has desconectado");
@@ -164,11 +169,12 @@ export const LoginProvider = ({ children }) => {
 
   useEffect(() => {
     checkTokenValidity(handleLogout, handleValidationLogin);
-  }, [loggedIn]);
+  }, [loggedIn, token]);
 
   const actions = {
     setSignupMode,
     setLoggedIn,
+    setToken,
     handleLogin,
     handleSignup,
     handleLogout,
@@ -180,6 +186,7 @@ export const LoginProvider = ({ children }) => {
   const store = {
     signupMode,
     loggedIn,
+    token,
   };
 
   return (
