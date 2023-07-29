@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, Blueprint
-from controllers.create_band_controller import set_band
+from controllers.create_band_controller import create_band_controller
 
 
 create_band = Blueprint('create_band', __name__)
@@ -7,7 +7,7 @@ create_band = Blueprint('create_band', __name__)
 @create_band.route('/', methods=['POST', 'GET','PUT', 'DELETE'])
 def band():
     if request.method == 'POST':
-        return set_band()
+        return create_band_controller()
     
     if request.method == 'GET':
         return 'esta son tus bandas'

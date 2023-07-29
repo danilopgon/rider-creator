@@ -7,25 +7,31 @@ from models.users import User
 from flask import Flask, jsonify, request
 import json
 
-def set_band():
+def create_band_controller():
     try:
-        if request.json.get('name') is None or request.json.get('members') is None:
-            return jsonify({'status': 'error', 'message': 'need parameters'})
-        name = request.json.get('name')
-        members = request.json.get('members')
+        data = request.get_json()
+        name = data['name']
+        members = data['members']
         
+        if not name or not  members or len(members) == 0:
+            return jsonify({'message': 'Missing data'}), 400
+        if Band.query.filter_by(name=name).first():
+            return jsonify({'message': 'Band already exists'}), 400
         band = Band()
         band.name = name
-        band.members = members
         db.session.add(band)
         db.session.commit()
-
-        return  {'status': 'success', 'msg': 'new band added'}, 200
-
-    except ValueError:
-        return {'status': 'error', 'msg':f'Value error {ValueError}' }
-    
-    
+        find_band = Band.query.filter_by(name=name).first()
+        for member in members:   
+            band_member = Band_Members()
+            band_member.band_id = find_band.id
+            band_member.musician_id = member.get('id')
+            db.session.add(band_member)
+            db.session.commit()
+        return jsonify({'message': 'Band created'}), 200
+    except ValueError as e:
+        print(jsonify({'message': str(e)}))
+        return jsonify({'message': str(e)}), 500
     
     
 
