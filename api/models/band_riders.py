@@ -1,7 +1,7 @@
 from utils.db import db
 
 
-class Band_riders(db.Model):
+class Band_Riders(db.Model):
     __tablename__ = "band_riders"
     id = db.Column(db.Integer, primary_key=True, unique=True)
     band_id = db.Column(db.Integer, db.ForeignKey("band.id"), nullable=False)
