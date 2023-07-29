@@ -119,5 +119,7 @@ const RiderCreation = () => {
         </div>
       </div>
     </div>
-  )};
+  );
+};
+
 export default RiderCreation;
