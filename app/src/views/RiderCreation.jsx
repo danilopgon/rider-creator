@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-const RiderCreation = ({ theme }) => {
+const RiderCreation = () => {
   const initialValues = {
     banda: "",
     sala: "",
@@ -27,21 +27,19 @@ const RiderCreation = ({ theme }) => {
     console.log(values);
   };
 
-  const getFormClassNames = () => {
-    
-    const lightThemeClass = "bg-white text-gray-700";
-    const darkThemeClass = "bg-gray-800 text-white";
-
-    return theme === "dark" ? darkThemeClass : lightThemeClass;
-  };
 
   return (
-    <div className={`flex justify-center items-center h-screen ${getFormClassNames()}`}>
+    <div
+      className="hero min-h-screen bg-accent-content"
+      style={{
+        backgroundImage:
+          "url(https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)",
+      }}
+    >
+    <div className="flex justify-center items-center h-screen">
       <div className="w-full max-w-md">
-        <div className="shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <h1 className="text-center mb-4 text-3xl font-bold">
-            Crea tu rider
-          </h1>
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 ">
+        <h1 className="text-center mb-4 text-3xl font-bold  text-neutral-focus">Crea tu rider</h1>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -51,13 +49,13 @@ const RiderCreation = ({ theme }) => {
               <div className="mb-4">
                 <label
                   htmlFor="banda"
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-neutral-focus text-sm font-bold mb-2"
                 >
                   Selecciona tu banda
                 </label>
                 <Field
                   type="text"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-white-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-neutral-focus leading-tight focus:outline-none focus:shadow-outline"
                   id="banda"
                   name="banda"
                   placeholder="Nombre de la banda"
@@ -71,13 +69,13 @@ const RiderCreation = ({ theme }) => {
               <div className="mb-4">
                 <label
                   htmlFor="sala"
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-neutral-focus text-sm font-bold mb-2"
                 >
                   ¿En qué sala?
                 </label>
                 <Field
                   type="text"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-white-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-neutral-focus leading-tight focus:outline-none focus:shadow-outline"
                   id="sala"
                   name="sala"
                   placeholder="Nombre de la sala"
@@ -91,7 +89,7 @@ const RiderCreation = ({ theme }) => {
               <div className="mb-4">
                 <label
                   htmlFor="fecha"
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-neutral-focus text-sm font-bold mb-2"
                 >
                   Fecha
                 </label>
@@ -119,6 +117,7 @@ const RiderCreation = ({ theme }) => {
           </Formik>
         </div>
       </div>
+    </div>
     </div>
   );
 };
