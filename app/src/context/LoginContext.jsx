@@ -44,6 +44,7 @@ export const LoginProvider = ({ children }) => {
       }
 
       setLoggedIn(true);
+
       toast.success("Estás conectado", {
         id: loadingLogin,
       });
@@ -57,16 +58,19 @@ export const LoginProvider = ({ children }) => {
   };
 
   const handleValidationLogin = () => {
+    const loadingLogin = toast.loading("Validando...");
     setLoggedIn(true);
     navigate("/dashboard");
+
+    toast.success("¡Hola de nuevo!", {
+      id: loadingLogin,
+    });
   };
 
   const handleSignup = async (userInfo) => {
     const signupToast = toast.loading("Registrando tu cuenta...");
     try {
       const response = await signup(userInfo);
-
-      console.log(response);
 
       if (response.status !== 201) {
         toast.error("Error al registrarte. Comprueba tus datos", {
@@ -89,6 +93,7 @@ export const LoginProvider = ({ children }) => {
 
   const handleLogout = () => {
     setLoggedIn(false);
+
     localStorage.removeItem("jwt-token");
     navigate("/login");
     toast.success("Te has desconectado");
@@ -164,7 +169,7 @@ export const LoginProvider = ({ children }) => {
 
   useEffect(() => {
     checkTokenValidity(handleLogout, handleValidationLogin);
-  }, [loggedIn]);
+  }, []);
 
   const actions = {
     setSignupMode,
