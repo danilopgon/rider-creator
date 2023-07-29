@@ -1,5 +1,4 @@
 import { Navigate, Outlet } from "react-router-dom";
-import useLoginContext from "../context/LoginContext";
 import { toast } from "react-hot-toast";
 
 const PrivateRoutes = () => {
