@@ -3,9 +3,10 @@ import useLoginContext from "../context/LoginContext";
 import { toast } from "react-hot-toast";
 
 const PrivateRoutes = () => {
-  const { store } = useLoginContext();
+  const token = localStorage.getItem("jwt-token");
 
-  if (store.token === null) {
+  if (token === null) {
+    toast.error("Debes iniciar sesión para acceder a esta página");
     return <Navigate to="/login" />;
   }
 
