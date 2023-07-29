@@ -1,5 +1,5 @@
 from utils.db import db
-
+#from models.venue import Venue
 
 class Address(db.Model):
     __tablename__ = "address"
