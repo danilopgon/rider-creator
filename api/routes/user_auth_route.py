@@ -6,8 +6,7 @@ from controllers.user_auth_controller import (
     forgot_password,
     change_password,
 )
-from flask import Flask, request, Blueprint, jsonify, redirect
-from flask_bcrypt import Bcrypt
+from flask import Blueprint
 
 
 user_auth = Blueprint("user_auth", __name__)
