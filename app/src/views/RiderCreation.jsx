@@ -29,7 +29,7 @@ const RiderCreation = () => {
 
   return (
     <div
-      className="hero min-h-screen bg-accent-content"
+      className="hero min-h-screen bg-primary-content"
       style={{
         backgroundImage:
           "url(https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)",
@@ -37,7 +37,7 @@ const RiderCreation = () => {
     >
       <div className="flex justify-center items-center h-screen">
         <div className="w-full max-w-md">
-          <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 ">
+          <div className="bg-primary-content shadow-md rounded px-8 pt-6 pb-8 mb-4 ">
             <h1 className="text-center mb-4 text-3xl font-bold text-neutral-focus">
               Crea tu rider
             </h1>
@@ -50,13 +50,13 @@ const RiderCreation = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="banda"
-                    className="block text-neutral-focus text-sm font-bold mb-2"
+                    className="block text-accent-content text-sm font-bold mb-2"
                   >
                     Selecciona tu banda
                   </label>
                   <Field
                     type="text"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-neutral-focus leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-accent-content leading-tight focus:outline-none focus:shadow-outline"
                     id="banda"
                     name="banda"
                     placeholder="Nombre de la banda"
@@ -70,13 +70,13 @@ const RiderCreation = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="sala"
-                    className="block text-neutral-focus text-sm font-bold mb-2"
+                    className="block text-accent-content text-sm font-bold mb-2"
                   >
                     ¿En qué sala?
                   </label>
                   <Field
                     type="text"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-neutral-focus leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-accent-content leading-tight focus:outline-none focus:shadow-outline"
                     id="sala"
                     name="sala"
                     placeholder="Nombre de la sala"
@@ -90,13 +90,13 @@ const RiderCreation = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="fecha"
-                    className="block text-neutral-focus text-sm font-bold mb-2"
+                    className="block text-accent-content text-sm font-bold mb-2"
                   >
                     Fecha
                   </label>
                   <Field
                     type="date"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-neutral-focus leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-accent-content leading-tight focus:outline-none focus:shadow-outline"
                     id="fecha"
                     name="fecha"
                   />
