@@ -5,7 +5,7 @@ from models.musician import Musician
 from models.users import User
 
 from flask import Flask, jsonify, request
-import json
+
 
 def create_band_controller():
     try:
