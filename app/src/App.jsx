@@ -14,6 +14,7 @@ import { NotFound } from "./views/NotFound";
 import { PageActivation } from "./views/PageActivation";
 import RiderCreation from "./views/RiderCreation";
 import PrivateRoutes from "./components/PrivateRoutes";
+import { CreateBand } from "./views/CreateBand";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/ridercreation" element={<RiderCreation />} />
+              <Route path="/createband" element={<CreateBand/>} />
             </Route>
           </Routes>
         </AppProvider>
