@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage, setIn } from "formik";
 import * as Yup from "yup";
 import { CardUserBand } from "../components/CardUserBand";
+import Lottie from 'lottie-react'
 
+
+import check from "../assets/animations/UYite2OzKA.json";
+import { Link } from "react-router-dom";
 
 export const CreateBand = () => {
   const [step, setStep] = useState(1);
@@ -39,7 +43,7 @@ export const CreateBand = () => {
       return;
     }
     if(inputMember.name.length > 0) {
-    const member = {...inputMember, id: Math.random()}
+    const member = {...inputMember, id: Math.random()*99999999999}
     setMembers((prev) => [...prev, member]);
     setInputMember({});
     
@@ -47,17 +51,21 @@ export const CreateBand = () => {
       alert('Debes ingresar un nombre')
     }
   }
-  
-  
-
   const handleDeleteMember = (e) => {
-    e.preventDefault();
-    const { id } = e.target;
-    setMembers((prev) => prev.filter((member, index) => index !== parseInt(id)));
+    const { id } = e.target.parentNode.parentNode;
+    setMembers((prev) => prev.filter((member) => {
+      return parseInt(member.id) != parseInt(id)}));
   }
+
+
   const handleCreateBand = (e) => {
     e.preventDefault();
-    console.log(members);
+    if(members.length < 1){
+      alert('Debes agregar al menos un miembro')
+      return
+    }
+    setBand((prev) => ({ ...prev, members: members }));
+    setStep(3);
   }
   console.log(inputName)
   console.log(band)
@@ -114,9 +122,9 @@ export const CreateBand = () => {
    Agrega miembros a tu banda
   </h2>
   <Formik validationSchema={validationSchema} initialValues={initialValues}>
-    <Form className="flex flex-col items-center gap-2 ring-0 active:border-0">
+    <Form onSubmit={handleCreateBand} className="flex flex-col items-center gap-2 ring-0 active:border-0">
       <div className="md:w-[60%] w-[90%] flex flex-col flex-nowrap">
-        <label htmlFor="inputMusician " className=" bg-slate-100 border rounded flex justify-evenly">
+        <label htmlFor="inputMusician " className="flex border rounded bg-slate-100 justify-evenly">
           <Field
               className="w-[90%] bg-slate-100 text-xl border-0"
               name="name"
@@ -139,8 +147,8 @@ export const CreateBand = () => {
       
       
       <div className="h-[42vh] w-[100%] sm:w-[90%] flex flex-col gap-2 p-2 overflow-y-auto">
-          {members.map((member, index) => {
-            return <CardUserBand member={member}/>
+          {members.map((member) => {
+            return <CardUserBand member={member} handler={handleDeleteMember}/>
           })}
       </div>
       <div className="">
@@ -153,22 +161,40 @@ export const CreateBand = () => {
   </Formik>
 </div>)
 
+  const page_3 = (
+    <div className="w-full h-full bg-slate-300 sm:w-[80%] lg:w-[50%] xl:w-[40%] flex flex-col items-center p-1 rounded">
+      <div className="w-[30%] flex justify-center">
+        <Lottie animationData={check}/>
+      </div>
+      <h2 className="my-0 text-4xl font-semibold text-center text-black">
+        Felicidades!! <br/> Has creado tu nuevo grupo
+      </h2>
+      <div className="my-8">
+        <Link to="/dashboard" className="btn btn-primary">Ir al Dashboard</Link>
+      </div>
+      
+    </div>
+  )
+
 
   return (
     <section className="w-screen h-auto lg:w-[90%] flex flex-col items-center gap-4 p-4">
       <h1 className="text-3xl">
-        {step === 1 ? "Crea tu banda" : "Agrega Miembros"}
+        {step === 1 ? "Crea tu banda" 
+        :step ===2? "Agrega Miembros":'Completado!!!'}
       </h1>
       <div className="lg:w-[30%] md:w-[40%] w-[40%] md:w-[70%]  flex justify-between">
-        <button onClick={()=> setStep(1)} className="flex items-center justify-center w-8 h-8 md:w-16 md:h-16 p-0 text-3xl text-black rounded-full bg-slate-300 fw-bold ">
+        <button onClick={()=> setStep(1)} className={`flex items-center justify-center w-8 h-8 p-0 text-3xl text-black rounded-full md:w-16 md:h-16 ${step===1?'bg-slate-300':'bg-green-400'} fw-bold `}>
           1
         </button>
         <div className="border w-[20%] md:w-[50%] h-0 flex my-auto"></div>
-        <button onClick={()=> setStep(2)} className="flex items-center justify-center w-8 h-8 md:w-16 md:h-16 p-0 text-3xl text-black rounded-full bg-slate-300 fw-bold ">
+        <button onClick={()=> setStep(2)} className={`flex items-center justify-center w-8 h-8 p-0 text-3xl text-black rounded-full md:w-16 md:h-16 ${step===2||step===1?'bg-slate-300':'bg-green-400'} fw-bold `}>
           2
         </button>
       </div>
-      {step === 1 ? page_1 : page_2}
+      {step === 1 ? page_1 : step === 2 ? page_2 : page_3}
+      
+      
       
     </section>
   );
