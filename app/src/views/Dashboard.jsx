@@ -10,6 +10,11 @@ const Dashboard = () => {
     tecnico: "",
   };
 
+  const handleSubmit = (values, { resetForm }) => {
+    console.log(values);
+    resetForm();
+  };
+
   const validationSchema = Yup.object().shape({
     lugar: Yup.string()
       .trim()
@@ -30,13 +35,13 @@ const Dashboard = () => {
 
   return (
     <div
-      className="min-h-screen hero bg-primary-content"
+      className="min-h-screen hero bg-base-100"
       style={{
         backgroundImage:
           "url(https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)",
       }}
     >
-      <div className="pt-10 m-auto mt-4 rounded shadow-md w-96 bg-primary-content">
+      <div className="pt-10 m-auto mt-4 rounded shadow-md w-96 bg-base-100">
         <div className="flex justify-center">
           <div className="text-center">
             <img
@@ -44,12 +49,9 @@ const Dashboard = () => {
               className="w-40 mx-auto mb-4 rounded-full"
               alt="Fotografia"
             />
-            <div className="flex items-center justify-center p-2 my-8 space-x-24 bg-white rounded shadow-md">
+            <div className="flex items-center justify-center p-4 my-8 space-x-24 bg-base-300 rounded shadow-md">
               <p>Mensajes</p>
-              <button
-                type="button"
-                className="w-32 h-8 text-primary-content rounded-md bg-primary"
-              >
+              <button type="button" className="w-32 h-8 btn btn-primary">
                 Leer
               </button>
             </div>
@@ -64,16 +66,16 @@ const Dashboard = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <Form className="px-8 pt-6 pb-8 mb-4 bg-white">
+            <Form className="px-8 pt-6 pb-8 mb-4 bg-base-300">
               <div className="mb-4">
                 <label
-                  className="block mb-2 text-sm font-bold text-primary-content"
+                  className="block mb-2 text-sm font-bold text-base-content"
                   htmlFor="lugar"
                 >
                   Lugar
                 </label>
                 <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-primary-content focus:outline-none focus:shadow-outline"
+                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
                   type="text"
                   name="lugar"
                   placeholder="Hotel Sur"
@@ -86,13 +88,13 @@ const Dashboard = () => {
               </div>
               <div className="mb-4">
                 <label
-                  className="block mb-2 text-sm font-bold text-primary-content"
+                  className="block mb-2 text-sm font-bold text-base-content"
                   htmlFor="sala"
                 >
                   Sala
                 </label>
                 <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-primary-content focus:outline-none focus:shadow-outline"
+                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
                   type="text"
                   name="sala"
                   placeholder="Sala el Perro"
@@ -105,13 +107,13 @@ const Dashboard = () => {
               </div>
               <div className="mb-4">
                 <label
-                  className="block mb-2 text-sm font-bold text-primary-content"
+                  className="block mb-2 text-sm font-bold text-base-content"
                   htmlFor="tecnico"
                 >
                   Técnico
                 </label>
                 <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-primary-content focus:outline-none focus:shadow-outline"
+                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
                   type="text"
                   name="tecnico"
                   placeholder="Busca técnico"
@@ -122,19 +124,12 @@ const Dashboard = () => {
                   className="text-sm text-red-500"
                 />
               </div>
-              <div className="flex items-center justify-between">
-                <button
-                  className="h-10 mt-4 mb-4 text-white rounded-md bg-violet-700 w-96"
-                  type="submit"
-                >
+              <div className="container flex flex-col gap-3 justify-center  mx-auto">
+                <button className="btn btn-primary w-full" type="submit">
                   Buscar técnico
                 </button>
-              </div>
-              <div className="flex items-center justify-between">
-                <button
-                  className="h-10 text-white rounded-md bg-violet-700 w-96"
-                  type="button"
-                >
+
+                <button className="btn btn-primary w-full" type="button">
                   Editar
                 </button>
               </div>
@@ -142,10 +137,7 @@ const Dashboard = () => {
           </Formik>
         </div>
         <div className="container flex justify-center px-12 py-2 mx-auto">
-          <button
-            className="h-10 text-white rounded-md bg-violet-700 w-80"
-            type="button"
-          >
+          <button className="btn btn-primary w-full" type="button">
             Comienza a crear
           </button>
         </div>
@@ -158,16 +150,16 @@ const Dashboard = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <Form className="px-8 pt-6 pb-8 mb-4 bg-white">
+            <Form className="px-8 pt-6 pb-8 mb-4 bg-base-300">
               <div className="mb-4">
                 <label
-                  className="block mb-2 text-sm font-bold text-primary-content"
+                  className="block mb-2 text-sm font-bold text-base-content"
                   htmlFor="lugar"
                 >
                   Lugar
                 </label>
                 <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-primary-content focus:outline-none focus:shadow-outline"
+                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
                   type="text"
                   name="lugar"
                   placeholder="Hotel Sur"
@@ -178,18 +170,14 @@ const Dashboard = () => {
                   className="text-sm text-red-500"
                 />
               </div>
-              <div className="flex items-center justify-between mb-4">
-                <button
-                  className="h-10 text-white rounded-md bg-violet-700 w-96"
-                  type="button"
-                >
+              <div className="container flex flex-col gap-3 justify-center mx-auto">
+                <button className="btn btn-primary w-full" type="button">
                   Editar
                 </button>
-              </div>
-              <div className="flex items-center justify-between">
+
                 <Link
                   to="/createband"
-                  className="flex items-center justify-center h-10 text-center text-white rounded-md bg-violet-700 w-96 hover:bg-violet-950 hover:shadow-md"
+                  className="btn btn-primary w-full"
                   type="button"
                 >
                   Añadir
