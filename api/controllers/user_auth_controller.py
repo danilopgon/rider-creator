@@ -83,6 +83,7 @@ def set_login():
     if find_user:
         if bcrypt.check_password_hash(find_user.password, password):
             user_data = find_user.serialize_for_jwt()
+            print(user_data)
             access_token = create_access_token(identity=user_data)
             return jsonify({"message": "Login successful", "token": access_token}), 200
         else:

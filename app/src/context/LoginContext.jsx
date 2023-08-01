@@ -14,6 +14,9 @@ const LoginContext = createContext();
 export const LoginProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [signupMode, setSignupMode] = useState(false);
+  const [musicianId, setMusicianID] = useState(null);
+  const [venueManagerId, setVenueManagerID] = useState(null);
+  const [technicianID, setTechnicianID] = useState(null);
 
   const navigate = useNavigate();
 
@@ -171,6 +174,19 @@ export const LoginProvider = ({ children }) => {
     checkTokenValidity(handleLogout, handleValidationLogin);
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem("jwt-token");
+    if (token?.musician_id) {
+      setMusicianID(token.musician_id);
+    }
+    if (token?.technician_id) {
+      setTechnicianID(token.technician_id);
+    }
+    if (token?.venue_manager_id) {
+      setVenueManagerID(token.venue_manager_id);
+    }
+  }, [loggedIn]);
+
   const actions = {
     setSignupMode,
     setLoggedIn,
@@ -180,11 +196,17 @@ export const LoginProvider = ({ children }) => {
     handleResetPassword,
     handleChangePassword,
     handleActiveAccount,
+    setMusicianID,
+    setTechnicianID,
+    setVenueManagerID,
   };
 
   const store = {
     signupMode,
     loggedIn,
+    musicianId,
+    technicianID,
+    venueManagerId,
   };
 
   return (

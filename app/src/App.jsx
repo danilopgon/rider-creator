@@ -35,12 +35,11 @@ function App() {
               element={<PageActivation />}
             ></Route>
             <Route path="*" element={<NotFound />}></Route>
-            <Route path="/create-venue" element={<CreateVenue />} />
-            {/* pasar a privada  */}
             <Route element={<PrivateRoutes />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/ridercreation" element={<RiderCreation />} />
               <Route path="/createband" element={<CreateBand />} />
+              <Route path="/create-venue" element={<CreateVenue />} />
             </Route>
           </Routes>
         </AppProvider>
