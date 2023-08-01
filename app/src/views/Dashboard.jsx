@@ -1,9 +1,13 @@
-import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 
+import useLoginContext from "../context/LoginContext";
+import RoleSelectionCards from "../components/RoleSelectionCards";
+
 const Dashboard = () => {
+  const { store } = useLoginContext();
+
   const initialValues = {
     lugar: "",
     sala: "",
@@ -32,6 +36,20 @@ const Dashboard = () => {
       .min(2, "El técnico debe tener al menos 2 caracteres")
       .max(30, "El técnico no puede tener más de 30 caracteres"),
   });
+
+  if (!store.venueManagerId && !store.technicianID && !store.musicianId) {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen w-full bg-base-300">
+        <h1 className="flex justify-center mt-10 text-4xl font-bold">
+          ¿A qué te dedicas?
+        </h1>
+        <h6 className="flex justify-center mt-4 text-1xl font-bold">
+          Selecciona tu rol
+        </h6>
+        <RoleSelectionCards />
+      </div>
+    );
+  }
 
   return (
     <div
