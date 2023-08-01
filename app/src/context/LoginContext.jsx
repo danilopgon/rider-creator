@@ -1,6 +1,7 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import jwt from 'jsonwebtoken'
 
 import login from "../services/login";
 import signup from "../services/signup";
