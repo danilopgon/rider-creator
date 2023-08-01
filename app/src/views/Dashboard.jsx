@@ -1,39 +1,32 @@
-import React, { useEffect } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
-
   const initialValues = {
-    lugar: '',
-    sala: '',
-    tecnico: '',
+    lugar: "",
+    sala: "",
+    tecnico: "",
   };
 
   const validationSchema = Yup.object().shape({
     lugar: Yup.string()
       .trim()
-      .required('Este campo es obligatorio')
-      .min(3, 'El lugar debe tener al menos 3 caracteres')
-      .max(50, 'El lugar no puede tener más de 50 caracteres'),
+      .required("Este campo es obligatorio")
+      .min(3, "El lugar debe tener al menos 3 caracteres")
+      .max(50, "El lugar no puede tener más de 50 caracteres"),
     sala: Yup.string()
       .trim()
-      .required('Este campo es obligatorio')
-      .min(5, 'La sala debe tener al menos 5 caracteres')
-      .max(100, 'La sala no puede tener más de 100 caracteres'),
+      .required("Este campo es obligatorio")
+      .min(5, "La sala debe tener al menos 5 caracteres")
+      .max(100, "La sala no puede tener más de 100 caracteres"),
     tecnico: Yup.string()
       .trim()
-      .required('Este campo es obligatorio')
-      .min(2, 'El técnico debe tener al menos 2 caracteres')
-      .max(30, 'El técnico no puede tener más de 30 caracteres'),
+      .required("Este campo es obligatorio")
+      .min(2, "El técnico debe tener al menos 2 caracteres")
+      .max(30, "El técnico no puede tener más de 30 caracteres"),
   });
-  
-  
-
-  const handleSubmit = (e) => {
-    console.log(e);
-  };
 
   return (
     <div
@@ -53,16 +46,30 @@ const Dashboard = () => {
             />
             <div className="flex items-center justify-center p-2 my-8 space-x-24 bg-white rounded shadow-md">
               <p>Mensajes</p>
-              <button type="button" className="w-32 h-8 text-white rounded-md bg-violet-700">Leer</button>
+              <button
+                type="button"
+                className="w-32 h-8 text-primary-content rounded-md bg-primary"
+              >
+                Leer
+              </button>
             </div>
           </div>
         </div>
         <div className="container px-4 mx-auto shadow-md">
-          <h1 className="flex justify-center mb-6 text-4xl font-bold">Tu Rider</h1>
-          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+          <h1 className="flex justify-center mb-6 text-4xl font-bold">
+            Tu Rider
+          </h1>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
             <Form className="px-8 pt-6 pb-8 mb-4 bg-white">
               <div className="mb-4">
-                <label className="block mb-2 text-sm font-bold text-primary-content" htmlFor="lugar">
+                <label
+                  className="block mb-2 text-sm font-bold text-primary-content"
+                  htmlFor="lugar"
+                >
                   Lugar
                 </label>
                 <Field
@@ -71,10 +78,17 @@ const Dashboard = () => {
                   name="lugar"
                   placeholder="Hotel Sur"
                 />
-                <ErrorMessage name="lugar" component="div" className="text-sm text-red-500" />
+                <ErrorMessage
+                  name="lugar"
+                  component="div"
+                  className="text-sm text-red-500"
+                />
               </div>
               <div className="mb-4">
-                <label className="block mb-2 text-sm font-bold text-primary-content" htmlFor="sala">
+                <label
+                  className="block mb-2 text-sm font-bold text-primary-content"
+                  htmlFor="sala"
+                >
                   Sala
                 </label>
                 <Field
@@ -83,10 +97,17 @@ const Dashboard = () => {
                   name="sala"
                   placeholder="Sala el Perro"
                 />
-                <ErrorMessage name="sala" component="div" className="text-sm text-red-500" />
+                <ErrorMessage
+                  name="sala"
+                  component="div"
+                  className="text-sm text-red-500"
+                />
               </div>
               <div className="mb-4">
-                <label className="block mb-2 text-sm font-bold text-primary-content" htmlFor="tecnico">
+                <label
+                  className="block mb-2 text-sm font-bold text-primary-content"
+                  htmlFor="tecnico"
+                >
                   Técnico
                 </label>
                 <Field
@@ -95,15 +116,25 @@ const Dashboard = () => {
                   name="tecnico"
                   placeholder="Busca técnico"
                 />
-                <ErrorMessage name="tecnico" component="div" className="text-sm text-red-500" />
+                <ErrorMessage
+                  name="tecnico"
+                  component="div"
+                  className="text-sm text-red-500"
+                />
               </div>
               <div className="flex items-center justify-between">
-                <button className="h-10 mt-4 mb-4 text-white rounded-md bg-violet-700 w-96" type="submit">
+                <button
+                  className="h-10 mt-4 mb-4 text-white rounded-md bg-violet-700 w-96"
+                  type="submit"
+                >
                   Buscar técnico
                 </button>
               </div>
               <div className="flex items-center justify-between">
-                <button className="h-10 text-white rounded-md bg-violet-700 w-96" type="button">
+                <button
+                  className="h-10 text-white rounded-md bg-violet-700 w-96"
+                  type="button"
+                >
                   Editar
                 </button>
               </div>
@@ -119,11 +150,20 @@ const Dashboard = () => {
           </button>
         </div>
         <div className="container px-4 mx-auto mt-4 shadow-md">
-          <h1 className="flex justify-center mb-6 text-4xl font-bold">Tus Grupos</h1>
-          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+          <h1 className="flex justify-center mb-6 text-4xl font-bold">
+            Tus Grupos
+          </h1>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
             <Form className="px-8 pt-6 pb-8 mb-4 bg-white">
               <div className="mb-4">
-                <label className="block mb-2 text-sm font-bold text-primary-content" htmlFor="lugar">
+                <label
+                  className="block mb-2 text-sm font-bold text-primary-content"
+                  htmlFor="lugar"
+                >
                   Lugar
                 </label>
                 <Field
@@ -132,15 +172,26 @@ const Dashboard = () => {
                   name="lugar"
                   placeholder="Hotel Sur"
                 />
-                <ErrorMessage name="lugar" component="div" className="text-sm text-red-500" />
+                <ErrorMessage
+                  name="lugar"
+                  component="div"
+                  className="text-sm text-red-500"
+                />
               </div>
               <div className="flex items-center justify-between mb-4">
-                <button className="h-10 text-white rounded-md bg-violet-700 w-96" type="button">
+                <button
+                  className="h-10 text-white rounded-md bg-violet-700 w-96"
+                  type="button"
+                >
                   Editar
                 </button>
               </div>
               <div className="flex items-center justify-between">
-                <Link to='/createband' className="flex items-center justify-center h-10 text-center text-white rounded-md bg-violet-700 w-96 hover:bg-violet-950 hover:shadow-md" type="button">
+                <Link
+                  to="/createband"
+                  className="flex items-center justify-center h-10 text-center text-white rounded-md bg-violet-700 w-96 hover:bg-violet-950 hover:shadow-md"
+                  type="button"
+                >
                   Añadir
                 </Link>
               </div>
