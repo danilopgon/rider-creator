@@ -6,8 +6,6 @@ const registerRole = async (role) => {
         const userData = {
             role
         };
-        console.log(userData);
-        console.log(localStorage.getItem('jwt-token'))
         const response = await fetch(`${import.meta.env.VITE_API_URL}api/role-register/`, {
             method: 'POST',
             headers: {
@@ -20,7 +18,6 @@ const registerRole = async (role) => {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.log(error);
         throw new Error('Failed to register role: ' + error.message);
     }
 };

@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import registerRole from "../services/userRolRegister";
 import {useNavigate} from "react-router-dom"
+import { toast } from "react-hot-toast";
 
 const AppContext = createContext();
 
@@ -16,6 +17,10 @@ export const AppProvider = ({ children }) => {
 
   useEffect(()=> {
     registerRole(selectedRole)
+    selectedRole?toast.success(`${selectedRole} registrado!`, {
+      id: registerRole,
+    }):null
+    setSelectedRole(null)
   },[selectedRole, navigate])
 
   const store = { selectedRole };
