@@ -6,7 +6,7 @@ def email_recovery_text(username="", url=""):
     Estimado/a {username}
     ¿Necesitas cambiar tu contraseña?
     Haz clic en el siguiente enlace para recuperarla
-    {os.getenv('FRONT_URL')}recover-password/{url}
+    {os.getenv('BACK_URL')}recover-password/{url}
     """
 
 
@@ -24,11 +24,11 @@ def msg_recovery(url="", username=""):
 
         </p>
         <p style="text-align:center; color: white">Haz clic en el siguiente enlace para recuperarla</p>
-        <a href="{f" {os.getenv('FRONT_URL')}recover-password/{url}"}"
+        <a href="{f" {os.getenv('BACK_URL')}recover-password/{url}"}"
             style="text-decoration:none; border:1px; padding: 8px; background:#641AE6; border-radius:10px;color:white; text-align: center; ">Recupera tu cuenta</a>
         <p> Si no te has registrado, ignora este correo. </p>
         <p> Si no puedes acceder al enlace, copia y pega la siguiente dirección en tu navegador:
-            {f"{os.getenv('FRONT_URL')}recover-password/{url}"}</p>
+            {f"{os.getenv('BACK_URL')}recover-password/{url}"}</p>
     </div>
 
 </body>

@@ -6,8 +6,7 @@ from controllers.user_auth_controller import (
     forgot_password,
     change_password,
 )
-from flask import Flask, request, Blueprint, jsonify, redirect
-from flask_bcrypt import Bcrypt
+from flask import Blueprint
 
 
 user_auth = Blueprint("user_auth", __name__)
@@ -25,7 +24,7 @@ def user_login():
 
 @user_auth.route("/active/<token>", methods=["PUT"])
 def user_active(token):
-    set_active(token)
+    return set_active(token)
 
 
 @user_auth.route("/forgot-password", methods=["POST"])

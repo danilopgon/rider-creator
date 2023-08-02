@@ -76,16 +76,18 @@ def set_login():
     password = data.get("password")
 
     find_user = User.query.filter_by(email=email).first()
+    if not find_user:
+        return jsonify({"message": "User not found"}), 404
     if find_user.active is False:
         return jsonify({"message": "User not activated"}), 403
     if find_user:
         if bcrypt.check_password_hash(find_user.password, password):
-            access_token = create_access_token(identity=find_user.id)
+            user_data = find_user.serialize_for_jwt()
+            print(user_data)
+            access_token = create_access_token(identity=user_data)
             return jsonify({"message": "Login successful", "token": access_token}), 200
         else:
             return jsonify({"message": "Invalid password"}), 400
-    else:
-        return jsonify({"message": "User not found"}), 404
 
 
 def set_active(token):

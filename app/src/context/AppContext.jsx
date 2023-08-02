@@ -1,13 +1,28 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
+import registerRole from "../services/userRolRegister";
+import {useNavigate} from "react-router-dom"
+import { toast } from "react-hot-toast";
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const [selectedRole, setSelectedRole] = useState("");
+  const [selectedRole, setSelectedRole] = useState(null);
+
+  const navigate = useNavigate()
 
   const handleRoleSubmit = (values) => {
-    setSelectedRole(values.selectedRole);
+    alert("You have selected: " + values);
+    setSelectedRole(values);
   };
+
+  useEffect(()=> {
+    
+    if(selectedRole)registerRole(selectedRole)
+    selectedRole?toast.success(`${selectedRole} registrado!`, {
+      id: registerRole,
+    }):null
+    setSelectedRole(null)
+  },[selectedRole, navigate])
 
   const store = { selectedRole };
   const actions = { setSelectedRole, handleRoleSubmit };
