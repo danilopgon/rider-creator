@@ -1,9 +1,15 @@
-
+import { useState } from "react";
 
 import useLoginContext from "../context/LoginContext";
 import RoleSelectionCards from "../components/RoleSelectionCards";
+import {RoleMusician} from '../components/RoleMusician'
+import {RoleManager} from '../components/RoleManager'
+import {RoleTechnician} from '../components/RoleTechnician'
 
 const Dashboard = () => {
+
+  const [isSelect, setIsSelect] = useState(null)
+  
   const { store } = useLoginContext();
 
   
@@ -47,11 +53,13 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="flex justify-center w-full p-4 btn-group">
-          <button className="btn btn-active">Musician</button>
-          <button className="btn">Manager</button>
-          <button className="btn">Technician</button>
+          <button onClick={()=>setIsSelect('musician')} className={`${store.musicianId===1?'btn':'hidden'} ${isSelect==='musician'?'btn-active':''}`}>Musician</button>
+          <button onClick={()=>setIsSelect('manager')} className={`${store.venueManagerId===1?'btn':'hidden'} ${isSelect==='manager'?'btn-active':''}`}>Manager</button>
+          <button onClick={()=>setIsSelect('technician')} className={`${store.technicianID===1?'btn':'hidden'} ${isSelect==='technician'?'btn-active':''}`}>Technician</button>
         </div>
-
+        {isSelect==='musician'?<RoleMusician/>
+        :isSelect==='manager'?<RoleManager/>
+        :isSelect==='technician'?<RoleTechnician/>:null}
 
         
       </div>
