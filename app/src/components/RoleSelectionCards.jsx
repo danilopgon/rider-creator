@@ -8,8 +8,10 @@ const RoleSelectionCards = () => {
 
 
   return (
-    <div className="flex flex-col w-full p-3 my-5 md:flex-row join">
-      <div className="flex-1 shadow-xl card join-item bg-base-100">
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-5 p-3">
+      <div className="card join-item bg-base-100 shadow-xl p-4 mb-4">
+
         <figure>
           <img
             src="https://images.pexels.com/photos/12327601/pexels-photo-12327601.jpeg?auto=compress&cs=tinysrgb&w=600"
@@ -25,7 +27,8 @@ const RoleSelectionCards = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 shadow-xl card join-item bg-base-100">
+
+      <div className="card join-item bg-base-100 shadow-xl p-4 mb-4">
         <figure>
           <img
             src="https://images.pexels.com/photos/1666816/pexels-photo-1666816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
@@ -41,7 +44,9 @@ const RoleSelectionCards = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 shadow-xl card join-item bg-base-100 ">
+
+      <div className="card join-item bg-base-100 shadow-xl p-4 mb-4">
+
         <figure>
           <img
             src="https://images.pexels.com/photos/4988133/pexels-photo-4988133.jpeg?auto=compress&cs=tinysrgb&w=600"
