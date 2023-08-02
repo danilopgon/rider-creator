@@ -1,6 +1,7 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import jwt_decode from "jwt-decode";
 
 import login from "../services/login";
 import signup from "../services/signup";
@@ -176,14 +177,15 @@ export const LoginProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("jwt-token");
-    if (token?.musician_id) {
-      setMusicianID(token.musician_id);
+    const decoded = jwt_decode(token);
+    if (decoded?.sub.musician_id) {
+      setMusicianID(decoded.sub.musician_id);
     }
-    if (token?.technician_id) {
-      setTechnicianID(token.technician_id);
+    if (decoded?.sub.technician_id) {
+      setTechnicianID(decoded.sub.technician_id);
     }
-    if (token?.venue_manager_id) {
-      setVenueManagerID(token.venue_manager_id);
+    if (decoded?.sub.venue_manager_id) {
+      setVenueManagerID(decoded.sub.venue_manager_id);
     }
   }, [loggedIn]);
 
