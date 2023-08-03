@@ -18,7 +18,7 @@ export const LoginProvider = ({ children }) => {
   const [musicianId, setMusicianID] = useState(null);
   const [venueManagerId, setVenueManagerID] = useState(null);
   const [technicianID, setTechnicianID] = useState(null);
-
+  const[updateToken, setUpdateToken] = useState(null)
   const navigate = useNavigate();
 
   const handleLogin = async (userInfo) => {
@@ -65,7 +65,7 @@ export const LoginProvider = ({ children }) => {
     const loadingLogin = toast.loading("Validando...");
     setLoggedIn(true);
     navigate("/dashboard");
-
+    setUpdateToken(localStorage.getItem("jwt-token"))
     toast.success("¡Hola de nuevo!", {
       id: loadingLogin,
     });
@@ -176,7 +176,10 @@ export const LoginProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt-token");
+    // const token = localStorage.getItem("jwt-token");
+    const token = updateToken
+    if(token){
+    
     const decoded = jwt_decode(token);
     if (decoded?.sub.musician_id) {
       setMusicianID(decoded.sub.musician_id);
@@ -187,6 +190,7 @@ export const LoginProvider = ({ children }) => {
     if (decoded?.sub.venue_manager_id) {
       setVenueManagerID(decoded.sub.venue_manager_id);
     }
+  }
   }, [loggedIn]);
 
   const actions = {
@@ -201,6 +205,7 @@ export const LoginProvider = ({ children }) => {
     setMusicianID,
     setTechnicianID,
     setVenueManagerID,
+    setUpdateToken
   };
 
   const store = {
