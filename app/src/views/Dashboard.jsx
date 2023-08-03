@@ -2,19 +2,20 @@ import { useState } from "react";
 
 import useLoginContext from "../context/LoginContext";
 import RoleSelectionCards from "../components/RoleSelectionCards";
-import {RoleMusician} from '../components/RoleMusician'
-import {RoleManager} from '../components/RoleManager'
-import {RoleTechnician} from '../components/RoleTechnician'
+import { RoleMusician } from "../components/RoleMusician";
+import { RoleManager } from "../components/RoleManager";
+import { RoleTechnician } from "../components/RoleTechnician";
 
 const Dashboard = () => {
+  const [isSelect, setIsSelect] = useState(null);
 
-  const [isSelect, setIsSelect] = useState(null)
-  
   const { store } = useLoginContext();
 
-  
-
-  if (!store.venueManagerId && !store.technicianID && !store.musicianId) {
+  if (
+    store?.venueManagerID === null &&
+    store?.musicianID === null &&
+    store?.technicianID === null
+  ) {
     return (
       <div className="flex flex-col items-center justify-center w-full min-h-screen bg-base-300">
         <h1 className="flex justify-center mt-10 text-4xl font-bold">
@@ -53,15 +54,38 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="flex justify-center w-full p-4 btn-group">
-          <button onClick={()=>setIsSelect('musician')} className={`${store.musicianId===1?'btn':'hidden'} ${isSelect==='musician'?'btn-active':''}`}>Musician</button>
-          <button onClick={()=>setIsSelect('manager')} className={`${store.venueManagerId===1?'btn':'hidden'} ${isSelect==='manager'?'btn-active':''}`}>Manager</button>
-          <button onClick={()=>setIsSelect('technician')} className={`${store.technicianID===1?'btn':'hidden'} ${isSelect==='technician'?'btn-active':''}`}>Technician</button>
+          <button
+            onClick={() => setIsSelect("musician")}
+            className={`${store.musicianID !== null ? "btn" : "hidden"} ${
+              isSelect === "musician" ? "btn-active" : ""
+            }`}
+          >
+            Musician
+          </button>
+          <button
+            onClick={() => setIsSelect("manager")}
+            className={`${store.venueManagerID !== null ? "btn" : "hidden"} ${
+              isSelect === "manager" ? "btn-active" : ""
+            }`}
+          >
+            Manager
+          </button>
+          <button
+            onClick={() => setIsSelect("technician")}
+            className={`${store.technicianID !== null ? "btn" : "hidden"} ${
+              isSelect === "technician" ? "btn-active" : ""
+            }`}
+          >
+            Technician
+          </button>
         </div>
-        {isSelect==='musician'?<RoleMusician/>
-        :isSelect==='manager'?<RoleManager/>
-        :isSelect==='technician'?<RoleTechnician/>:null}
-
-        
+        {isSelect === "musician" ? (
+          <RoleMusician />
+        ) : isSelect === "manager" ? (
+          <RoleManager />
+        ) : isSelect === "technician" ? (
+          <RoleTechnician />
+        ) : null}
       </div>
     </div>
   );
