@@ -15,8 +15,8 @@ const LoginContext = createContext();
 export const LoginProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [signupMode, setSignupMode] = useState(false);
-  const [musicianId, setMusicianID] = useState(null);
-  const [venueManagerId, setVenueManagerID] = useState(null);
+  const [musicianID, setMusicianID] = useState(null);
+  const [venueManagerID, setVenueManagerID] = useState(null);
   const [technicianID, setTechnicianID] = useState(null);
   const navigate = useNavigate();
 
@@ -64,7 +64,7 @@ export const LoginProvider = ({ children }) => {
     const loadingLogin = toast.loading("Validando...");
     setLoggedIn(true);
     navigate("/dashboard");
-    setUpdateToken(localStorage.getItem("jwt-token"))
+    localStorage.getItem("jwt-token");
     toast.success("¡Hola de nuevo!", {
       id: loadingLogin,
     });
@@ -96,10 +96,14 @@ export const LoginProvider = ({ children }) => {
 
   const handleLogout = () => {
     setLoggedIn(false);
-
     localStorage.removeItem("jwt-token");
-    navigate("/login");
+    setMusicianID(null);
+    setTechnicianID(null);
+    setVenueManagerID(null);
     toast.success("Te has desconectado");
+    setTimeout(() => {
+      navigate(0);
+    }, 1000);
   };
 
   const handleResetPassword = async (userInfo) => {
@@ -170,13 +174,7 @@ export const LoginProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    checkTokenValidity(handleLogout, handleValidationLogin);
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("jwt-token");
-    if(token){
+  const handleRolePermissions = (token) => {
     const decoded = jwt_decode(token);
     if (decoded?.sub.musician_id) {
       setMusicianID(decoded.sub.musician_id);
@@ -187,8 +185,15 @@ export const LoginProvider = ({ children }) => {
     if (decoded?.sub.venue_manager_id) {
       setVenueManagerID(decoded.sub.venue_manager_id);
     }
-  }
-  }, [loggedIn]);
+  };
+
+  useEffect(() => {
+    checkTokenValidity(
+      handleLogout,
+      handleValidationLogin,
+      handleRolePermissions
+    );
+  }, []);
 
   const actions = {
     setSignupMode,
@@ -199,17 +204,19 @@ export const LoginProvider = ({ children }) => {
     handleResetPassword,
     handleChangePassword,
     handleActiveAccount,
+    handleValidationLogin,
+    handleRolePermissions,
     setMusicianID,
     setTechnicianID,
-    setVenueManagerID
+    setVenueManagerID,
   };
 
   const store = {
     signupMode,
     loggedIn,
-    musicianId,
+    musicianID,
     technicianID,
-    venueManagerId,
+    venueManagerID,
   };
 
   return (
