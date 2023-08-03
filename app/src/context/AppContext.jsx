@@ -26,7 +26,7 @@ export const AppProvider = ({ children }) => {
           selectedRole?toast.success(`${selectedRole} registrado!`, {
             id: registerRole,
           }):null
-          actionsLoginContext.setUpdateToken(response.token)
+          localStorage.setItem('jwt-token', response.token)
         }
         if(response.status === 400){
           toast.error(`${response.message}`)

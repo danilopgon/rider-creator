@@ -18,7 +18,6 @@ export const LoginProvider = ({ children }) => {
   const [musicianId, setMusicianID] = useState(null);
   const [venueManagerId, setVenueManagerID] = useState(null);
   const [technicianID, setTechnicianID] = useState(null);
-  const[updateToken, setUpdateToken] = useState(null)
   const navigate = useNavigate();
 
   const handleLogin = async (userInfo) => {
@@ -176,10 +175,8 @@ export const LoginProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // const token = localStorage.getItem("jwt-token");
-    const token = updateToken
+    const token = localStorage.getItem("jwt-token");
     if(token){
-    
     const decoded = jwt_decode(token);
     if (decoded?.sub.musician_id) {
       setMusicianID(decoded.sub.musician_id);
@@ -204,8 +201,7 @@ export const LoginProvider = ({ children }) => {
     handleActiveAccount,
     setMusicianID,
     setTechnicianID,
-    setVenueManagerID,
-    setUpdateToken
+    setVenueManagerID
   };
 
   const store = {
