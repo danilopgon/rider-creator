@@ -3,19 +3,21 @@ import { Formik, Form, Field, ErrorMessage, setIn } from "formik";
 import * as Yup from "yup";
 import { CardUserBand } from "../components/CardUserBand";
 import Lottie from 'lottie-react'
-
+import { Link } from "react-router-dom";
 
 import check from "../assets/animations/UYite2OzKA.json";
-import { Link } from "react-router-dom";
+import getUserByUserName from "../services/getUserByUserName";
 
 export const CreateBand = () => {
   const [step, setStep] = useState(1);
   const [inputName, setInputName] = useState("");
   const [inputMember, setInputMember] = useState({});
+  const [usersListAutocomplete, setUsersListAutocomplete] = useState([]); // [{id: 1, name: 'Juan'},{id: 2, name: 'Pedro'}
   const [showAutocompleteUser, setShowAutocompleteUser] = useState(false);
   const [members, setMembers] = useState([])
   const [band, setBand] = useState({});
-
+  
+  
   const handleCheckFocus = (e) => {
     if (e.target.value.length > 0) {
       setShowAutocompleteUser(true);
@@ -36,6 +38,11 @@ export const CreateBand = () => {
   const handleUserInputMember = (e) => {
     setInputMember((prev) => ({ ...prev, name: e.target.value }));
   }
+
+  const handleFindUser = () => {
+    setUsersListAutocomplete(getUserByUserName(inputName)) 
+  }
+
   const handleAddMemberNotRegistred = () => {
     const member = members.find((member) => member.name === inputMember.name);
     if (member) {
