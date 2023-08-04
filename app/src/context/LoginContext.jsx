@@ -64,7 +64,9 @@ export const LoginProvider = ({ children }) => {
   const handleValidationLogin = () => {
     const loadingLogin = toast.loading("Validando...");
     setLoggedIn(true);
-    navigate("/dashboard");
+    if (location.pathname === "/" || location.pathname === "/login") {
+      navigate("/dashboard");
+    }
     localStorage.getItem("jwt-token");
     toast.success("¡Hola de nuevo!", {
       id: loadingLogin,
