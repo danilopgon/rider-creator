@@ -13,7 +13,7 @@ const CreateVenue = () => {
         <Formik
           initialValues={{
             name: "",
-            capacity: 0,
+            capacity: "",
             address: {
               city: "",
               street: "",
@@ -79,7 +79,7 @@ const CreateVenue = () => {
               <Field
                 name="name"
                 type="text"
-                className="input input-bordered w-full"
+                className="input input-bordered text-primary-content w-full "
                 placeholder="Sala 1"
               />
               <ErrorMessage
@@ -95,8 +95,8 @@ const CreateVenue = () => {
               <Field
                 name="capacity"
                 type="number"
-                className="input input-bordered w-full"
-                placeholder="100"
+                className="input input-bordered text-primary-content w-full"
+                placeholder="1000"
               />
               <ErrorMessage
                 component="div"
@@ -111,7 +111,7 @@ const CreateVenue = () => {
               <Field
                 name="address.city"
                 type="text"
-                className="input input-bordered w-full"
+                className="input input-bordered text-primary-content w-full "
                 placeholder="Córdoba"
               />
               <ErrorMessage
@@ -127,7 +127,7 @@ const CreateVenue = () => {
               <Field
                 name="address.street"
                 type="text"
-                className="input input-bordered w-full"
+                className="input input-bordered text-primary-content w-full "
                 placeholder="C. Falsa"
               />
               <ErrorMessage
@@ -143,7 +143,7 @@ const CreateVenue = () => {
               <Field
                 name="address.number"
                 type="number"
-                className="input input-bordered w-full"
+                className="input input-bordered text-primary-content w-full "
                 placeholder="123"
               />
               <ErrorMessage
@@ -159,7 +159,7 @@ const CreateVenue = () => {
               <Field
                 name="address.zip_code"
                 type="number"
-                className="input input-bordered w-full"
+                className="input input-bordered text-primary-content w-full "
                 placeholder="5000"
               />
               <ErrorMessage
@@ -175,7 +175,7 @@ const CreateVenue = () => {
               <Field
                 name="address.country"
                 type="text"
-                className="input input-bordered w-full"
+                className="input input-bordered text-primary-content w-full placeholder-opacity-25"
                 placeholder="España"
               />
               <ErrorMessage
@@ -191,7 +191,7 @@ const CreateVenue = () => {
               <Field
                 name="address.type"
                 type="text"
-                className="input input-bordered w-full"
+                className="input input-bordered text-primary-content w-full "
                 placeholder="Entrada para Artistas"
               />
               <ErrorMessage
