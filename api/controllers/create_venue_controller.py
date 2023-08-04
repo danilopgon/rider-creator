@@ -4,40 +4,6 @@ from models.venue import Venue
 from utils.db import db
 
 
-def create_venue(manager_id):
-    try:
-        body = request.get_json()
-        venue = Venue(
-            name=body["name"],
-            capacity=body["capacity"],
-            address=Address(
-                city=body["address"]["city"],
-                street=body["address"]["street"],
-                number=body["address"]["number"],
-                zip_code=body["address"]["zip_code"],
-                country=body["address"]["country"],
-                type=body["address"]["type"],
-            ),
-            manager_id=manager_id,
-        )
-        db.session.add(venue)
-        db.session.commit()
-        return (
-            jsonify(
-                {
-                    "message": "Venue created successfully",
-                    "venue": venue.serialize(),
-                }
-            ),
-            201,
-        )
-    except KeyError:
-        return jsonify({"message": "Invalid request body"}), 400
-    except Exception as error:
-        print(error)
-        return jsonify({"message": "Something went wrong"}), 500
-
-
 def get_all_venues():
     try:
         venues = Venue.query.all()
@@ -50,6 +16,52 @@ def get_all_venues():
             ),
             200,
         )
+    except Exception as error:
+        print(error)
+        return jsonify({"message": "Something went wrong"}), 500
+
+
+def create_venue(manager_id):
+    try:
+        body = request.get_json()
+
+        if not body["name"] or not body["capacity"] or not body["address"]:
+            return jsonify({"message": "Invalid request body"}), 400
+
+        venue_check = Venue.query.filter_by(name=body["name"]).first()
+
+        if venue_check:
+            return jsonify({"message": "Venue already exists"}), 400
+
+        venue = Venue(
+            name=body["name"],
+            capacity=body["capacity"],
+            manager_id=manager_id,
+        )
+        db.session.add(venue)
+        db.session.commit()
+        address = Address(
+            city=body["address"]["city"],
+            street=body["address"]["street"],
+            number=body["address"]["number"],
+            zip_code=body["address"]["zip_code"],
+            country=body["address"]["country"],
+            type=body["address"]["type"],
+            venue_id=venue.id,
+        )
+        db.session.add(address)
+        db.session.commit()
+        return (
+            jsonify(
+                {
+                    "message": "Venue created successfully",
+                    "venue": venue.serialize(),
+                }
+            ),
+            201,
+        )
+    except KeyError:
+        return jsonify({"message": "Invalid request body"}), 400
     except Exception as error:
         print(error)
         return jsonify({"message": "Something went wrong"}), 500

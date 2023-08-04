@@ -1,7 +1,11 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+import useAppContext from "../context/AppContext";
+
 const CreateVenue = () => {
+  const { actions } = useAppContext();
+
   return (
     <div className="flex justify-center items-center min-h-screen w-full bg-cover bg-[url('https://images.pexels.com/photos/2078076/pexels-photo-2078076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
       <div className="w-4/5 md:w-2/5 bg-base-100 p-10 rounded-lg my-10">
@@ -40,16 +44,14 @@ const CreateVenue = () => {
                 .required("Requerido")
                 .min(3, "Debe tener al menos 3 carácteres")
                 .max(50, "Debe tener 50 carácteres o menos"),
-              number: Yup.string()
-                .trim()
+              number: Yup.number()
                 .required("Requerido")
-                .min(1, "Debe tener al menos 1 caráctere")
-                .max(10, "Debe tener 10 carácteres o menos"),
-              zip_code: Yup.string()
-                .trim()
+                .min(1, "Debe tener al menos 1 carácter")
+                .max(10000, "Debe ser menor a 1000000"),
+              zip_code: Yup.number()
                 .required("Requerido")
-                .min(3, "Debe tener al menos 3 carácteres")
-                .max(10, "Debe tener 10 carácteres o menos"),
+                .min(1000, "Debe tener al menos 1 carácter")
+                .max(100000, "Debe ser menor a 1000000"),
               country: Yup.string()
                 .trim()
                 .required("Requerido")
@@ -64,7 +66,7 @@ const CreateVenue = () => {
           })}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
+              actions.handleVenueRegister(values);
               setSubmitting(false);
             }, 400);
           }}
@@ -140,7 +142,7 @@ const CreateVenue = () => {
               </label>
               <Field
                 name="address.number"
-                type="text"
+                type="number"
                 className="input input-bordered w-full"
                 placeholder="123"
               />
@@ -156,7 +158,7 @@ const CreateVenue = () => {
               </label>
               <Field
                 name="address.zip_code"
-                type="text"
+                type="number"
                 className="input input-bordered w-full"
                 placeholder="5000"
               />
