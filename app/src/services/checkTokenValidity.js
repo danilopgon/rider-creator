@@ -1,4 +1,8 @@
-const checkTokenValidity = async (handleLogout, handleValidationLogin) => {
+const checkTokenValidity = async (
+  handleLogout,
+  handleValidationLogin,
+  handleRolePermissions
+) => {
   const token = localStorage.getItem("jwt-token");
   if (token) {
     try {
@@ -17,6 +21,7 @@ const checkTokenValidity = async (handleLogout, handleValidationLogin) => {
         return;
       }
 
+      handleRolePermissions(token);
       return handleValidationLogin();
     } catch (error) {
       console.error("Failed to validate token:", error);

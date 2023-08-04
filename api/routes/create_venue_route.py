@@ -16,7 +16,7 @@ create_venue_route = Blueprint("create_venue_route", __name__)
 @create_venue_route.route("/", methods=["POST"])
 @jwt_required()
 def create_venue_controller():
-    manager_id = get_jwt_identity().get("manager_id")
+    manager_id = get_jwt_identity().get("venue_manager_id")
     return create_venue(manager_id)
 
 
