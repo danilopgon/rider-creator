@@ -46,6 +46,7 @@ export const LoginProvider = ({ children }) => {
         return;
       }
 
+      handleRolePermissions(localStorage.getItem("jwt-token"));
       setLoggedIn(true);
 
       toast.success("Estás conectado", {
