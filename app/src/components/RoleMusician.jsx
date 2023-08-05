@@ -56,7 +56,6 @@ export const RoleMusician = () => {
                   className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
                   type="text"
                   name="lugar"
-                  placeholder="Hotel Sur"
                 />
                 <ErrorMessage
                   name="lugar"
@@ -75,7 +74,6 @@ export const RoleMusician = () => {
                   className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
                   type="text"
                   name="sala"
-                  placeholder="Sala el Perro"
                 />
                 <ErrorMessage
                   name="sala"
@@ -94,7 +92,6 @@ export const RoleMusician = () => {
                   className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
                   type="text"
                   name="tecnico"
-                  placeholder="Busca técnico"
                 />
                 <ErrorMessage
                   name="tecnico"
