@@ -1,6 +1,0 @@
-migrations/
-instance/
-.env
-**/*.db
-
-
