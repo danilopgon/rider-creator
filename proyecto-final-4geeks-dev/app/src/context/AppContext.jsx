@@ -17,25 +17,26 @@ export const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const registerRoleToast = toast.loading("Registrando rol...");
     if (selectedRole) {
-      registerRole(selectedRole).then((response) => {
-        if (response.status === "success") {
-          selectedRole
-            ? toast.success(`${selectedRole} registrado!`, {
-                id: registerRoleToast,
+      registerRole(selectedRole)
+        .then((response) => {
+          if (response.status === "success") {
+            selectedRole
+              ? toast.success(`${selectedRole} registrado!`, {
+                id: registerRole,
               })
-            : null;
-          localStorage.setItem("jwt-token", response.token);
-        }
-        if (response.status === 400) {
-          toast.error(`${response.message}`);
-        }
-      });
+              : null;
+          }
+          if (response.status === 400) {
+            toast.error(`${response.message}`);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-
-    setSelectedRole(null);
   }, [selectedRole]);
+
 
   const handleVenueRegister = (values) => {
     const registerVenueToast = toast.loading("Registrando sala...");

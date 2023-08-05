@@ -1,10 +1,12 @@
 import useAppContext from "../context/AppContext";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 const RoleSelectionCards = () => {
   const { store, actions } = useAppContext();
+  const navigate = useNavigate();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-5 p-3">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-5 p-3 justify-center">
       <div className="card join-item bg-base-100 shadow-xl p-4 mb-4">
         <figure>
           <img
@@ -17,16 +19,10 @@ const RoleSelectionCards = () => {
           <h2 className="card-title">Músico</h2>
           <p>¡Es hora de hacer música! Quiero crear un rider para mi banda</p>
           <div className="justify-end card-actions">
-            <button
-              onClick={() => actions.handleRoleSubmit("musician")}
-              className="btn btn-primary"
-            >
-              Registrarme
-            </button>
+            <button onClick={() => actions.setSelectedRole('musician')} className="btn btn-primary">Músico</button>
           </div>
         </div>
       </div>
-
       <div className="card join-item bg-base-100 shadow-xl p-4 mb-4">
         <figure>
           <img
@@ -39,16 +35,10 @@ const RoleSelectionCards = () => {
           <h2 className="card-title">Promotor</h2>
           <p>Quiero organizar conciertos en mi sala</p>
           <div className="justify-end card-actions">
-            <button
-              onClick={() => actions.handleRoleSubmit("manager")}
-              className="btn btn-primary"
-            >
-              Registrarmse
-            </button>
+            <button onClick={() => actions.setSelectedRole('manager')} className="btn btn-primary">Promotor</button>
           </div>
         </div>
       </div>
-
       <div className="card join-item bg-base-100 shadow-xl p-4 mb-4">
         <figure>
           <img
@@ -61,14 +51,21 @@ const RoleSelectionCards = () => {
           <h2 className="card-title">Técnico</h2>
           <p>Quiero ofrecer mis servicios como profesional de sonido</p>
           <div className="justify-end card-actions">
-            <button
-              onClick={() => actions.handleRoleSubmit("technician")}
-              className="btn btn-primary"
-            >
-              Registrarme
-            </button>
+            <button onClick={() => actions.setSelectedRole('technician')} className="btn btn-primary">Técnico</button>
           </div>
         </div>
+      </div>
+      <div className="flex justify-center items-center"> 
+        <button
+          onClick={() => {
+            actions.handleRoleSubmit(store.selectedRole);
+            navigate("/dashboard"); 
+          }}
+          className="btn btn-primary"
+          disabled={!store.selectedRole}
+        >
+          {`Quiero continuar como ${store.selectedRole == null ? '' : store.selectedRole}`}
+        </button>
       </div>
     </div>
   );
