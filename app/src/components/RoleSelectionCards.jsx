@@ -76,7 +76,7 @@ const RoleSelectionCards = () => {
             className="btn btn-primary w-[40%]"
             onClick={actions.handleRoleSubmit}
           >
-            {`Confirmo que quiero continuar como ${actions.roleTranslation}`}
+            {`Confirmo que quiero continuar como ${actions.roleTranslation()}`}
           </button>
         )}
       </div>
