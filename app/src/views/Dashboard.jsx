@@ -30,13 +30,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div
-      className="min-h-screen hero bg-base-100"
-      style={{
-        backgroundImage:
-          "url(https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)",
-      }}
-    >
+    <div className="flex justify-center items-center min-h-screen w-full bg-cover bg-no-repeat bg-fixed bg-[url('https://images.pexels.com/photos/2078076/pexels-photo-2078076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
       <div className="pt-10 m-auto mt-4 rounded shadow-md w-96 bg-base-100">
         <div className="flex justify-center">
           <div className="text-center">
@@ -60,7 +54,7 @@ const Dashboard = () => {
               isSelect === "musician" ? "btn-active" : ""
             }`}
           >
-            Musician
+            Músico
           </button>
           <button
             onClick={() => setIsSelect("manager")}
@@ -68,7 +62,7 @@ const Dashboard = () => {
               isSelect === "manager" ? "btn-active" : ""
             }`}
           >
-            Manager
+            Promotor
           </button>
           <button
             onClick={() => setIsSelect("technician")}
@@ -76,7 +70,7 @@ const Dashboard = () => {
               isSelect === "technician" ? "btn-active" : ""
             }`}
           >
-            Technician
+            Técnico
           </button>
         </div>
         {isSelect === "musician" ? (

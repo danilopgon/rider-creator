@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext } from "react";
 import registerRole from "../services/userRolRegister";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -12,30 +12,28 @@ export const AppProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  const handleRoleSubmit = (values) => {
+  const handleRoleSelection = (values) => {
     setSelectedRole(values);
   };
 
-  useEffect(() => {
+  const handleRoleSubmit = async () => {
     const registerRoleToast = toast.loading("Registrando rol...");
-    if (selectedRole) {
-      registerRole(selectedRole).then((response) => {
-        if (response.status === "success") {
-          selectedRole
-            ? toast.success(`${selectedRole} registrado!`, {
-                id: registerRoleToast,
-              })
-            : null;
-          localStorage.setItem("jwt-token", response.token);
-        }
-        if (response.status === 400) {
-          toast.error(`${response.message}`);
-        }
-      });
-    }
+    const response = await registerRole(store.selectedRole);
+    const data = await response.json();
 
-    setSelectedRole(null);
-  }, [selectedRole]);
+    if (response.status === 200) {
+      localStorage.setItem("jwt-token", data.token);
+      toast.success("Rol registrado!", {
+        id: registerRoleToast,
+      });
+      setSelectedRole(null);
+      setTimeout(() => {
+        navigate(0);
+      }, 2000);
+    } else {
+      toast.error("Error al registrar rol", { id: registerRoleToast });
+    }
+  };
 
   const handleVenueRegister = (values) => {
     const registerVenueToast = toast.loading("Registrando sala...");
@@ -55,8 +53,27 @@ export const AppProvider = ({ children }) => {
     });
   };
 
+  const roleTranslation = (role) => {
+    switch (role) {
+      case "manager":
+        return "Promotor";
+      case "technician":
+        return "Técnico";
+      case "musician":
+        return "Músico";
+      default:
+        return "Rol no encontrado";
+    }
+  };
+
   const store = { selectedRole };
-  const actions = { setSelectedRole, handleRoleSubmit, handleVenueRegister };
+  const actions = {
+    setSelectedRole,
+    handleRoleSelection,
+    handleRoleSubmit,
+    handleVenueRegister,
+    roleTranslation,
+  };
 
   return (
     <AppContext.Provider value={{ store, actions }}>
