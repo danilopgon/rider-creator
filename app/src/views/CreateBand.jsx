@@ -22,12 +22,6 @@ export const CreateBand = () => {
   const [band, setBand] = useState({});
   
   const navigate = useNavigate();
-
-  const handleCheckFocus = (e) => {
-    
-      setShowAutocompleteUser(true);
-      setShowAutocompleteUser(false);
-  }
   
   const handleUserInputNameBand = (e) => {
     if(e.target.value.length === 0) {
@@ -70,11 +64,15 @@ export const CreateBand = () => {
     console.log(member)
     if (member) {
       setMembers((prev) => [...prev, member.user]);
+      console.log(member.user)
       setInputMember({});
       setInputMemberName('');
       setShowAutocompleteUser(false);
-      setBand((prev) => ({ ...prev, members: member }));
+      
+      
     }
+    console.log(members)
+    setBand((prev) => ({ ...prev, members: members }));
   }
   const handleAddMemberNotRegistred = () => {
     const member = members.find((member) => member.name === inputMemberName);
@@ -88,7 +86,7 @@ export const CreateBand = () => {
     setInputMember({});
     setInputMemberName('');
     setShowAutocompleteUser(false);
-    setBand((prev) => ({ ...prev, members: members }));
+    
     }else{
       toast.error('Debes ingresar un nombre')
     }
@@ -99,6 +97,8 @@ export const CreateBand = () => {
       return parseInt(member.id) != parseInt(id)}));
   }
 
+  console.log(band)
+  console.log(members)
 
   const handleCreateBand = (e) => {
     e.preventDefault();
@@ -107,6 +107,7 @@ export const CreateBand = () => {
       return
     }
     setBand((prev) => ({ ...prev, members: members }));
+    console.log(band)
     postNewBand(band)
     .then((res) => {
       console.log(res)
@@ -118,7 +119,9 @@ export const CreateBand = () => {
         return
       }
     })
+    
   }
+  
 
   const handleResetStates = () => {
     setInputName('');
