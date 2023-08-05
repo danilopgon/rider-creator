@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { CardUserBand } from "../components/CardUserBand";
 import Lottie from 'lottie-react'
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import check from "../assets/animations/UYite2OzKA.json";
 import getUserByUserName from "../services/getUserByUserName";
@@ -20,7 +21,8 @@ export const CreateBand = () => {
   const [members, setMembers] = useState([])
   const [band, setBand] = useState({});
   
-  
+  const navigate = useNavigate();
+
   const handleCheckFocus = (e) => {
     
       setShowAutocompleteUser(true);
@@ -36,6 +38,10 @@ export const CreateBand = () => {
   }
   const handleOnSubmitSaveNameBand = (e) => {
     e.preventDefault();
+    if(inputName.length === 0) {
+      toast.error("El nombre de la banda no puede estar vacío");
+      return
+    }
     setBand((prev) => ({ ...prev, name: inputName }));
     setStep(2);
   }
@@ -67,7 +73,7 @@ export const CreateBand = () => {
       setInputMember({});
       setInputMemberName('');
       setShowAutocompleteUser(false);
-      setBand((prev) => ({ ...prev, members: members }));
+      setBand((prev) => ({ ...prev, members: member }));
     }
   }
   const handleAddMemberNotRegistred = () => {
@@ -84,7 +90,7 @@ export const CreateBand = () => {
     setShowAutocompleteUser(false);
     setBand((prev) => ({ ...prev, members: members }));
     }else{
-      alert('Debes ingresar un nombre')
+      toast.error('Debes ingresar un nombre')
     }
   }
   const handleDeleteMember = (e) => {
@@ -97,7 +103,7 @@ export const CreateBand = () => {
   const handleCreateBand = (e) => {
     e.preventDefault();
     if(members.length < 1){
-      alert('Debes agregar al menos un miembro')
+      toast.error('Debes agregar al menos un miembro')
       return
     }
     setBand((prev) => ({ ...prev, members: members }));
@@ -112,11 +118,18 @@ export const CreateBand = () => {
         return
       }
     })
-    
-  
-    
   }
 
+  const handleResetStates = () => {
+    setInputName('');
+    setInputMember({});
+    setInputMemberName('');
+    setUsersListAutocomplete([]);
+    setShowAutocompleteUser(false);
+    setMembers([]);
+    setBand({});
+    navigate('/dashboard')
+  }
 
   const initialValues = {
     name: '',
@@ -157,6 +170,7 @@ export const CreateBand = () => {
           <button className="btn btn-primary w-[70%]" type="submit">
             Agregar Nombre
           </button>
+          <button className="btn btn-error w-[70%]" onClick={()=>window.my_modal_1.showModal()}>Cancelar</button>
         </Form>
       </Formik>
     </div>
@@ -199,10 +213,11 @@ export const CreateBand = () => {
             return <CardUserBand member={member} handler={handleDeleteMember} key={member.id}/>
           })}
       </div>
-      <div className="">
-      <button type="submit" className="btn btn-primary">
-        Finalizar
+      <div className=" flex gap-4">
+      <button type="submit" className="btn btn-primary w-[45%]">
+        Completar!
       </button>
+      <button type="button" className="btn btn-error w-[45%]" onClick={()=>window.my_modal_1.showModal()}>Cancelar</button>
       </div>
       
     </Form>
@@ -243,7 +258,17 @@ export const CreateBand = () => {
       {step === 1 ? page_1 : step === 2 ? page_2 : page_3}
       
       
-      
+        
+        <dialog id="my_modal_1" className="modal">
+          <form method="dialog" className="modal-box">
+            <h3 className="font-bold text-lg">Hello!</h3>
+            <p className="py-4">Segur@ que quieres cerrar sin guardar?</p>
+            <div className="modal-action">
+              <button type="button" className="btn btn-success" onClick={handleResetStates}>Aceptar</button>
+              <button  className="btn btn-error">Close</button>
+            </div>
+          </form>
+        </dialog>
     </section>
   );
 };
