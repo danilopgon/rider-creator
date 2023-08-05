@@ -11,17 +11,11 @@ const Dashboard = () => {
 
   const { store } = useLoginContext();
 
-<<<<<<< HEAD
-  console.log(store.venueManagerId)
-
-  if (store.venueManagerId === null && store.technicianID ===null && store.musicianId===null) {
-=======
   if (
     store?.venueManagerID === null &&
     store?.musicianID === null &&
     store?.technicianID === null
   ) {
->>>>>>> 59446773abb75d322ea9a2bb284e082706789936
     return (
       <div className="flex flex-col items-center justify-center w-full min-h-screen bg-base-300">
         <h1 className="flex justify-center mt-10 text-4xl font-bold">

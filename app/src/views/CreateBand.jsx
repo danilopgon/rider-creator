@@ -7,11 +7,14 @@ import { Link } from "react-router-dom";
 
 import check from "../assets/animations/UYite2OzKA.json";
 import getUserByUserName from "../services/getUserByUserName";
+import postNewBand from "../services/postNewBand";
+import { toast } from "react-hot-toast";
 
 export const CreateBand = () => {
   const [step, setStep] = useState(1);
   const [inputName, setInputName] = useState("");
-  const [inputMember, setInputMember] = useState({});
+  const [inputMember, setInputMember] = useState({});//mirar esto puede ser que lo elimine
+  const [inputMemberName, setInputMemberName] = useState("");//recibe el valor del input del usuario para agregar miembros
   const [usersListAutocomplete, setUsersListAutocomplete] = useState([]); // [{id: 1, name: 'Juan'},{id: 2, name: 'Pedro'}
   const [showAutocompleteUser, setShowAutocompleteUser] = useState(false);
   const [members, setMembers] = useState([])
@@ -19,14 +22,16 @@ export const CreateBand = () => {
   
   
   const handleCheckFocus = (e) => {
-    if (e.target.value.length > 0) {
+    
       setShowAutocompleteUser(true);
-    } else {
       setShowAutocompleteUser(false);
-    }
   }
   
   const handleUserInputNameBand = (e) => {
+    if(e.target.value.length === 0) {
+      toast.error("El nombre de la banda no puede estar vacío");
+      return
+    }
     setInputName(e.target.value);
   }
   const handleOnSubmitSaveNameBand = (e) => {
@@ -35,25 +40,49 @@ export const CreateBand = () => {
     setStep(2);
   }
   
-  const handleUserInputMember = (e) => {
-    setInputMember((prev) => ({ ...prev, name: e.target.value }));
+  
+
+  const handleFindUser = (e) => {
+    setInputMemberName(e.target.value);
+    if(inputMemberName?.length > 0) {
+      setShowAutocompleteUser(true);
+    }
+    if(inputMemberName.length === 0) {
+      setShowAutocompleteUser(false);
+    }
+    getUserByUserName(String(e.target.value))
+      .then((res) => {
+        setUsersListAutocomplete(res);
+      })
+    
   }
 
-  const handleFindUser = () => {
-    setUsersListAutocomplete(getUserByUserName(inputName)) 
+  const handleAddMember = (e) => {
+    const { id } = e.target.parentNode;
+    console.log(id)
+    const member = usersListAutocomplete?.find((member) => parseInt(member.user.id) === parseInt(id));
+    console.log(member)
+    if (member) {
+      setMembers((prev) => [...prev, member.user]);
+      setInputMember({});
+      setInputMemberName('');
+      setShowAutocompleteUser(false);
+      setBand((prev) => ({ ...prev, members: members }));
+    }
   }
-
   const handleAddMemberNotRegistred = () => {
-    const member = members.find((member) => member.name === inputMember.name);
+    const member = members.find((member) => member.name === inputMemberName);
     if (member) {
       alert("Este miembro ya existe");
       return;
     }
-    if(inputMember.name.length > 0) {
-    const member = {...inputMember, id: Math.random()*99999999999}
+    if(inputMemberName?.length > 0) {
+    const member = {'username':inputMemberName, id: Math.random()*99999999999}
     setMembers((prev) => [...prev, member]);
     setInputMember({});
-    
+    setInputMemberName('');
+    setShowAutocompleteUser(false);
+    setBand((prev) => ({ ...prev, members: members }));
     }else{
       alert('Debes ingresar un nombre')
     }
@@ -72,14 +101,23 @@ export const CreateBand = () => {
       return
     }
     setBand((prev) => ({ ...prev, members: members }));
-    setStep(3);
+    postNewBand(band)
+    .then((res) => {
+      console.log(res)
+      if(res.status == '200'){
+        toast.success("Banda creada con éxito");
+        setStep(3);
+      }else{
+        toast.error("Error al crear la banda" + res.message);
+        return
+      }
+    })
+    
+  
+    
   }
-  console.log(inputName)
-  console.log(band)
-  console.log(inputMember)
-  console.log(members)
-  
-  
+
+
   const initialValues = {
     name: '',
     musician: ''
@@ -131,23 +169,26 @@ export const CreateBand = () => {
   <Formik validationSchema={validationSchema} initialValues={initialValues}>
     <Form onSubmit={handleCreateBand} className="flex flex-col items-center gap-2 ring-0 active:border-0">
       <div className="md:w-[60%] w-[90%] flex flex-col flex-nowrap">
-        <label htmlFor="inputMusician " className="flex border rounded bg-slate-100 justify-evenly">
+        <label htmlFor="inputMusician " className="flex p-0 border rounded bg-slate-100 justify-evenly">
           <Field
-              className="w-[90%] bg-slate-100 text-xl border-0"
+              className="w-full p-1 m-0 text-xl border-0 bg-slate-100"
               name="name"
               type="text"
               id="inputMusician"
               placeholder="Agrega un miembro"
-              onChange={handleUserInputMember}
-              value={inputMember?.name?.length > 0 ? inputMember.name : ''}
+              onChange={handleFindUser} 
+              value={inputMemberName?.length !== 0 ? inputMemberName : ''}
           />
-          <button onClick={handleAddMemberNotRegistred} className="text-center w-10% bg-slate-100 text-2xl text-black" type="button">
-              +
-          </button>
         </label>
-        <div className={`absolute border bg-slate-50 w-[18rem] h-auto flex flex-col mt-9 ${showAutocompleteUser?'null':'hidden'}`}>
-          <div className="h-8">
-            <p>user not found</p>
+        <div className={`absolute border bg-slate-50 w-[18rem] h-auto flex flex-col mt-9 ${showAutocompleteUser?'':'hidden'}`}>
+          <div className="h-auto">
+            {!usersListAutocomplete?.length > 0 && <ul className="p-2"><li className="flex items-center justify-between">{inputMemberName} <button type="button" className="text-2xl" onClick={handleAddMemberNotRegistred}>+</button></li> <li>user not found</li></ul>}
+            
+              {usersListAutocomplete.length > 0 && <ul>{usersListAutocomplete?.map((user) => {
+                return (<li className="flex items-center justify-between p-2" id={user.user.id} key={user.user.id}>{user.user.username }<button onClick={handleAddMember} type="button" className="text-2xl">+</button></li>)
+              })}</ul>}
+            
+            
           </div>
         </div>
       </div>
@@ -155,7 +196,7 @@ export const CreateBand = () => {
       
       <div className="h-[42vh] w-[100%] sm:w-[90%] flex flex-col gap-2 p-2 overflow-y-auto">
           {members.map((member) => {
-            return <CardUserBand member={member} handler={handleDeleteMember}/>
+            return <CardUserBand member={member} handler={handleDeleteMember} key={member.id}/>
           })}
       </div>
       <div className="">

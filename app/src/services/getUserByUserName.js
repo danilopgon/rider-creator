@@ -1,21 +1,19 @@
-const getUserByUserName = async (userName) => {
+const getUserByUserName = async (name) => {
     try{
-    if(!userName) throw new Error('userName is required')
-    const user = {
-        userName
-    }
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/find-user-email/`,{
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(user)
-    });
-    if(response.status === 'error') throw new Error(response.message);
-    const data = await response.json();
-    return data.user;
-
+        const userName = String(name);
+        if(userName === "") throw new Error("User name is empty");
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer \"${localStorage.getItem('jwt-token')}\"`);
+        myHeaders.append("Content-Type", "application/json");
+        
+        const requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
+          redirect: 'follow'
+        };
+        let response = await fetch(`${import.meta.env.VITE_API_URL}api/users/${userName}`, requestOptions)
+        let data = await response.json()
+        return data.users
     }
     catch(error){ 
         return error;
