@@ -16,7 +16,7 @@ export const CardUserBand = ({ member, handler }) => {
         <h3 className="ms-4">{member.username||member.name}</h3>
       </div>
       <div className="ms-auto">
-        <button onClick={handler} className="btn btn-error">
+        <button type="button" onClick={handler} className="btn btn-error">
           Eliminar
         </button>
       </div>

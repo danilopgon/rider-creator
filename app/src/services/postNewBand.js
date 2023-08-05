@@ -1,7 +1,6 @@
 const postNewBand = async (band) => {
     console.log(band)
     if(!band) throw new Error('Band is empty')
-    if(!band.name) throw new Error('Band name is empty')
     if(!band.members) throw new Error('Band members is empty')
     if(band.members.length === 0) throw new Error('Band members is empty')
     const parseBand = JSON.stringify(band)
