@@ -53,8 +53,8 @@ export const AppProvider = ({ children }) => {
     });
   };
 
-  const roleTranslation = (role) => {
-    switch (role) {
+  const roleTranslation = () => {
+    switch (selectedRole) {
       case "manager":
         return "Promotor";
       case "technician":
