@@ -1,7 +1,7 @@
 import useAppContext from "../context/AppContext";
-import { useState } from "react";
+
 const RoleSelectionCards = () => {
-  const { store, actions } = useAppContext();
+  const { actions, store } = useAppContext();
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-5 p-3">
@@ -18,7 +18,7 @@ const RoleSelectionCards = () => {
           <p>¡Es hora de hacer música! Quiero crear un rider para mi banda</p>
           <div className="justify-end card-actions">
             <button
-              onClick={() => actions.handleRoleSubmit("musician")}
+              onClick={() => actions.handleRoleSelection("musician")}
               className="btn btn-primary"
             >
               Registrarme
@@ -40,10 +40,10 @@ const RoleSelectionCards = () => {
           <p>Quiero organizar conciertos en mi sala</p>
           <div className="justify-end card-actions">
             <button
-              onClick={() => actions.handleRoleSubmit("manager")}
+              onClick={() => actions.handleRoleSelection("manager")}
               className="btn btn-primary"
             >
-              Registrarmse
+              Registrarme
             </button>
           </div>
         </div>
@@ -62,13 +62,23 @@ const RoleSelectionCards = () => {
           <p>Quiero ofrecer mis servicios como profesional de sonido</p>
           <div className="justify-end card-actions">
             <button
-              onClick={() => actions.handleRoleSubmit("technician")}
+              onClick={() => actions.handleRoleSelection("technician")}
               className="btn btn-primary"
             >
               Registrarme
             </button>
           </div>
         </div>
+      </div>
+      <div className=" col-span-3 flex justify-center">
+        {store.selectedRole && (
+          <button
+            className="btn btn-primary w-[40%]"
+            onClick={actions.handleRoleSubmit}
+          >
+            {`Confirmo que quiero continuar como ${actions.roleTranslation()}`}
+          </button>
+        )}
       </div>
     </div>
   );
