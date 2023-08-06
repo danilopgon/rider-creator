@@ -8,7 +8,7 @@ export const BandCreator = ({children}) => {
   
   const { store, actions } = useBand();
   const{nameBand, step} = store;
-  const { handleInputNameBand, handleOnsubmitBandName, setStep } = actions;
+  const {handleCancelledCreateBand, setStep } = actions;
 
  
 
@@ -17,7 +17,7 @@ export const BandCreator = ({children}) => {
 
   return (
     
-    <section className="w-screen h-auto lg:w-[90%] flex flex-col items-center gap-4 p-4">
+    <section className="w-screen h-auto  flex flex-col items-center gap-4 p-4">
       <h1 className="text-3xl">
         {step === 1
           ? "Crea tu banda"
@@ -25,7 +25,7 @@ export const BandCreator = ({children}) => {
           ? "Agrega Miembros"
           : "Completado!!!"}
       </h1>
-      <div className="lg:w-[30%] md:w-[40%] w-[40%] md:w-[70%]  flex justify-between">
+      <div className="lg:w-[20%] md:w-[25%] w-[40%] md:w-[70%]  flex justify-between">
         <button
           onClick={() => setStep(1)}
           className={`flex items-center justify-center w-8 h-8 p-0 text-3xl text-black rounded-full md:w-16 md:h-16 ${
@@ -44,7 +44,21 @@ export const BandCreator = ({children}) => {
           2
         </button>
       </div>
+      <div className="w-[90%] sm:w-[60%] md:w-[50%] lg:w-[35%]">
       {step === 1 ? <StepOne/> : step === 2 ? <StepTwo/> : <StepFinal />}
+      </div>
+      
+      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">Segur@ que quieres cerrar sin guardar?</p>
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn btn-success" onClick={handleCancelledCreateBand}>Aceptar</button>
+            <button className="btn btn-error">Close</button>
+          </div>
+        </form>
+      </dialog>
     </section>
   );
 };

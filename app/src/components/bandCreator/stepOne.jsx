@@ -36,7 +36,7 @@ export const StepOne = () => {
 
   return (
     <div>
-      <div className="w-full h-full bg-slate-300 sm:w-[80%] lg:w-[50%] xl:w-[40%] flex flex-col gap-4 p-4 rounded">
+      <div className="w-full h-full bg-slate-300 sm:w-[80%] lg:w-[50%] xl:w-[100%] flex flex-col gap-4 p-4 rounded">
         <h2 className="my-10 text-4xl font-semibold text-center text-black">
           La musica te <br />
           llama!
@@ -61,9 +61,7 @@ export const StepOne = () => {
             <button className="btn btn-primary w-[70%]" type="submit">
               Agregar Nombre
             </button>
-            <Link to="/dashboard">
-              Cancelar
-            </Link>
+            <button className="btn btn-error w-[70%]" type="button" onClick={()=>window.my_modal_5.showModal()}>Cancelar</button>
           </Form>
         </Formik>
       </div>

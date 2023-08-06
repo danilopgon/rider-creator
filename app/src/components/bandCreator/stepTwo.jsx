@@ -45,7 +45,7 @@ export const StepTwo = () => {
       console.log("findUser", findUser)
 
   return (
-    <div className="w-full h-full bg-slate-300 sm:w-[80%] lg:w-[50%] xl:w-[40%] flex flex-col gap-4 p-4 rounded">
+    <div className="w-full h-full bg-slate-300 sm:w-full lg:w-full xl:w-full flex flex-col gap-4 p-4 rounded">
       <h2 className="text-xl font-semibold text-center text-black ">
         Agrega miembros a tu banda
       </h2>
@@ -128,10 +128,11 @@ export const StepTwo = () => {
               );
             })}
           </div>
-          <div className="">
+          <div className="flex gap-4">
             <button type="submit" className="btn btn-primary">
               Finalizar
             </button>
+            <button className="btn btn-error" type="button" onClick={()=>window.my_modal_5.showModal()}>Cancelar</button>
           </div>
         </Form>
       </Formik>

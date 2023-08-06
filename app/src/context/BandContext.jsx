@@ -1,10 +1,9 @@
 import { useContext, createContext, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import getUserByUserName from "../services/getUserByUserName";
 import postNewBand from "../services/postNewBand";
-
+import { useNavigate } from "react-router-dom";
 
 const BandContext = createContext();
 
@@ -18,7 +17,7 @@ export const BandProvider = ({ children }) => {
   const [band, setBand] = useState({});
   const [showAutocompleteUser, setShowAutocompleteUser] = useState(false);
 
-
+  const navigate = useNavigate();
 
   const handleInputNameBand = (e) => {
     setNameBand(e.target.value);   
@@ -102,6 +101,16 @@ export const BandProvider = ({ children }) => {
     setMembers(newMembers);
   }
   
+  const handleCancelledCreateBand = () => {
+    setStep(1);
+    setNameBand("");
+    setFindUser("");
+    setUserList([]);
+    setMembers([]);
+    setBand({});
+    setShowAutocompleteUser(false);
+    navigate("/dashboard")
+  }
 
   const store = {
     step,
@@ -128,6 +137,7 @@ export const BandProvider = ({ children }) => {
     handleAddMemberNotRegistred,
     handleOnSubmitAddMember,
     handleDeleteMember,
+    handleCancelledCreateBand,
   };
 
   return (
