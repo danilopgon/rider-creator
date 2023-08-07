@@ -7,7 +7,7 @@ from .venue_manager import Venue_Manager
 class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    username = db.Column(db.String(255))
+    username = db.Column(db.String(255), unique=True)
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean, nullable=False, default=False)

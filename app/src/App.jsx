@@ -17,6 +17,10 @@ import PrivateRoutes from "./components/PrivateRoutes";
 import { CreateBand } from "./views/CreateBand";
 import CreateVenue from "./views/CreateVenue";
 
+
+
+
+
 function App() {
   return (
     <BrowserRouter basename="/">
