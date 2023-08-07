@@ -9,15 +9,14 @@ export const CardUserBand = ({ member, handler }) => {
         <img
           className="w-full h-full border rounded-full"
           src={""}
-          alt={member.name}
+          alt={member.username||member.name}
         />
       </div>
       <div className="flex flex-col items-center">
-        <h3 className="ms-4">{member.name}</h3>
-        <p className="ms-4">instrument</p>
+        <h3 className="ms-4">{member.username||member.name}</h3>
       </div>
       <div className="ms-auto">
-        <button onClick={handler} className="btn btn-error">
+        <button type="button" onClick={handler} className="btn btn-error">
           Eliminar
         </button>
       </div>

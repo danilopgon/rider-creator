@@ -7,7 +7,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 create_band = Blueprint('create_band', __name__)
 
-@create_band.route('/', methods=['POST', 'GET','PUT', 'DELETE'])
+@create_band.route('/', methods=['POST', 'GET','PUT'])
 def band():
     if request.method == 'POST':
         return create_band_controller()
