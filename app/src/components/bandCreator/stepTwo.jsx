@@ -40,12 +40,8 @@ export const StepTwo = () => {
           .max(100, 'La sala no puede tener más de 100 caracteres'),
       });
 
-      console.log("members", members)
-      console.log("userList", userList)
-      console.log("findUser", findUser)
-
   return (
-    <div className="w-full h-full bg-slate-300 sm:w-full lg:w-full xl:w-full flex flex-col gap-4 p-4 rounded">
+    <div className="flex flex-col w-full h-full gap-4 p-4 rounded bg-slate-300 sm:w-full lg:w-full xl:w-full">
       <h2 className="text-xl font-semibold text-center text-black ">
         Agrega miembros a tu banda
       </h2>
