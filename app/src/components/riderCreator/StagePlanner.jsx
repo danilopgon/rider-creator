@@ -10,10 +10,14 @@ const StagePlanner = () => {
     const maxSquares = 64;
     const newSquare = {
       id: squares.length + 1,
-      x: values.x,
-      y: values.y,
+      width: values.width,
+      height: values.height,
     };
-    if (squares.length < maxSquares && newSquare.x < 8 && newSquare.y < 8) {
+    if (
+      squares.length < maxSquares &&
+      newSquare.width < 8 &&
+      newSquare.height < 8
+    ) {
       setSquares([...squares, newSquare]);
     }
     resetForm();
@@ -21,19 +25,14 @@ const StagePlanner = () => {
 
   return (
     <div className=" flex flex-col lg:flex-row-reverse min-h-screen max-w-screen justify-center items-center">
-      <div className="flex justify-center items-center w-screen max-h-screen lg:w-3/5 aspect-square border-4 border-red-200 relative">
+      <div className="flex justify-center items-center w-80 h-80 md:w-[800px] md:h-[800px] border-4 border-red-200 relative">
         {squares.map((square) => (
-          <Draggable
-            key={square.id}
-            bounds="parent"
-            grid={[8, 8]}
-            defaultPosition={{ x: 0, y: 0 }}
-          >
+          <Draggable key={square.id} bounds="parent" scale={1}>
             <div
-              className={`bg-red-500 aspect-square text-center text-white font-bold text-2xl] absolute`}
+              className={`bg-red-500 p-5 text-center aspect-square text-white font-bold text-2xl] absolute`}
               style={{
-                height: `calc(12.5% * ${square.y})`,
-                width: `calc(12.5% * ${square.x})`,
+                height: `calc(10 * ${square.height}%)`,
+                width: `calc(10 * ${square.width})%`,
               }}
             >
               {square.id}
@@ -42,21 +41,21 @@ const StagePlanner = () => {
         ))}
       </div>
       <Formik
-        initialValues={{ x: 1, y: 1 }}
+        initialValues={{ width: 1, height: 1 }}
         validationSchema={Yup.object({
-          x: Yup.number().required("Required"),
-          y: Yup.number().required("Required"),
+          width: Yup.number().required("Required"),
+          height: Yup.number().required("Required"),
         })}
         onSubmit={handleAddSquare}
       >
         <Form>
           <div>
-            <label htmlFor="x">X:</label>
-            <Field name="x" type="number" />
+            <label htmlFor="width">Width:</label>
+            <Field name="width" type="number" />
           </div>
           <div>
-            <label htmlFor="y">Y:</label>
-            <Field name="y" type="number" />
+            <label htmlFor="height">Height:</label>
+            <Field name="height" type="number" />
           </div>
           <button type="submit">Add Square</button>
         </Form>
