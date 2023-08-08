@@ -16,10 +16,7 @@ import RiderCreation from "./views/RiderCreation";
 import PrivateRoutes from "./components/PrivateRoutes";
 import { CreateBand } from "./views/CreateBand";
 import CreateVenue from "./views/CreateVenue";
-
-
-
-
+import StagePlanner from "./components/riderCreator/StagePlanner";
 
 function App() {
   return (
@@ -38,6 +35,7 @@ function App() {
               path="/activation/:token"
               element={<PageActivation />}
             ></Route>
+            <Route path="test-drag" element={<StagePlanner />} />
             <Route path="*" element={<NotFound />}></Route>
             <Route element={<PrivateRoutes />}>
               <Route path="/dashboard" element={<Dashboard />} />
