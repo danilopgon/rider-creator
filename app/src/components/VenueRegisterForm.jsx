@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import useAppContext from "../context/useAppContext";
+import useAppContext from "../context/AppContext";
 
 const VenueRegisterForm = () => {
   const { actions } = useAppContext();
