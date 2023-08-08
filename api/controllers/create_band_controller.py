@@ -6,14 +6,19 @@ from models.musician_no_registred import Musician_Not_Registred
 
 
 from flask import Flask, jsonify, request
-
+import json
 
 def create_band_controller():
     try:
-        data = request.get_json()
-        name = data['name']
-        members = data['members']
+        print(request.data)
+        data = json.loads(request.data)
         
+        name = data.get('name')
+        if not name:
+            return jsonify({'message': 'Missing data name'}), 400
+        members = data.get('members')
+        if not members or len(members) == 0:
+            return jsonify({'message': 'Missing data members'}), 400
         if not name or not  members or len(members) == 0:
             return jsonify({'message': 'Missing data'}), 400
         if Band.query.filter_by(name=name).first():
@@ -28,25 +33,26 @@ def create_band_controller():
             band_member = Band_Members()
             band_member.band_id = find_band.id
             
-            find_member = Musician.query.filter_by(id=member.get('id')).first()
+            find_member = Musician.query.filter_by(user_id=member.get('id')).first()
             if find_member is None:
                 not_regirstred = Musician_Not_Registred()
-                not_regirstred.name = member.get('name')
+                not_regirstred.name = member.get('username')
                 not_regirstred.band_id = find_band.id
                 db.session.add(not_regirstred)
                 db.session.commit()
-                find_not_regirstred = Musician_Not_Registred.query.filter_by(name=member.get('name')).first()
-                band_member.musician_not_registred_id = find_not_regirstred.id
+                find_not_registred = Musician_Not_Registred.query.filter_by(name=member.get('username')).first()
+                band_member.musician_not_registred_id = find_not_registred.id
                 band_member.musician_id = None
                 db.session.add(band_member)
                 db.session.commit()
-                return jsonify({'message': 'Band created', 'msg': 'user not regitred'}), 200
-                
-            band_member.musician_id = member.get('id')
-            band_member.musician_not_registred_id = None
-            db.session.add(band_member)
-            db.session.commit()
-        return jsonify({'message': 'Band created'}), 200
+                #return jsonify({'status': 200, 'message': 'Band created', 'msg': 'user not regitred'}), 200
+            if find_member is not None:  
+                band_member.musician_id = member.get('musician_id')
+                band_member.musician_not_registred_id = None
+                db.session.add(band_member)
+                db.session.commit()
+                #
+        return jsonify({'status': 200,'message': 'Band created'}), 200
     except ValueError as e:
         print(jsonify({'message': str(e)}))
         return jsonify({'message': str(e)}), 500
