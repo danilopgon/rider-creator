@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import Draggable from "react-draggable";
@@ -20,8 +20,8 @@ const StagePlanner = () => {
   };
 
   return (
-    <>
-      <div className="flex flex-wrap justify-center items-center w-screen h-screen lg:w-96 lg:h-96 border-4 border-red-200 relative">
+    <div className=" flex flex-col lg:flex-row-reverse min-h-screen max-w-screen justify-center items-center">
+      <div className="flex justify-center items-center w-screen max-h-screen lg:w-3/5 aspect-square border-4 border-red-200 relative">
         {squares.map((square) => (
           <Draggable
             key={square.id}
@@ -61,7 +61,7 @@ const StagePlanner = () => {
           <button type="submit">Add Square</button>
         </Form>
       </Formik>
-    </>
+    </div>
   );
 };
 
