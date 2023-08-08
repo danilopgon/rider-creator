@@ -7,14 +7,13 @@ const StagePlanner = () => {
   const [squares, setSquares] = useState([]);
 
   const handleAddSquare = (values, { resetForm }) => {
-    const maxSquares = 32;
+    const maxSquares = 64;
     const newSquare = {
       id: squares.length + 1,
       x: values.x,
       y: values.y,
-      position: "absolute",
     };
-    if (squares.length < maxSquares && newSquare.x < 8 && newSquare.y < 4) {
+    if (squares.length < maxSquares && newSquare.x < 8 && newSquare.y < 8) {
       setSquares([...squares, newSquare]);
     }
     resetForm();
@@ -22,40 +21,45 @@ const StagePlanner = () => {
 
   return (
     <>
-      <div className="grid grid-cols-8 grid-rows-4 justify-center items-center w-screen lg:w-2/4 h-96 border-4 border-red-200 relative">
+      <div className="flex flex-wrap justify-center items-center w-screen h-screen lg:w-96 lg:h-96 border-4 border-red-200 relative">
         {squares.map((square) => (
           <Draggable
             key={square.id}
             bounds="parent"
-            defaultPosition={{ x: square.x, y: square.y }}
+            grid={[8, 8]}
+            defaultPosition={{ x: 0, y: 0 }}
           >
-            <div className="bg-red-500 col-span-1 row-span-1">{square.id}</div>
+            <div
+              className={`bg-red-500 aspect-square text-center text-white font-bold text-2xl] absolute`}
+              style={{
+                height: `calc(12.5% * ${square.y})`,
+                width: `calc(12.5% * ${square.x})`,
+              }}
+            >
+              {square.id}
+            </div>
           </Draggable>
         ))}
       </div>
       <Formik
-        initialValues={{ x: 0, y: 0 }}
+        initialValues={{ x: 1, y: 1 }}
         validationSchema={Yup.object({
           x: Yup.number().required("Required"),
           y: Yup.number().required("Required"),
         })}
         onSubmit={handleAddSquare}
       >
-        {({ errors, touched }) => (
-          <Form>
-            <div>
-              <label htmlFor="x">X:</label>
-              <Field name="x" type="number" />
-              {errors.x && touched.x ? <div>{errors.x}</div> : null}
-            </div>
-            <div>
-              <label htmlFor="y">Y:</label>
-              <Field name="y" type="number" />
-              {errors.y && touched.y ? <div>{errors.y}</div> : null}
-            </div>
-            <button type="submit">Add Square</button>
-          </Form>
-        )}
+        <Form>
+          <div>
+            <label htmlFor="x">X:</label>
+            <Field name="x" type="number" />
+          </div>
+          <div>
+            <label htmlFor="y">Y:</label>
+            <Field name="y" type="number" />
+          </div>
+          <button type="submit">Add Square</button>
+        </Form>
       </Formik>
     </>
   );
