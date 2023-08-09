@@ -81,11 +81,50 @@ def get_all_riders_by_band_controller(id):
         riders = Rider.query.filter_by(band_id=id).all()
         if riders is None:
             return jsonify({"msg": "Riders not found"}), 404
-        return jsonify([rider.serialize() for rider in riders]), 200
+        return jsonify({'riders':[rider.serialize() for rider in riders]}), 200
     except ValueError as e:
         print(e)
         return jsonify({"msg": "Internal server error"}), 500
 
 
 def update_rider_controller():
-    pass
+    try:
+        if request.data is None:
+            return jsonify({"msg": "Missing data in request"}), 400
+        data = json.loads(request.data)
+        id = data.get('id')
+        rider = Rider.query.filter_by(id=id).first()
+        if rider is None:
+            return jsonify({"msg": "Rider not found"}), 404
+        rider.technician_id=data.get('technician_id')
+        rider.date=datetime.strptime(data.get('date'), "%Y-%m-%d %H:%M:%S")
+        rider.gears=data.get('gears')
+        db.session.update(rider)
+        db.session.commit()
+        for gear in rider.gears:
+            rider_gear = Rider_Gear.query.filter_by(rider_id=id, gear_id=gear.get('gear_id')).first()
+            if rider_gear is None:
+                return jsonify({"msg": "Rider gear not found"}), 404
+            rider_gear.coordinates_x=gear.get('coordinates_x')
+            rider_gear.coordinates_y=gear.get('coordinates_y')
+            rider_gear.notes=gear.get('notes')
+            rider_gear.order=gear.get('order')
+            db.session.update(rider_gear)
+            db.session.commit()
+            return jsonify({"msg": "Rider updated successfully"}), 200
+    except ValueError as e:
+        print(e)
+        return jsonify({"msg": "Internal server error"}), 500
+    
+    
+def delete_rider_controller():
+    try:
+        find_rider = Rider.query.filter_by(id=id).first()
+        if find_rider is None:
+            return jsonify({"msg": "Rider not found"}), 404
+        db.session.delete(find_rider)
+        db.session.commit()
+        return jsonify({"msg": "Rider deleted successfully"}), 200
+    except ValueError as e:
+        print(e)
+        return jsonify({"msg": "Internal server error"}), 500
