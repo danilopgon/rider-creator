@@ -8,3 +8,11 @@ class Band_Members(db.Model):
     musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"), nullable=True)
     musician_not_registred_id = db.Column(db.Integer, db.ForeignKey("musician_not_registred.id"), nullable=True)
     band_id = db.Column(db.Integer, db.ForeignKey("bands.id"), nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "musician_id": self.musician_id,
+            "musician_not_registred_id": self.musician_not_registred_id,
+            "band_id": self.band_id
+        }
