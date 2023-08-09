@@ -1,10 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import Draggable from "react-draggable";
 
 const StagePlanner = () => {
   const [squares, setSquares] = useState([]);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+  const [squareScale, setSquareScale] = useState(1);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (size.width < 768) {
+      setIsMobile(true);
+      setIsDesktop(false);
+      setIsTablet(false);
+    } else if (size.width < 1024) {
+      setIsTablet(true);
+      setIsDesktop(false);
+      setIsMobile(false);
+    } else {
+      setIsDesktop(true);
+      setIsMobile(false);
+      setIsTablet(false);
+    }
+  }, [size]);
+
+  useEffect(() => {
+    if (size.width < 768 && isMobile) {
+      setSquareScale(1);
+    } else if (size.width < 1024 && isTablet) {
+      setSquareScale(1.25);
+    } else if (size.width > 1024 && isDesktop) {
+      setSquareScale(2);
+    }
+  }, [squares, size, isMobile, isTablet, isDesktop]);
 
   const handleAddSquare = (values, { resetForm }) => {
     const maxSquares = 64;
@@ -27,7 +66,7 @@ const StagePlanner = () => {
     <div className="flex flex-col md:flex-row-reverse min-h-screen max-w-screen justify-center items-center gap-5 p-10">
       <div className=" w-80 h-80 md:scale-125 xl:scale-[2] border-4 border-red-200 relative">
         {squares.map((square) => (
-          <Draggable key={square.id} bounds="parent" scale={1}>
+          <Draggable key={square.id} bounds="parent" scale={squareScale}>
             <div
               className={`bg-red-500 p-5 text-center aspect-square text-white font-bold text-2xl] absolute`}
               style={{
