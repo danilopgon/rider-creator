@@ -24,7 +24,7 @@ const StagePlanner = () => {
       setIsMobile(true);
       setIsDesktop(false);
       setIsTablet(false);
-    } else if (size.width < 1024) {
+    } else if (size.width < 1024 && size.width > 768) {
       setIsTablet(true);
       setIsDesktop(false);
       setIsMobile(false);
