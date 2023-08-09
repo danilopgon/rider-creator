@@ -20,6 +20,7 @@ python_version = "3.11"
 
 [scripts]
 start = "flask --app api/app.py run"
+build = "cd app && npm install && npm run build && cd .. && pipenv install && pipenv shell"
 init = "flask db init"
 migrate = "flask db migrate"
 upgrade = "flask db upgrade"

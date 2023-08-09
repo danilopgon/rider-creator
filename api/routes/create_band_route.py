@@ -39,4 +39,6 @@ def band_by_name(name):
 def get_band_by_member():
     if request.method == 'GET':
         current_user = get_jwt_identity()
+        if current_user is None:
+            return jsonify({"msg": "Missing Authorization Header, token is empty"}), 401
         return get_all_bands_by_musician_id_controller(current_user)

@@ -1,16 +1,13 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
 import useBand from "../../context/BandContext.jsx";
 
 
 export const StepOne = () => {
 
   const { store, actions } = useBand();
-  const{nameBand, step} = store;
-  const { handleInputNameBand, handleOnsubmitBandName, setStep } = actions;
+  const{nameBand} = store;
+  const { handleInputNameBand, handleOnsubmitBandName} = actions;
 
     const initialValues = {
         name: '',
@@ -29,10 +26,6 @@ export const StepOne = () => {
           .min(3, 'La sala debe tener al menos 5 caracteres')
           .max(100, 'La sala no puede tener más de 100 caracteres'),
       });
-
-
-      console.log("nameBand", nameBand)
-      
 
   return (
     <div>
