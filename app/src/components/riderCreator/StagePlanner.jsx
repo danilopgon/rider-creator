@@ -24,15 +24,15 @@ const StagePlanner = () => {
   };
 
   return (
-    <div className=" flex flex-col lg:flex-row-reverse min-h-screen max-w-screen justify-center items-center">
-      <div className="flex justify-center items-center w-80 h-80 md:w-[800px] md:h-[800px] border-4 border-red-200 relative">
+    <div className="flex flex-col md:flex-row-reverse min-h-screen max-w-screen justify-center items-center gap-5 p-10">
+      <div className=" w-80 h-80 md:scale-125 xl:scale-[2] border-4 border-red-200 relative">
         {squares.map((square) => (
           <Draggable key={square.id} bounds="parent" scale={1}>
             <div
               className={`bg-red-500 p-5 text-center aspect-square text-white font-bold text-2xl] absolute`}
               style={{
-                height: `calc(10 * ${square.height}%)`,
-                width: `calc(10 * ${square.width})%`,
+                height: `calc(16 * ${square.height}%)`,
+                width: `calc(16 * ${square.width}%)`,
               }}
             >
               {square.id}
@@ -48,7 +48,7 @@ const StagePlanner = () => {
         })}
         onSubmit={handleAddSquare}
       >
-        <Form>
+        <Form className=" m-10 grid-cols-1">
           <div>
             <label htmlFor="width">Width:</label>
             <Field name="width" type="number" />
