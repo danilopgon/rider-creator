@@ -1,6 +1,12 @@
-const getBand = async () => {
+export const getBand = async () => {
     try {
-        const token = 'YOUR_JWT_TOKEN'; 
+      
+        const token = localStorage.getItem('jwt-token'); 
+
+        if (!token) {
+            throw new Error('No se encontró ningún token en el localStorage.');
+        }
+
         const headers = {
             Authorization: `Bearer ${token}`
         };
@@ -13,7 +19,7 @@ const getBand = async () => {
         console.log(response);
 
         if (!response.ok) {
-            throw new Error('Error in getBand');
+            throw new Error('Error en getBand');
         }
 
         const data = await response.json();
@@ -24,5 +30,3 @@ const getBand = async () => {
         throw error;
     }
 };
-
-export default getBand;

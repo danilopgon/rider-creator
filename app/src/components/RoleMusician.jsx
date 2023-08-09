@@ -1,17 +1,21 @@
 import { Link } from "react-router-dom";
+import { getBand } from "../services/getBand";
+import { useEffect } from "react";
 
 export const RoleMusician = () => {
 
-  const initialValues = {
-    lugar: "",
-    sala: "",
-    tecnico: "",
-  };
+  useEffect(() => {
+    async function fetchData() {
+        try {
+            const bandData = await getBand();
+            console.log(bandData);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
-  const handleSubmit = (values, { resetForm }) => {
-    console.log(values);
-    resetForm();
-  };
+    fetchData();
+}, []);
 
   return (
     <section>
