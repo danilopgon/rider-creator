@@ -71,13 +71,12 @@ def create_rider_controller():
         return jsonify({"msg": "Internal server error"}), 500        
     
 
-        
-
-
-
 
 def get_all_riders_by_band_controller(id):
     try:
+        if id is None:
+            return jsonify({"msg": "Missing data in request, id is empty"}), 400
+        
         riders = Rider.query.filter_by(band_id=id).all()
         if riders is None:
             return jsonify({"msg": "Riders not found"}), 404

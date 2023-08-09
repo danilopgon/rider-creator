@@ -10,10 +10,12 @@ def rider():
     if request.method == 'POST':
         return create_rider_controller()
     
-    if request.method == 'GET':
-        return get_all_riders_by_band_controller()
-    
     if request.method == 'PUT':
         return update_rider_controller()
     if request.method == 'DELETE':
         return delete_rider_controller()
+
+@create_rider.route('/by-band/<id>', methods=['GET'])
+def rider_by_band(id):
+    if request.method == 'GET':
+        return get_all_riders_by_band_controller(id)

@@ -21,5 +21,6 @@ class Rider(db.Model):
             "venue_id": self.venue_id,
             "technician_id": self.technician_id,
             "date": self.date,
-            "coordinates": self.coordinates,
+            "gears": [gear.serialize() for gear in self.gear if gear.rider_id == self.id]
+
         }
