@@ -98,7 +98,6 @@ def update_rider_controller():
         rider.technician_id=data.get('technician_id')
         rider.date=datetime.strptime(data.get('date'), "%Y-%m-%d %H:%M:%S")
         rider.gears=data.get('gears')
-        db.session.update(rider)
         db.session.commit()
         for gear in rider.gears:
             rider_gear = Rider_Gear.query.filter_by(rider_id=id, gear_id=gear.get('gear_id')).first()
@@ -108,7 +107,6 @@ def update_rider_controller():
             rider_gear.coordinates_y=gear.get('coordinates_y')
             rider_gear.notes=gear.get('notes')
             rider_gear.order=gear.get('order')
-            db.session.update(rider_gear)
             db.session.commit()
             return jsonify({"msg": "Rider updated successfully"}), 200
     except ValueError as e:

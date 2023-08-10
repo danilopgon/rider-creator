@@ -35,6 +35,7 @@ def band_by_name(name):
         return get_band_by_name_controller(name)
     
 @create_band.route('/band_by_user', methods=['GET'])
+@jwt_required()
 def get_band_by_member():
     if request.method == 'GET':
         verify_jwt_in_request()

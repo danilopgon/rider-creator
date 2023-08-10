@@ -144,6 +144,7 @@ except ValueError as e:
     
 try:
     def get_all_bands_by_musician_id_controller(id):
+        print(f"este es el id : {id}")
         if id is None:
             return jsonify({'message': 'Missing data'}), 400
         find_musician = Musician.query.filter_by(user_id=id).first()
