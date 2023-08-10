@@ -63,7 +63,7 @@ const StagePlanner = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row-reverse min-h-screen max-w-screen justify-center items-center gap-5 p-10">
+    <div className="flex flex-col md:flex-row-reverse min-h-screen max-w-screen justify-center items-center md:gap-12 xl:gap-48">
       <div className=" w-80 h-80 md:scale-125 xl:scale-[2] border-4 border-red-200 relative">
         {squares.map((square) => (
           <Draggable key={square.id} bounds="parent" scale={squareScale}>

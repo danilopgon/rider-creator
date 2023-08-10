@@ -1,16 +1,31 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import registerRole from "../services/userRolRegister";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
 import registerVenue from "../services/registerVenue";
+import getDefaultGear from "../services/getDefaultGear";
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [selectedRole, setSelectedRole] = useState(null);
+  const [defaultGear, setDefaultGear] = useState([]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    try {
+      const setGear = async () => {
+        const response = await getDefaultGear();
+        const data = await response.json();
+        setDefaultGear(data);
+      };
+      setGear();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const handleRoleSelection = (values) => {
     setSelectedRole(values);
@@ -23,7 +38,7 @@ export const AppProvider = ({ children }) => {
 
     if (response.status === 200) {
       localStorage.setItem("jwt-token", data.token);
-      toast.success("Rol registrado!", {
+      toast.success("¡Rol registrado!", {
         id: registerRoleToast,
       });
       setSelectedRole(null);
@@ -66,7 +81,7 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const store = { selectedRole };
+  const store = { selectedRole, defaultGear };
   const actions = {
     setSelectedRole,
     handleRoleSelection,
