@@ -35,10 +35,12 @@ def band_by_name(name):
         return get_band_by_name_controller(name)
     
 @create_band.route('/band_by_user', methods=['GET'])
-@jwt_required
+@jwt_required()
 def get_band_by_member():
-    if request.method == 'GET':
+    try:
         current_user = get_jwt_identity()
         if current_user is None:
             return jsonify({"msg": "Missing Authorization Header, token is empty"}), 401
-        return get_all_bands_by_musician_id_controller(current_user)
+        return get_all_bands_by_musician_id_controller(current_user['id'])
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 500
