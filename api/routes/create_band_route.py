@@ -23,6 +23,7 @@ def band():
 
     
 @create_band.route('/<id>', methods=['GET', 'DELETE'])
+@jwt_required()
 def band_by_id(id):
     if request.method == 'GET':
         return get_band_by_id_controller(id)
@@ -30,6 +31,7 @@ def band_by_id(id):
         return delete_band_by_id_controller(id)
     
 @create_band.route('/name/<name>', methods=['GET'])
+@jwt_required()
 def band_by_name(name):
     if request.method == 'GET':
         return get_band_by_name_controller(name)

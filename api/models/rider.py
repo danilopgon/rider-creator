@@ -9,17 +9,16 @@ class Rider(db.Model):
     technician_id = db.Column(db.Integer, db.ForeignKey("technician.id"), nullable=True)
     date = db.Column(db.DateTime, nullable=False)
 
-    gear = db.relationship("Gear", backref="rider", lazy='dynamic', secondary="rider_gear")
+    gears = db.relationship("Gear", backref="rider", lazy='dynamic', secondary="rider_gear")
    
     
     def serialize(self):
-        print(self.gear)
         return {
             "id": self.id,
             "band_id": self.band_id,
             "venue_id": self.venue_id,
             "technician_id": self.technician_id,
             "date": self.date,
-            "gears": [gear.serialize() for gear in self.gear]
+            "gears": []
 
         }

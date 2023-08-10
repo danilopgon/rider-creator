@@ -80,10 +80,17 @@ def get_all_riders_by_band_controller(id):
         riders = Rider.query.filter_by(band_id=id).all()
         if riders is None:
             return jsonify({"msg": "Riders not found"}), 404
-        return jsonify({'riders':[rider.serialize() for rider in riders]}), 200
+        
+        riders_serialezed = [rider.serialize() for rider in riders]
+        for rider in riders_serialezed:
+            gears = Rider_Gear.query.filter_by(rider_id=rider.get('id')).all()
+            rider.get('gears').extend([gear.serialize() for gear in gears])    
+        return jsonify({'riders':riders_serialezed}), 200
     except ValueError as e:
         print(e)
         return jsonify({"msg": "Internal server error"}), 500
+
+
 
 
 def update_rider_controller():
@@ -114,7 +121,7 @@ def update_rider_controller():
         return jsonify({"msg": "Internal server error"}), 500
     
     
-def delete_rider_controller():
+def delete_rider_controller(id):
     try:
         find_rider = Rider.query.filter_by(id=id).first()
         if find_rider is None:
