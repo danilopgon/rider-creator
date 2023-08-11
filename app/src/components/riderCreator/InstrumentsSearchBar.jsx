@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 import useAppContext from "../../context/AppContext";
 import useRiderCreationContext from "../../context/RiderCreationContext";
+import translateInstrumentMap from "../../utils/translateInstrument";
 
 const InstrumentsSearchBar = () => {
   const { actions: useRiderActions } = useRiderCreationContext();
@@ -11,11 +12,19 @@ const InstrumentsSearchBar = () => {
   const { defaultGear } = appStore;
 
   useEffect(() => {
-    const filteredGear = defaultGear.filter((gear) => {
+    const translatedGear = defaultGear.map((gear) => {
+      return translateInstrumentMap[gear.type];
+    });
+
+    const filteredGear = translatedGear.filter((gear) => {
       return gear.type.toLowerCase().includes(values.searchQuery.toLowerCase());
     });
 
-    console.log(filteredGear);
+    if (values.searchQuery === "") {
+      useRiderActions.setSearchResults([]);
+      return;
+    }
+
     useRiderActions.setSearchResults(filteredGear);
   }, [values.searchQuery, defaultGear]);
 
