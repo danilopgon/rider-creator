@@ -15,6 +15,9 @@ export const AppProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (defaultGear.length !== 0) {
+      return;
+    }
     try {
       const setGear = async () => {
         const response = await getDefaultGear();

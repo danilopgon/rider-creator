@@ -1,15 +1,28 @@
 import { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
+import { Formik, Field, Form } from "formik";
 import Draggable from "react-draggable";
 
+import instrumentToIconMap from "../../utils/instrumentToIcon";
+import useAppContext from "../../context/AppContext";
+
 const StagePlanner = () => {
-  const [squares, setSquares] = useState([]);
+  const [instruments, setInstruments] = useState([]);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [isDesktop, setIsDesktop] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
-  const [squareScale, setSquareScale] = useState(1);
+  const [instrumentScale, setInstrumentScale] = useState(1);
+  const [searchResults, setSearchResults] = useState([]);
+
+  const { store } = useAppContext();
+
+  useEffect(() => {
+    const filteredGear = store.defaultGear.filter((gear) => {
+      return gear.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+
+    setSearchResults(filteredGear);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,27 +50,27 @@ const StagePlanner = () => {
 
   useEffect(() => {
     if (size.width < 768 && isMobile) {
-      setSquareScale(1);
+      setInstrumentScale(1);
     } else if (size.width < 1024 && isTablet) {
-      setSquareScale(1.25);
+      setInstrumentScale(1.25);
     } else if (size.width > 1024 && isDesktop) {
-      setSquareScale(2);
+      setInstrumentScale(2);
     }
-  }, [squares, size, isMobile, isTablet, isDesktop]);
+  }, [instruments, size, isMobile, isTablet, isDesktop]);
 
-  const handleAddSquare = (values, { resetForm }) => {
-    const maxSquares = 64;
-    const newSquare = {
-      id: squares.length + 1,
+  const handleAddInstrument = (values, { resetForm }) => {
+    const maxInstruments = 64;
+    const newInstrument = {
+      id: instruments.length + 1,
       width: values.width,
       height: values.height,
     };
     if (
-      squares.length < maxSquares &&
-      newSquare.width < 8 &&
-      newSquare.height < 8
+      instruments.length < maxInstruments &&
+      newInstrument.width < 8 &&
+      newInstrument.height < 8
     ) {
-      setSquares([...squares, newSquare]);
+      setInstruments([...instruments, newInstrument]);
     }
     resetForm();
   };
@@ -65,38 +78,46 @@ const StagePlanner = () => {
   return (
     <div className="flex flex-col md:flex-row-reverse min-h-screen max-w-screen justify-center items-center md:gap-12 xl:gap-48">
       <div className=" w-80 h-80 md:scale-125 xl:scale-[2] border-4 border-red-200 relative">
-        {squares.map((square) => (
-          <Draggable key={square.id} bounds="parent" scale={squareScale}>
+        {instruments.map((instrument) => (
+          <Draggable
+            key={instrument.id}
+            bounds="parent"
+            scale={instrumentScale}
+          >
             <div
               className={`bg-red-500 p-5 text-center aspect-square text-white font-bold text-2xl] absolute`}
               style={{
-                height: `calc(16 * ${square.height}%)`,
-                width: `calc(16 * ${square.width}%)`,
+                height: `calc(16 * ${instrument.height}%)`,
+                width: `calc(16 * ${instrument.width}%)`,
               }}
             >
-              {square.id}
+              {instrumentToIcon(instrument)}
             </div>
           </Draggable>
         ))}
       </div>
       <Formik
-        initialValues={{ width: 1, height: 1 }}
-        validationSchema={Yup.object({
-          width: Yup.number().required("Required"),
-          height: Yup.number().required("Required"),
-        })}
-        onSubmit={handleAddSquare}
+        initialValues={{ searchQuery: "" }}
+        onSubmit={(values) => {
+          handleAddInstrument(values);
+        }}
       >
-        <Form className=" m-10 grid-cols-1">
-          <div>
-            <label htmlFor="width">Width:</label>
-            <Field name="width" type="number" />
-          </div>
-          <div>
-            <label htmlFor="height">Height:</label>
-            <Field name="height" type="number" />
-          </div>
-          <button type="submit">Add Square</button>
+        <Form className="m-10 grid-cols-1">
+          <Field name="searchQuery">
+            {({ field }) => (
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => alert(e.target.value)}
+                {...field}
+              />
+            )}
+          </Field>
+          <button type="submit">Add instrument</button>
+          {searchResults.map((result) => (
+            <div key={result}>{result}</div>
+          ))}
         </Form>
       </Formik>
     </div>
