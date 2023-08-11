@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import { LoginProvider } from "./context/LoginContext";
 import { AppProvider } from "./context/AppContext";
+import { RiderCreationProvider } from "./context/RiderCreationContext";
 import NavBar from "./components/NavBar";
 import MainToaster from "./components/MainToaster";
 import Home from "./views/Home";
@@ -16,7 +17,7 @@ import RiderCreation from "./views/RiderCreation";
 import PrivateRoutes from "./components/PrivateRoutes";
 import { CreateBand } from "./views/CreateBand";
 import CreateVenue from "./views/CreateVenue";
-import StagePlanner from "./components/riderCreator/StagePlanner";
+import StagePlanner from "./components/riderCreator/stagePlanner";
 
 function App() {
   return (
@@ -24,26 +25,31 @@ function App() {
       <MainToaster />
       <LoginProvider>
         <AppProvider>
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+          <RiderCreationProvider>
+            <NavBar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
 
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/recover-password/:token" element={<NewPassword />} />
-            <Route
-              path="/activation/:token"
-              element={<PageActivation />}
-            ></Route>
-            <Route path="test-drag" element={<StagePlanner />} />
-            <Route path="*" element={<NotFound />}></Route>
-            <Route element={<PrivateRoutes />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/ridercreation" element={<RiderCreation />} />
-              <Route path="/createband" element={<CreateBand />} />
-              <Route path="/create-venue" element={<CreateVenue />} />
-            </Route>
-          </Routes>
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route
+                path="/recover-password/:token"
+                element={<NewPassword />}
+              />
+              <Route
+                path="/activation/:token"
+                element={<PageActivation />}
+              ></Route>
+              <Route path="test-drag" element={<StagePlanner />} />
+              <Route path="*" element={<NotFound />}></Route>
+              <Route element={<PrivateRoutes />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/ridercreation" element={<RiderCreation />} />
+                <Route path="/createband" element={<CreateBand />} />
+                <Route path="/create-venue" element={<CreateVenue />} />
+              </Route>
+            </Routes>
+          </RiderCreationProvider>
         </AppProvider>
       </LoginProvider>
     </BrowserRouter>

@@ -1,28 +1,20 @@
 import { useEffect, useState } from "react";
-import { Formik, Field, Form } from "formik";
 import Draggable from "react-draggable";
 
-import instrumentToIconMap from "../../utils/instrumentToIcon";
-import useAppContext from "../../context/AppContext";
+import useRiderCreationContext from "../../context/RiderCreationContext";
+import InstrumentsSearchBarFormik from "./InstrumentsSearchBar";
 
 const StagePlanner = () => {
-  const [instruments, setInstruments] = useState([]);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [isDesktop, setIsDesktop] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [instrumentScale, setInstrumentScale] = useState(1);
-  const [searchResults, setSearchResults] = useState([]);
 
-  const { store } = useAppContext();
-
-  useEffect(() => {
-    const filteredGear = store.defaultGear.filter((gear) => {
-      return gear.toLowerCase().includes(searchQuery.toLowerCase());
-    });
-
-    setSearchResults(filteredGear);
-  }, []);
+  const { store: useRiderStore, actions: useRiderActions } =
+    useRiderCreationContext();
+  const { searchResults, selectedInstruments } = useRiderStore;
+  const { setSelectedInstruments } = useRiderActions;
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,21 +48,21 @@ const StagePlanner = () => {
     } else if (size.width > 1024 && isDesktop) {
       setInstrumentScale(2);
     }
-  }, [instruments, size, isMobile, isTablet, isDesktop]);
+  }, [selectedInstruments, size, isMobile, isTablet, isDesktop]);
 
   const handleAddInstrument = (values, { resetForm }) => {
     const maxInstruments = 64;
     const newInstrument = {
-      id: instruments.length + 1,
+      id: selectedInstruments.length + 1,
       width: values.width,
       height: values.height,
     };
     if (
-      instruments.length < maxInstruments &&
+      selectedInstruments.length < maxInstruments &&
       newInstrument.width < 8 &&
       newInstrument.height < 8
     ) {
-      setInstruments([...instruments, newInstrument]);
+      setSelectedInstruments([...selectedInstruments, newInstrument]);
     }
     resetForm();
   };
@@ -78,7 +70,7 @@ const StagePlanner = () => {
   return (
     <div className="flex flex-col md:flex-row-reverse min-h-screen max-w-screen justify-center items-center md:gap-12 xl:gap-48">
       <div className=" w-80 h-80 md:scale-125 xl:scale-[2] border-4 border-red-200 relative">
-        {instruments.map((instrument) => (
+        {selectedInstruments?.map((instrument) => (
           <Draggable
             key={instrument.id}
             bounds="parent"
@@ -90,36 +82,24 @@ const StagePlanner = () => {
                 height: `calc(16 * ${instrument.height}%)`,
                 width: `calc(16 * ${instrument.width}%)`,
               }}
-            >
-              {instrumentToIcon(instrument)}
-            </div>
+            ></div>
           </Draggable>
         ))}
       </div>
-      <Formik
-        initialValues={{ searchQuery: "" }}
-        onSubmit={(values) => {
-          handleAddInstrument(values);
-        }}
-      >
-        <Form className="m-10 grid-cols-1">
-          <Field name="searchQuery">
-            {({ field }) => (
-              <input
-                type="text"
-                placeholder="Search"
-                value={searchQuery}
-                onChange={(e) => alert(e.target.value)}
-                {...field}
-              />
-            )}
-          </Field>
-          <button type="submit">Add instrument</button>
-          {searchResults.map((result) => (
-            <div key={result}>{result}</div>
+
+      <div>
+        <InstrumentsSearchBarFormik onSubmit={handleAddInstrument} />
+        <div className="flex flex-col join">
+          {searchResults?.map((instrument) => (
+            <div
+              key={instrument.id}
+              className="flex items-center gap-4 cursor-pointer"
+            >
+              {instrument.type}
+            </div>
           ))}
-        </Form>
-      </Formik>
+        </div>
+      </div>
     </div>
   );
 };
