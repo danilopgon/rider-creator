@@ -12,13 +12,9 @@ const InstrumentsSearchBar = () => {
   const { values, setFieldValue } = useFormikContext();
   const { searchResults } = useRiderStore;
   const { setSearchResults } = useRiderActions;
-  const { defaultGear } = appStore;
+  const { defaultGear, translatedGear } = appStore;
 
   useEffect(() => {
-    const translatedGear = defaultGear.map((gear) => {
-      return translateInstrumentMap[gear.type];
-    });
-
     const filteredGear = translatedGear.filter((gear) => {
       return gear.type.toLowerCase().includes(values.searchQuery.toLowerCase());
     });
@@ -31,7 +27,7 @@ const InstrumentsSearchBar = () => {
     }
 
     setSearchResults(filteredGear);
-  }, [values.searchQuery, defaultGear]);
+  }, [values.searchQuery, defaultGear, translatedGear]);
 
   const onSelectValue = (type) => {
     setFieldValue("searchQuery", type);
@@ -39,14 +35,23 @@ const InstrumentsSearchBar = () => {
 
   return (
     <>
-      <Form className="form-control my-5">
+      <Form className="form-control m-5">
         <div className="input-group">
           <Field
             name="searchQuery"
             placeholder="Buscar instrumento"
             className="input input-bordered"
           />
-          <button className="btn btn-square">
+
+          <button
+            type="submit"
+            className="btn btn-square"
+            disabled={
+              !translatedGear
+                .map((gear) => gear.type)
+                .includes(values.searchQuery)
+            }
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -58,7 +63,7 @@ const InstrumentsSearchBar = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                d="M12 4v16m8-8H4"
               />
             </svg>
           </button>
@@ -66,18 +71,23 @@ const InstrumentsSearchBar = () => {
       </Form>
 
       <div
-        className={`dropdown mb-32 ${
+        className={`dropdown mx-5 mb-32  ${
           searchResults.length === 0 ? "" : "dropdown-open"
         }`}
       >
-        <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-          {searchResults?.map((instrument) => (
-            <li key={instrument.id}>
-              <a onClick={() => onSelectValue(instrument.type)}>
-                {instrument.type}
-              </a>
-            </li>
-          ))}
+        <ul className=" p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box  w-52">
+          {searchResults?.map((instrument, index) => {
+            if (values.searchQuery.length < 2 && index >= 5) {
+              return null;
+            }
+            return (
+              <li key={instrument.id}>
+                <a onClick={() => onSelectValue(instrument.type)}>
+                  {instrument.type}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </>

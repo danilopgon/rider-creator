@@ -5,12 +5,14 @@ import { toast } from "react-hot-toast";
 
 import registerVenue from "../services/registerVenue";
 import getDefaultGear from "../services/getDefaultGear";
+import translateInstrumentMap from "../utils/translateInstrument";
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [selectedRole, setSelectedRole] = useState(null);
   const [defaultGear, setDefaultGear] = useState([]);
+  const [translatedGear, setTranslatedGear] = useState([]);
   const [isDesktop, setIsDesktop] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
@@ -26,6 +28,10 @@ export const AppProvider = ({ children }) => {
         const response = await getDefaultGear();
         const data = await response.json();
         setDefaultGear(data);
+        const spanishGear = data.map((gear) => {
+          return translateInstrumentMap[gear.type];
+        });
+        setTranslatedGear(spanishGear);
       };
       setGear();
     } catch (error) {
@@ -87,7 +93,14 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const store = { selectedRole, defaultGear, isDesktop, isMobile, isTablet };
+  const store = {
+    selectedRole,
+    defaultGear,
+    isDesktop,
+    isMobile,
+    isTablet,
+    translatedGear,
+  };
   const actions = {
     setSelectedRole,
     handleRoleSelection,
@@ -97,6 +110,7 @@ export const AppProvider = ({ children }) => {
     setIsDesktop,
     setIsMobile,
     setIsTablet,
+    setTranslatedGear,
   };
 
   return (
