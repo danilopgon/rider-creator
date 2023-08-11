@@ -19,7 +19,7 @@ python-dotenv = "*"
 python_version = "3.11"
 
 [scripts]
-start = "flask --app api/app.py run"
+start = "flask --app api/app.py run --port=10000"
 build = "cd app && npm install && npm run build && cd .. && pipenv install" 
 init = "flask db init"
 migrate = "flask db migrate"
