@@ -19,8 +19,6 @@ const InstrumentsSearchBar = () => {
       return gear.type.toLowerCase().includes(values.searchQuery.toLowerCase());
     });
 
-    console.log(searchResults);
-
     if (values.searchQuery === "") {
       setSearchResults([]);
       return;

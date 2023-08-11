@@ -4,6 +4,7 @@ import Draggable from "react-draggable";
 import useAppContext from "../../context/AppContext";
 import useRiderCreationContext from "../../context/RiderCreationContext";
 import InstrumentsSearchBarFormik from "./InstrumentsSearchBar";
+import instrumentToIconMap from "../../utils/instrumentToIcon";
 
 const StagePlanner = () => {
   const { store: appStore, actions: appActions } = useAppContext();
@@ -14,7 +15,7 @@ const StagePlanner = () => {
     useRiderStore;
   const { setSelectedInstruments, setSize, setInstrumentScale } =
     useRiderActions;
-  const { isDesktop, isMobile, isTablet } = appStore;
+  const { isDesktop, isMobile, isTablet, translatedGear } = appStore;
   const { setIsDesktop, setIsMobile, setIsTablet } = appActions;
 
   useEffect(() => {
@@ -53,11 +54,21 @@ const StagePlanner = () => {
 
   const handleAddInstrument = (values, { resetForm }) => {
     const maxInstruments = 64;
+    const findInstrument = translatedGear.find(
+      (instrument) => instrument.type === values.searchQuery
+    );
+
+    const { type, size } = findInstrument;
+
+    const sizeMultiplier = size === "Small" ? 1 : size === "Medium" ? 2 : 3;
     const newInstrument = {
       id: selectedInstruments.length + 1,
-      width: values.width,
-      height: values.height,
+      type,
+      width: sizeMultiplier,
+      height: sizeMultiplier,
+      icon: `./src/assets/icons/${instrumentToIconMap[type]}`,
     };
+
     if (
       selectedInstruments.length < maxInstruments &&
       newInstrument.width < 8 &&
@@ -78,12 +89,21 @@ const StagePlanner = () => {
             scale={instrumentScale}
           >
             <div
-              className={`bg-red-500 p-5 text-center aspect-square text-white font-bold text-2xl] absolute`}
+              className={`text-center aspect-square absolute flex justify-center items-center fill-base-content`}
               style={{
                 height: `calc(16 * ${instrument.height}%)`,
                 width: `calc(16 * ${instrument.width}%)`,
               }}
-            ></div>
+            >
+              <img
+                src={instrument.icon}
+                alt={instrument.type}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            </div>
           </Draggable>
         ))}
       </div>
