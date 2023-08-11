@@ -5,15 +5,20 @@ import getUserByUserName from "../services/getUserByUserName";
 import postNewBand from "../services/postNewBand";
 import { useNavigate } from "react-router-dom";
 
+import useLoginContext from "./LoginContext";
+
 const BandContext = createContext();
 
 export const BandProvider = ({ children }) => {
+
+  const {store} = useLoginContext();
+  const {myUser} = store;
 
   const [step, setStep] = useState(1);
   const [nameBand, setNameBand] = useState("");
   const [findUser, setFindUser] = useState("");
   const [userList, setUserList] = useState([]);
-  const [members, setMembers] = useState([]);
+  const [members, setMembers] = useState([{...myUser}]);
   const [band, setBand] = useState({});
   const [showAutocompleteUser, setShowAutocompleteUser] = useState(false);
 
@@ -44,7 +49,6 @@ export const BandProvider = ({ children }) => {
     }
     getUserByUserName(findUser)
     .then((res) => {
-      console.log(res)
       if(res.length === 0){
         toast.error("No se encontraron usuarios registrados, puedes guardar uno nuevo");
       }
@@ -52,11 +56,16 @@ export const BandProvider = ({ children }) => {
     })
   }, [findUser]);
 
+  useEffect(() => {
+
+  }, []);
+
   const handleSelectUser  = (e) => {
     const {id} = e.target.parentNode;
     console.log(id)
     console.log(userList)
     const user = userList.find((user) => parseInt(user?.user.id) == parseInt(id));
+    
     console.log(user)
     setMembers([...members, user.user]);
     console.log(members)
@@ -83,18 +92,23 @@ export const BandProvider = ({ children }) => {
       return;
     }
     setBand({name: nameBand, members: members});
+  }
+
+  useEffect(() => {
+    if (band.name === undefined) {
+      return;
+    }
     postNewBand(band)
     .then((res) => {
-      console.log(res)
       if (res.status =='200'){
         setStep(3)
         toast.success("Banda creada con exito");
+      }else{
+        toast.error(res.message);
       }
     })
-    toast.success("Banda creada con exito");
+  },[band])
 
-  }
-  console.log(band)
   const handleDeleteMember = (e) => {
     const {id} = e.target.parentNode.parentNode;
     const newMembers = members.filter((member) => parseInt(member.id) !== parseInt(id));
@@ -112,7 +126,7 @@ export const BandProvider = ({ children }) => {
     navigate("/dashboard")
   }
 
-  const store = {
+  const storeBand = {
     step,
     nameBand,
     findUser,
@@ -122,7 +136,7 @@ export const BandProvider = ({ children }) => {
     showAutocompleteUser,
 
   };
-  const actions = {
+  const actionsBand = {
     setStep,
     setNameBand,
     setFindUser,
@@ -141,7 +155,7 @@ export const BandProvider = ({ children }) => {
   };
 
   return (
-    <BandContext.Provider value={{ store, actions }}>
+    <BandContext.Provider value={{ storeBand, actionsBand }}>
       {children}
     </BandContext.Provider>
   );

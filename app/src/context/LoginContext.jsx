@@ -18,6 +18,7 @@ export const LoginProvider = ({ children }) => {
   const [musicianID, setMusicianID] = useState(null);
   const [venueManagerID, setVenueManagerID] = useState(null);
   const [technicianID, setTechnicianID] = useState(null);
+  const [myUser, setMyUser] = useState({});
   const navigate = useNavigate();
 
   const handleLogin = async (userInfo) => {
@@ -179,6 +180,9 @@ export const LoginProvider = ({ children }) => {
 
   const handleRolePermissions = (token) => {
     const decoded = jwt_decode(token);
+    if(decoded?.sub) {
+      setMyUser(decoded?.sub);
+    }
     if (decoded?.sub.musician_id) {
       setMusicianID(decoded.sub.musician_id);
     }
@@ -197,6 +201,7 @@ export const LoginProvider = ({ children }) => {
       handleRolePermissions
     );
   }, []);
+  
 
   const actions = {
     setSignupMode,
@@ -220,6 +225,7 @@ export const LoginProvider = ({ children }) => {
     musicianID,
     technicianID,
     venueManagerID,
+    myUser
   };
 
   return (

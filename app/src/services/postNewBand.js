@@ -9,7 +9,7 @@ const postNewBand = async (band) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer \"${localStorage.getItem('jwt-token')}\"`
+            'Authorization': `Bearer "${localStorage.getItem('jwt-token')}"`
         },
         body: parseBand,
         
