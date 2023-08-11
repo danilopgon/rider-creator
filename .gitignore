@@ -1,6 +1,6 @@
 migrations/
 instance/
-.env
+**/*.env
 **/*.db
 
 
