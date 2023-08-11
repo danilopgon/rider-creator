@@ -12,6 +12,7 @@ flask-jwt-extended = "*"
 flask-mail = "*"
 flask-cors = "*"
 python-dotenv = "*"
+datetime = "*"
 
 [dev-packages]
 

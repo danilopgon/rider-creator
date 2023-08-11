@@ -144,6 +144,7 @@ except ValueError as e:
     
 try:
     def get_all_bands_by_musician_id_controller(id):
+        print(f"este es el id : {id}")
         if id is None:
             return jsonify({'message': 'Missing data'}), 400
         find_musician = Musician.query.filter_by(user_id=id).first()
@@ -153,6 +154,13 @@ try:
         bands = Band_Members.query.filter_by(musician_id=find_musician.id).all()
         if not bands:
             return jsonify({'message': 'There are no bands'}), 404
-        return jsonify([band.serialize() for band in bands]), 200
+        #return jsonify([band.serialize() for band in bands]), 200
+        bandList = []
+        for band in bands:
+            bandSerialize = band.serialize()
+            find_band = Band.query.filter_by(id=bandSerialize['band_id']).first()
+            bandList.append(find_band.serialize())
+        return jsonify(bandList), 200
+            
 except ValueError as e:
     print(jsonify({'message': str(e)})), 500
