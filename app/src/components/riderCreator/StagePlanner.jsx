@@ -90,16 +90,6 @@ const StagePlanner = () => {
 
       <div>
         <InstrumentsSearchBarFormik onSubmit={handleAddInstrument} />
-        <div className="flex flex-col join max-h-20 overflow-y-scroll">
-          {searchResults?.map((instrument) => (
-            <div
-              key={instrument.id}
-              className="flex items-center gap-4 cursor-pointer"
-            >
-              {instrument.type}
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );

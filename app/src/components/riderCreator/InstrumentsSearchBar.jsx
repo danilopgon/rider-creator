@@ -6,9 +6,12 @@ import useRiderCreationContext from "../../context/RiderCreationContext";
 import translateInstrumentMap from "../../utils/translateInstrument";
 
 const InstrumentsSearchBar = () => {
-  const { actions: useRiderActions } = useRiderCreationContext();
+  const { actions: useRiderActions, store: useRiderStore } =
+    useRiderCreationContext();
   const { store: appStore } = useAppContext();
-  const { values } = useFormikContext();
+  const { values, setFieldValue } = useFormikContext();
+  const { searchResults } = useRiderStore;
+  const { setSearchResults } = useRiderActions;
   const { defaultGear } = appStore;
 
   useEffect(() => {
@@ -21,22 +24,40 @@ const InstrumentsSearchBar = () => {
     });
 
     if (values.searchQuery === "") {
-      useRiderActions.setSearchResults([]);
+      setSearchResults([]);
       return;
     }
 
-    useRiderActions.setSearchResults(filteredGear);
+    setSearchResults(filteredGear);
   }, [values.searchQuery, defaultGear]);
 
+  const onSelectValue = (type) => {
+    setFieldValue("searchQuery", type);
+  };
+
   return (
-    <Form>
-      <Field
-        name="searchQuery"
-        placeholder="Buscar instrumento"
-        className="form-control"
-      />
-      <button type="submit">Añadir instrumento</button>
-    </Form>
+    <>
+      <Form>
+        <Field
+          name="searchQuery"
+          placeholder="Buscar instrumento"
+          className="form-control"
+        />
+        <button type="submit">Añadir instrumento</button>
+      </Form>
+      <div className="flex flex-col join max-h-20 overflow-y-scroll">
+        {searchResults?.map((instrument) => (
+          <div
+            key={instrument.id}
+            className="flex items-center gap-4 cursor-pointer"
+          >
+            <div onClick={() => onSelectValue(instrument.type)}>
+              {instrument.type}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 
