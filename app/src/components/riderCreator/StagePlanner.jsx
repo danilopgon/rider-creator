@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import Draggable from "react-draggable";
 
+import useAppContext from "../../context/AppContext";
 import useRiderCreationContext from "../../context/RiderCreationContext";
 import InstrumentsSearchBarFormik from "./InstrumentsSearchBar";
 
 const StagePlanner = () => {
-  const [size, setSize] = useState({ width: 0, height: 0 });
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-  const [instrumentScale, setInstrumentScale] = useState(1);
-
+  const { store: appStore, actions: appActions } = useAppContext();
   const { store: useRiderStore, actions: useRiderActions } =
     useRiderCreationContext();
-  const { searchResults, selectedInstruments } = useRiderStore;
-  const { setSelectedInstruments } = useRiderActions;
+
+  const { searchResults, selectedInstruments, size, instrumentScale } =
+    useRiderStore;
+  const { setSelectedInstruments, setSize, setInstrumentScale } =
+    useRiderActions;
+  const { isDesktop, isMobile, isTablet } = appStore;
+  const { setIsDesktop, setIsMobile, setIsTablet } = appActions;
 
   useEffect(() => {
     const handleResize = () => {

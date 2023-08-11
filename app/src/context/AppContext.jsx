@@ -11,6 +11,9 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [selectedRole, setSelectedRole] = useState(null);
   const [defaultGear, setDefaultGear] = useState([]);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
   const navigate = useNavigate();
 
@@ -84,13 +87,16 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const store = { selectedRole, defaultGear };
+  const store = { selectedRole, defaultGear, isDesktop, isMobile, isTablet };
   const actions = {
     setSelectedRole,
     handleRoleSelection,
     handleRoleSubmit,
     handleVenueRegister,
     roleTranslation,
+    setIsDesktop,
+    setIsMobile,
+    setIsTablet,
   };
 
   return (
