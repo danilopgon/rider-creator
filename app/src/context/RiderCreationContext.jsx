@@ -57,7 +57,7 @@ export const RiderCreationProvider = ({ children }) => {
       setIsMobile(true);
       setIsDesktop(false);
       setIsTablet(false);
-    } else if (size.width < 1024 && size.width > 768) {
+    } else if (size.width < 1280 && size.width > 768) {
       setIsTablet(true);
       setIsDesktop(false);
       setIsMobile(false);
@@ -71,9 +71,9 @@ export const RiderCreationProvider = ({ children }) => {
   useEffect(() => {
     if (size.width < 768 && isMobile) {
       setInstrumentScale(1);
-    } else if (size.width < 1024 && isTablet) {
+    } else if (size.width < 1280 && isTablet) {
       setInstrumentScale(1.25);
-    } else if (size.width > 1024 && isDesktop) {
+    } else if (size.width > 1280 && isDesktop) {
       setInstrumentScale(1.75);
     }
   }, [selectedInstruments, size, isMobile, isTablet, isDesktop]);
@@ -110,6 +110,7 @@ export const RiderCreationProvider = ({ children }) => {
   const handleInstrumentInformation = (event, data, instrument) => {
     console.log(instrument.id, data.x, data.y, instrument.type);
     console.log(instrumentInformation);
+    console.log(instrumentScale);
     setInstrumentInformation({
       ...instrumentInformation,
       [instrument.id]: {
