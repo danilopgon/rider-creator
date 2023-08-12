@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 
 import registerVenue from "../services/registerVenue";
 import setUserImgProfile from "../services/setUserImgProfile";
+import updateUserImgProfile from "../services/updateUserImgProfile";
 
 const AppContext = createContext();
 
@@ -102,6 +103,18 @@ export const AppProvider = ({ children }) => {
     toast.success("Imagen cargada");
   };
 
+  const handleUpdateImgProfile = () => {
+    updateUserImgProfile(imgProfile)
+    .then((response) => {
+      if (response.status === 200) {
+        toast.success("Imagen actualizada!");
+        setImgProfile(null);
+      }
+      if (response.status === 400) {
+        toast.error(`${response.message}`);
+      }
+    })
+  }
 
   //
 
@@ -117,6 +130,7 @@ export const AppProvider = ({ children }) => {
     roleTranslation,
     handleSaveImgProfile,
     handleChargeImgProfile,
+    handleUpdateImgProfile
   };
 
   return (
