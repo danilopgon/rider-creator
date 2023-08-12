@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Draggable from "react-draggable";
 
 import useAppContext from "../../context/AppContext";
@@ -11,9 +11,8 @@ const StagePlanner = () => {
   const { store: useRiderStore, actions: useRiderActions } =
     useRiderCreationContext();
 
-  const { searchResults, selectedInstruments, size, instrumentScale } =
-    useRiderStore;
-  const { setSelectedInstruments, setSize, setInstrumentScale } =
+  const { selectedInstruments, size, instrumentScale, filter } = useRiderStore;
+  const { setSelectedInstruments, setSize, setInstrumentScale, setFilter } =
     useRiderActions;
   const { isDesktop, isMobile, isTablet, translatedGear } = appStore;
   const { setIsDesktop, setIsMobile, setIsTablet } = appActions;
@@ -24,6 +23,22 @@ const StagePlanner = () => {
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleThemeChange = (e) => {
+      if (e.detail.theme === "dark") {
+        setFilter(
+          "invert(85%) sepia(3%) saturate(883%) hue-rotate(181deg) brightness(80%) contrast(94%)"
+        );
+      } else {
+        setFilter(
+          "invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)"
+        );
+      }
+    };
+    window.addEventListener("themechange", handleThemeChange);
+    return () => window.removeEventListener("storage", handleThemeChange);
   }, []);
 
   useEffect(() => {
@@ -48,7 +63,7 @@ const StagePlanner = () => {
     } else if (size.width < 1024 && isTablet) {
       setInstrumentScale(1.25);
     } else if (size.width > 1024 && isDesktop) {
-      setInstrumentScale(2);
+      setInstrumentScale(1.75);
     }
   }, [selectedInstruments, size, isMobile, isTablet, isDesktop]);
 
@@ -81,7 +96,7 @@ const StagePlanner = () => {
 
   return (
     <div className="flex flex-col md:flex-row-reverse min-h-screen max-w-screen justify-center items-center md:gap-12 xl:gap-48">
-      <div className=" w-80 h-80 md:scale-125 xl:scale-[2] border-4 border-red-200 relative">
+      <div className=" w-80 h-80 md:scale-125 xl:scale-[1.75] border-4 border-red-200 relative">
         {selectedInstruments?.map((instrument) => (
           <Draggable
             key={instrument.id}
@@ -89,20 +104,23 @@ const StagePlanner = () => {
             scale={instrumentScale}
           >
             <div
-              className={`text-center aspect-square absolute flex justify-center items-center fill-base-content`}
+              className={`text-center aspect-square absolute flex justify-center items-center`}
               style={{
                 height: `calc(16 * ${instrument.height}%)`,
                 width: `calc(16 * ${instrument.width}%)`,
+                mask: `url(${instrument.icon}) no-repeat center`,
               }}
             >
-              <img
-                src={instrument.icon}
-                alt={instrument.type}
+              <svg
+                viewBox="0 0 100 100"
                 style={{
                   width: "100%",
                   height: "100%",
+                  filter: filter,
                 }}
-              />
+              >
+                <image href={instrument.icon} height="100%" width="100%" />
+              </svg>
             </div>
           </Draggable>
         ))}

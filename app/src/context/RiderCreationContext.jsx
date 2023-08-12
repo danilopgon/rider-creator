@@ -7,12 +7,14 @@ export const RiderCreationProvider = ({ children }) => {
   const [selectedInstruments, setSelectedInstruments] = useState([]);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [instrumentScale, setInstrumentScale] = useState(1);
+  const [filter, setFilter] = useState("");
 
   const store = {
     searchResults,
     selectedInstruments,
     size,
     instrumentScale,
+    filter,
   };
 
   const actions = {
@@ -20,6 +22,7 @@ export const RiderCreationProvider = ({ children }) => {
     setSelectedInstruments,
     setSize,
     setInstrumentScale,
+    setFilter,
   };
 
   return (

@@ -3,7 +3,6 @@ import { useEffect } from "react";
 
 import useAppContext from "../../context/AppContext";
 import useRiderCreationContext from "../../context/RiderCreationContext";
-import translateInstrumentMap from "../../utils/translateInstrument";
 
 const InstrumentsSearchBar = () => {
   const { actions: useRiderActions, store: useRiderStore } =
