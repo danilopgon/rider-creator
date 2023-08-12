@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from utils.db import db
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from .controllers.images_controller import upload_img_user_profile, get_img_user_profile, update_img_user_profile, delete_img_user_profile
+from controllers.images_controller import upload_img_user_profile, get_img_user_profile, update_img_user_profile, delete_img_user_profile
 
 images_routes = Blueprint("images_routes", __name__)
 

@@ -13,6 +13,7 @@ flask-mail = "*"
 flask-cors = "*"
 python-dotenv = "*"
 datetime = "*"
+cloudinary = "*"
 
 [dev-packages]
 
