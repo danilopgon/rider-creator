@@ -13,6 +13,10 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from flask_mail import Message
 
+import cloudinary
+
+
+
 # modulos
 from utils import db, mail
 from routes.api import api
@@ -39,6 +43,15 @@ jwt = JWTManager(app)
 
 # configure the SQLite database, relative to the app instance folder
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
+
+#configure cloudinary
+cloudinary.config( 
+  cloud_name = os.getenv("ClOUD_NAME"), 
+  api_key = os.getenv("API_KEY_CLOUDINARY"), 
+  api_secret = os.getenv("API_SECRET_CLOUDINARY")
+)
+
+
 
 # migrate the database
 migrate = Migrate(app, db)

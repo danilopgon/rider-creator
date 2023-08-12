@@ -4,11 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
 import registerVenue from "../services/registerVenue";
+import setUserImgProfile from "../services/setUserImgProfile";
+import updateUserImgProfile from "../services/updateUserImgProfile";
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [selectedRole, setSelectedRole] = useState(null);
+
+  const [imgProfile, setImgProfile] = useState(null);
 
   const navigate = useNavigate();
 
@@ -66,6 +70,57 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  //imagen de perfil
+  const handleSaveImgProfile = async () => {
+    setUserImgProfile(imgProfile)
+    .then((response) => {
+      if (response.status === 200) {
+        toast.success("Imagen guardada!");
+        setImgProfile(null);
+      }
+      if (response.status === 400) {
+        toast.error(`${response.message}`);
+      }
+    })
+    toast.loading("Guardando imagen...");
+  }
+
+  const handleChargeImgProfile = (e) => {
+    console.log('click');
+    
+    if (!e.target.files || e.target.files.length === 0) {
+      toast.error("No se ha seleccionado ninguna imagen");
+      return;
+    }
+    
+    if (e.target.files.length > 1) {
+      toast.error("Solo se puede seleccionar una imagen");
+      return;
+    }
+    
+    const file = e.target.files[0];
+    setImgProfile(file);
+    toast.success("Imagen cargada");
+  };
+
+  const handleUpdateImgProfile = () => {
+    updateUserImgProfile(imgProfile)
+    .then((response) => {
+      if (response.status === 200) {
+        toast.success("Imagen actualizada!");
+        setImgProfile(null);
+      }
+      if (response.status === 400) {
+        toast.error(`${response.message}`);
+      }
+    })
+  }
+
+  //
+
+
+
+
   const store = { selectedRole };
   const actions = {
     setSelectedRole,
@@ -73,6 +128,9 @@ export const AppProvider = ({ children }) => {
     handleRoleSubmit,
     handleVenueRegister,
     roleTranslation,
+    handleSaveImgProfile,
+    handleChargeImgProfile,
+    handleUpdateImgProfile
   };
 
   return (
