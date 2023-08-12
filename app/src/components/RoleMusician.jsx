@@ -1,171 +1,171 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getBand } from "../services/getBand";
 
 export const RoleMusician = () => {
+  const [bandData, setBandData] = useState([]);
+  const [expandedBandId, setExpandedBandId] = useState(null);
 
-    const initialValues = {
-        lugar: "",
-        sala: "",
-        tecnico: "",
-      };
-    
-      const handleSubmit = (values, { resetForm }) => {
-        console.log(values);
-        resetForm();
-      };
-    
-      const validationSchema = Yup.object().shape({
-        lugar: Yup.string()
-          .trim()
-          .required("Este campo es obligatorio")
-          .min(3, "El lugar debe tener al menos 3 caracteres")
-          .max(50, "El lugar no puede tener más de 50 caracteres"),
-        sala: Yup.string()
-          .trim()
-          .required("Este campo es obligatorio")
-          .min(5, "La sala debe tener al menos 5 caracteres")
-          .max(100, "La sala no puede tener más de 100 caracteres"),
-        tecnico: Yup.string()
-          .trim()
-          .required("Este campo es obligatorio")
-          .min(2, "El técnico debe tener al menos 2 caracteres")
-          .max(30, "El técnico no puede tener más de 30 caracteres"),
-      });
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const respData = await getBand();
+        setBandData(respData);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-    return (
-        <section>
-            <div className="container px-4 mx-auto shadow-md">
-          <h1 className="flex justify-center mb-6 text-4xl font-bold">
-            Tu Rider
+    fetchData();
+  }, []);
+
+  return (
+    <section>
+      <div className="container px-4 mx-auto shadow-md">
+        <h1 className="flex justify-center mb-6 text-4xl font-bold">
+          Tu Rider
+        </h1>
+        <div className="mb-4">
+          <h1 className="block mb-2 text-sm font-bold text-base-content">
+            {bandData.length > 0 ? (
+              <ul>
+                {bandData.map((band) => (
+                  <li key={band.id}>
+                    <button
+                      className="text-blue-500 underline cursor-pointer"
+                      onClick={() =>
+                        setExpandedBandId(
+                          expandedBandId === band.id ? null : band.id
+                        )
+                      }
+                    >
+                      <span className="font-semibold text-lg text-indigo-600">
+                        {band.name}
+                      </span>
+                    </button>
+                    {expandedBandId === band.id && (
+                      <ul className="mt-2 pl-4 border-l-2 border-blue-500 space-y-1">
+                        {band.riders.map((rider, index) => (
+                          <li
+                            key={index}
+                            className="mb-1 pl-2 flex items-center"
+                          >
+                            <span className="mr-2 text-blue-500">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-4 w-4"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2-2a1 1 0 00-1 1v2a1 1 0 001 1h8a1 1 0 001-1V3a1 1 0 00-1-1H6zm-1 5a3 3 0 016 0H5z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </span>
+                            {rider.technician_id}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No hay grupos</p>
+            )}
           </h1>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
-            <Form className="px-8 pt-6 pb-8 mb-4 bg-base-300">
-              <div className="mb-4">
-                <label
-                  className="block mb-2 text-sm font-bold text-base-content"
-                  htmlFor="lugar"
-                >
-                  Lugar
-                </label>
-                <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
-                  type="text"
-                  name="lugar"
-                  placeholder="Hotel Sur"
-                />
-                <ErrorMessage
-                  name="lugar"
-                  component="div"
-                  className="text-sm text-red-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  className="block mb-2 text-sm font-bold text-base-content"
-                  htmlFor="sala"
-                >
-                  Sala
-                </label>
-                <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
-                  type="text"
-                  name="sala"
-                  placeholder="Sala el Perro"
-                />
-                <ErrorMessage
-                  name="sala"
-                  component="div"
-                  className="text-sm text-red-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  className="block mb-2 text-sm font-bold text-base-content"
-                  htmlFor="tecnico"
-                >
-                  Técnico
-                </label>
-                <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
-                  type="text"
-                  name="tecnico"
-                  placeholder="Busca técnico"
-                />
-                <ErrorMessage
-                  name="tecnico"
-                  component="div"
-                  className="text-sm text-red-500"
-                />
-              </div>
-              <div className="container flex flex-col justify-center gap-3 mx-auto">
-                <button className="w-full btn btn-primary" type="submit">
-                  Buscar técnico
-                </button>
-
-                <button className="w-full btn btn-primary" type="button">
-                  Editar
-                </button>
-              </div>
-            </Form>
-          </Formik>
         </div>
-
-        <div className="container flex justify-center px-12 py-2 mx-auto">
+        <div className="mb-4">
+          <h1 className="block mb-2 text-sm font-bold text-base-content">
+            Sala
+          </h1>
+        </div>
+        <div className="mb-4">
+          <h1 className="block mb-2 text-sm font-bold text-base-content">
+            Técnico
+          </h1>
+        </div>
+        <div className="container flex flex-col justify-center gap-3 mx-auto">
+          <button className="w-full btn btn-primary" type="submit">
+            Buscar técnico
+          </button>
           <button className="w-full btn btn-primary" type="button">
-            Comienza a crear
+            Editar
           </button>
         </div>
-        <div className="container px-4 mx-auto mt-4 shadow-md">
-          <h1 className="flex justify-center mb-6 text-4xl font-bold">
-            Tus Grupos
-          </h1>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
-            <Form className="px-8 pt-6 pb-8 mb-4 bg-base-300">
-              <div className="mb-4">
-                <label
-                  className="block mb-2 text-sm font-bold text-base-content"
-                  htmlFor="lugar"
-                >
-                  Lugar
-                </label>
-                <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
-                  type="text"
-                  name="lugar"
-                  placeholder="Hotel Sur"
-                />
-                <ErrorMessage
-                  name="lugar"
-                  component="div"
-                  className="text-sm text-red-500"
-                />
-              </div>
-              <div className="container flex flex-col justify-center gap-3 mx-auto">
-                <button className="w-full btn btn-primary" type="button">
-                  Editar
-                </button>
+      </div>
 
-                <Link
-                  to="/createband"
-                  className="w-full btn btn-primary"
-                  type="button"
-                >
-                  Añadir
-                </Link>
-              </div>
-            </Form>
-          </Formik>
+      <div className="container flex justify-center px-12 py-2 mx-auto">
+        <button className="w-full btn btn-primary" type="button">
+          Comienza a crear
+        </button>
+      </div>
+      <div className="container px-4 mx-auto mt-4 shadow-md">
+        <h1 className="flex justify-center mb-6 text-4xl font-bold">
+          Tus Grupos
+        </h1>
+        <div className="mb-4">
+          {bandData.length > 0 ? (
+            <ul>
+              {bandData.map((band) => (
+                <li key={band.id}>
+                  <button
+                    className="text-blue-500 underline cursor-pointer"
+                    onClick={() =>
+                      setExpandedBandId(
+                        expandedBandId === band.id ? null : band.id
+                      )
+                    }
+                  >
+                    <span className="font-semibold text-lg text-indigo-600">
+                      {band.name}
+                    </span>
+                  </button>
+                  {expandedBandId === band.id && (
+                    <ul className="mt-2 pl-4 border-l-2 border-blue-500 space-y-1">
+                      {band.all_members.map((member, index) => (
+                        <li
+                          key={index}
+                          className="mb-1 pl-2 flex items-center"
+                        >
+                          <span className="mr-2 text-blue-500">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2-2a1 1 0 00-1 1v2a1 1 0 001 1h8a1 1 0 001-1V3a1 1 0 00-1-1H6zm-1 5a3 3 0 016 0H5z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </span>
+                          {member.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No hay grupos</p>
+          )}
         </div>
-        
-        </section>
-    )
-}
+        <div className="container flex flex-col justify-center gap-3 mx-auto">
+          <button className="w-full btn btn-primary" type="button">
+            Editar
+          </button>
+
+          <Link to="/createband" className="w-full btn btn-primary" type="button">
+            Añadir
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+};
