@@ -53,13 +53,18 @@ export const RoleTechnician = () => {
 
     const [bandData, setBandData] = useState([]);
     const [expandedBandId, setExpandedBandId] = useState(null);
+    const [selectedBand, setSelectedBand] = useState(null);
+    const [riderData, setRiderData] = useState([]);
+    const [selectedRider, setSelectedRider] = useState(null);
+    const [roomData, setRoomData] = useState([]);
+    const [selectedRoom, setSelectedRoom] = useState(null);
 
     useEffect(() => {
         async function fetchData() {
             try {
                 // const respData = await getBand();
                 setBandData(mockData);
-                console.log(bandData);
+                // TO DO ENDPOINT RIDERS
             } catch (error) {
                 console.error(error);
             }
@@ -96,22 +101,27 @@ export const RoleTechnician = () => {
                 </h1>
                 <div className="mb-4">
                     <details className="dropdown mb-32">
-                        <summary className="m-1 btn">open or close</summary>
+                        <summary className="m-1 btn">{selectedBand ? selectedBand.name : 'Nombre de la banda'}</summary>
                         <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-                            {bandData.map( (band, index) => (<li key={index}><a>{band.name}</a></li>))} 
+                            {bandData.map((band, index) => (<li key={index} onClick={() => setSelectedBand(band)}><a>{band.name}</a></li>))}
                         </ul>
                     </details>
                 </div>
                 <div className="mb-4">
-                    <h1 className="block mb-2 text-sm font-bold text-base-content">
-                        Sala
-                    </h1>
+                    <details className="dropdown mb-32">
+                        <summary className="m-1 btn">{selectedRoom ? selectedRoom.name : 'Nombre de la sala'}</summary>
+                        <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                            {roomData.map((room, index) => (<li key={index} onClick={() => setSelectedRider(room)}><a>{room.name}</a></li>))}
+                        </ul>
+                    </details>
                 </div>
                 <div className="mb-4">
-                    <h1
-                        className="block mb-2 text-sm font-bold text-base-content">
-                        Rider disponible
-                    </h1>
+                    <details className="dropdown mb-32">
+                        <summary className="m-1 btn">{selectedRider ? selectedRider.name : 'Rider disponible'}</summary>
+                        <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                            {riderData.map((rider, index) => (<li key={index} onClick={() => setSelectedRider(rider)}><a>{rider.name}</a></li>))}
+                        </ul>
+                    </details>
                 </div>
                 <div className="container flex flex-col justify-center gap-3 mx-auto">
                     <button className="w-full btn btn-primary" type="submit">
