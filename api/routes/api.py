@@ -7,6 +7,7 @@ from .default_gear_route import default_gear
 from .role_register_route import role_register_route
 from .users_route import users_routes
 from .create_rider_route import create_rider
+from .images_route import images_routes
 
 api = Blueprint("api", __name__)
 
@@ -18,3 +19,4 @@ api.register_blueprint(create_venue_route, url_prefix="/venue")
 api.register_blueprint(role_register_route, url_prefix="/role-register")
 api.register_blueprint(users_routes, url_prefix="/users")
 api.register_blueprint(create_rider, url_prefix="/rider")
+api.register_blueprint(images_routes, url_prefix="/images")

@@ -15,6 +15,7 @@ class User(db.Model):
     musician = db.relationship("Musician", backref="user", uselist=False)
     technician = db.relationship("Technician", backref="user", uselist=False)
     venue_manager = db.relationship("Venue_Manager", backref="user", uselist=False)
+    img = db.Column(db.String(255), nullable=True)
 
     def serialize_for_jwt(self):
         return {
@@ -24,6 +25,7 @@ class User(db.Model):
             "musician_id": self.musician.id if self.musician else None,
             "technician_id": self.technician.id if self.technician else None,
             "venue_manager_id": self.venue_manager.id if self.venue_manager else None,
+            "img": self.img,
         }
 
     def serialize(self):
