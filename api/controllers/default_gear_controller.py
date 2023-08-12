@@ -3,5 +3,8 @@ from flask import jsonify
 
 
 def get_gear():
-    gear = Gear_Type.query.all()
-    return jsonify([g.serialize() for g in gear])
+    try:
+        gear = Gear_Type.query.all()
+        return jsonify([e.serialize() for e in gear]), 200
+    except Exception as e:
+        return str(e), 400
