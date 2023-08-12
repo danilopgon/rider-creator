@@ -1,17 +1,72 @@
 import { Link } from "react-router-dom";
+import { getBand } from "../services/getBand";
+import React, { useEffect, useState } from "react";
+
+const mockData = [
+    {
+        "all_members": [
+            {
+                "email": "alexrofes1992@gmail.com",
+                "id": 3,
+                "name": "alexrofes"
+            }
+        ],
+        "gigs": [],
+        "id": 1,
+        "members": [
+            {
+                "email": "alexrofes1992@gmail.com",
+                "id": 3,
+                "name": "alexrofes"
+            }
+        ],
+        "members_not_registred": [],
+        "name": "alex",
+        "riders": [],
+        "technicians": []
+    },
+    {
+        "all_members": [
+            {
+                "email": "alexrofes1992@gmail.com",
+                "id": 3,
+                "name": "alexrofes"
+            }
+        ],
+        "gigs": [],
+        "id": 1,
+        "members": [
+            {
+                "email": "alexrofes1992@gmail.com",
+                "id": 3,
+                "name": "alexrofes"
+            }
+        ],
+        "members_not_registred": [],
+        "name": "alex",
+        "riders": [],
+        "technicians": []
+    }
+]
 
 export const RoleTechnician = () => {
 
-    const initialValues = {
-        lugar: "",
-        sala: "",
-        tecnico: "",
-    };
+    const [bandData, setBandData] = useState([]);
+    const [expandedBandId, setExpandedBandId] = useState(null);
 
-    const handleSubmit = (values, { resetForm }) => {
-        console.log(values);
-        resetForm();
-    };
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                // const respData = await getBand();
+                setBandData(mockData);
+                console.log(bandData);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchData();
+    }, []);
 
     return (
         <section>
@@ -40,9 +95,12 @@ export const RoleTechnician = () => {
                     Tus bolos
                 </h1>
                 <div className="mb-4">
-                    <h1 className="block mb-2 text-sm font-bold text-base-content">
-                        Lugar
-                    </h1>
+                    <details className="dropdown mb-32">
+                        <summary className="m-1 btn">open or close</summary>
+                        <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                            {bandData.map( (band, index) => (<li key={index}><a>{band.name}</a></li>))} 
+                        </ul>
+                    </details>
                 </div>
                 <div className="mb-4">
                     <h1 className="block mb-2 text-sm font-bold text-base-content">
