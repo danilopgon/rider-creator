@@ -10,8 +10,8 @@ const NavBar = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
-        <div className="hidden md:flex justify-center">
-          <ul className="menu menu-horizontal px-1">
+        <div className="justify-center hidden md:flex">
+          <ul className="px-1 menu menu-horizontal">
             <li>
               <Link to={"/"}>Inicio</Link>
             </li>
@@ -25,9 +25,9 @@ const NavBar = () => {
           </ul>
         </div>
       </div>
-      <div className="navbar-center justify-center">
+      <div className="justify-center navbar-center">
         <div className="flex justify-center md:hidden">
-          <ul className="menu menu-horizontal px-1 text-lg">
+          <ul className="px-1 text-lg menu menu-horizontal">
             <li>
               <Link to={"/"}>
                 <FiHome />

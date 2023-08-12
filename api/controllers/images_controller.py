@@ -10,20 +10,26 @@ from models.users import User
 
 
 def upload_img_user_profile(id):
-    if "file" not in request.files:
-        return jsonify({"msg": "No file selected"}), 400
-    file = request.files["file"]
-    if file.filename == "":
-        return jsonify({"msg": "No file selected"}), 400
-    if file:
-        custom_name = f"user-profile-{id}"
-        result = cloudinary.uploader.upload(file, public_id=custom_name)
-        img_url = result["secure_url"]
-        user = User.query.filter_by(id=id).first()
-        user.img = img_url
-        db.session.commit()
-        return jsonify({"msg": "Image uploaded successfully"}), 200
-    return jsonify({"msg": "Something went wrong"}), 500
+    print(id)
+    try:
+        if "file" not in request.files:
+            return jsonify({"msg": "No file selected"}), 400
+        file = request.files["file"]
+        if file.filename == "":
+            return jsonify({"msg": "No file selected"}), 400
+        if file:
+            custom_name = f"user-profile-{id}"
+            result = cloudinary.uploader.upload(file, public_id=custom_name)
+            img_url = result["secure_url"]
+            user = User.query.filter_by(id=id).first()
+            user.img = img_url
+            db.session.commit()
+            return jsonify({"msg": "Image uploaded successfully"}), 200
+        return jsonify({"msg": "Something went wrong"}), 500
+    except ValueError as e:
+        print(e)
+        return jsonify({"msg": "Something went wrong"}), 500
+    
 
 def get_img_user_profile(id):
     user = User.query.filter_by(id=id).first()
