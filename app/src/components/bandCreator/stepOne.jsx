@@ -1,16 +1,13 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
 import useBand from "../../context/BandContext.jsx";
 
 
 export const StepOne = () => {
 
-  const { store, actions } = useBand();
-  const{nameBand, step} = store;
-  const { handleInputNameBand, handleOnsubmitBandName, setStep } = actions;
+  const { storeBand, actionsBand } = useBand();
+  const{nameBand} = storeBand;
+  const { handleInputNameBand, handleOnsubmitBandName} = actionsBand;
 
     const initialValues = {
         name: '',
@@ -30,13 +27,9 @@ export const StepOne = () => {
           .max(100, 'La sala no puede tener más de 100 caracteres'),
       });
 
-
-      console.log("nameBand", nameBand)
-      
-
   return (
-    <div>
-      <div className="w-full h-full bg-slate-300 sm:w-[80%] lg:w-[50%] xl:w-[100%] flex flex-col gap-4 p-4 rounded">
+    <div className="animate-fade">
+      <div className="w-full h-full bg-slate-300 sm:w-[80%] md:w-[80%] lg:w-[90%] xl:w-[100%] mx-auto flex flex-col gap-4 p-4 rounded">
         <h2 className="my-10 text-4xl font-semibold text-center text-black">
           La musica te <br />
           llama!

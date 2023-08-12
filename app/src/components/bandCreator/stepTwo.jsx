@@ -8,19 +8,19 @@ import { toast } from "react-hot-toast";
 
 export const StepTwo = () => {
 
-    const { store, actions } = useBand();
+    const { storeBand, actionsBand } = useBand();
     const { 
       findUser,
       members,
       userList,
-      showAutocompleteUser } = store;
+      showAutocompleteUser } = storeBand;
     const {
       handleFindUser,
       handleSelectUser,
       handleAddMemberNotRegistred,
       handleOnSubmitAddMember,
       handleDeleteMember
-      } = actions;
+      } = actionsBand;
 
     const initialValues = {
         name: '',
@@ -40,12 +40,8 @@ export const StepTwo = () => {
           .max(100, 'La sala no puede tener más de 100 caracteres'),
       });
 
-      console.log("members", members)
-      console.log("userList", userList)
-      console.log("findUser", findUser)
-
   return (
-    <div className="w-full h-full bg-slate-300 sm:w-full lg:w-full xl:w-full flex flex-col gap-4 p-4 rounded">
+    <div className="flex flex-col w-full h-full gap-4 p-4 rounded bg-slate-300 sm:w-full lg:w-full xl:w-full animate-fade-left">
       <h2 className="text-xl font-semibold text-center text-black ">
         Agrega miembros a tu banda
       </h2>
@@ -60,17 +56,18 @@ export const StepTwo = () => {
               className="flex p-0 border rounded bg-slate-100 justify-evenly"
             >
               <Field
-                className="w-full p-1 m-0 text-xl border-0 bg-slate-100"
+                className="w-full md:w-[70%] p-1 m-0 text-xl border-0 bg-slate-100"
                 name="name"
                 type="text"
                 id="inputMusician"
                 placeholder="Agrega un miembro"
                 onChange={handleFindUser}
                 value={findUser?.length !== 0 ? findUser : ""}
+                autocomplete="off"
               />
             </label>
             <div
-              className={`absolute border bg-slate-50 w-[18rem] h-auto flex flex-col mt-9 ${
+              className={`absolute border bg-slate-50 w-[15rem] h-auto flex flex-col mt-9 ${
                 showAutocompleteUser ? "" : "hidden"
               }`}
             >
@@ -123,7 +120,7 @@ export const StepTwo = () => {
                 <CardUserBand
                   member={member}
                   handler={handleDeleteMember}
-                  key={member.id}
+                  key={member?.id}
                 />
               );
             })}

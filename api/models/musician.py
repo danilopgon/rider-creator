@@ -7,3 +7,7 @@ class Musician(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     #bands = db.relationship("Band", backref="musician", lazy=True, secondary="Band_Members")
     active_role = db.Column(db.Boolean, nullable=False, default=False)
+
+    def serialize(self):
+        return  self.user.serialize() if self.user else None
+        
