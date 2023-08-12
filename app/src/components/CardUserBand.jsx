@@ -8,14 +8,14 @@ export const CardUserBand = ({ member, handler }) => {
   console.log(member)
   return (
     <article
-      className={`flex items-center p-1 rounded bg-slate-50 h-14 `}
+      className={`flex items-center p-1 rounded bg-slate-50 h-14 animate-jump-in`}
       key={member?.id}
       id={member?.id}
     >
       <div className={`flex items-center justify-center rounded w-10 h-10 ${member?.img != null? '': randomColor}`}>
         {member?.img != null && member?.img ? (
           <img
-          className={`w-full h-full border rounded-full`}
+          className={`w-full h-full border rounded`}
           src={member?.img||''}
           alt={member?.username||member?.name}
         />
