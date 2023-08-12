@@ -27,6 +27,16 @@ export const RiderCreationProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    localStorage.getItem("theme") === "dark"
+      ? setFilter(
+          "invert(85%) sepia(3%) saturate(883%) hue-rotate(181deg) brightness(80%) contrast(94%)"
+        )
+      : setFilter(
+          "invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)"
+        );
+  }, []);
+
+  useEffect(() => {
     const handleThemeChange = (e) => {
       if (e.detail.theme === "dark") {
         setFilter(
