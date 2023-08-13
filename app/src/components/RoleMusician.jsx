@@ -10,7 +10,7 @@ export const RoleMusician = () => {
     async function fetchData() {
       try {
         const respData = await getBand();
-        setBandData(respData);
+        setBandData(respData);       
       } catch (error) {
         console.error(error);
       }
