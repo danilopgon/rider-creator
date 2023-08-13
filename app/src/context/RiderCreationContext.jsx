@@ -2,6 +2,8 @@ import { useContext, createContext, useState, useEffect } from "react";
 
 import useAppContext from "./AppContext";
 import instrumentToIconMap from "../utils/instrumentToIcon";
+import getAllVenues from "../services/getAllVenues";
+import getAllBands from "../services/getAllBands";
 
 const RiderCreationContext = createContext();
 
@@ -12,11 +14,24 @@ export const RiderCreationProvider = ({ children }) => {
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [instrumentScale, setInstrumentScale] = useState(1);
   const [filter, setFilter] = useState("");
+  const [creatorStep, setCreatorStep] = useState(1);
+  const [venues, setVenues] = useState([]);
+  const [bands, setBands] = useState([]);
 
   const { store: appStore, actions: appActions } = useAppContext();
 
   const { isDesktop, isMobile, isTablet, translatedGear } = appStore;
   const { setIsDesktop, setIsMobile, setIsTablet } = appActions;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const responseVenues = await getAllVenues();
+      const responseBands = await getAllBands();
+      setVenues(responseVenues.venues);
+      setBands(responseBands);
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -129,6 +144,9 @@ export const RiderCreationProvider = ({ children }) => {
     size,
     instrumentScale,
     filter,
+    creatorStep,
+    venues,
+    bands,
   };
 
   const actions = {
@@ -140,6 +158,9 @@ export const RiderCreationProvider = ({ children }) => {
     setFilter,
     handleAddInstrument,
     handleInstrumentInformation,
+    setCreatorStep,
+    setVenues,
+    setBands,
   };
 
   return (

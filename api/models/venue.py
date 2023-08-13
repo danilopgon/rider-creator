@@ -16,6 +16,6 @@ class Venue(db.Model):
             "id": self.id,
             "name": self.name,
             "capacity": self.capacity,
-            "manager_if": self.manager_id,
+            "manager_id": self.manager_id,
             "address": self.address.serialize(),
         }

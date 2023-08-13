@@ -40,11 +40,11 @@ function App() {
                 path="/activation/:token"
                 element={<PageActivation />}
               ></Route>
-              <Route path="test-drag" element={<StagePlanner />} />
+              {/* <Route path="test-drag" element={<StagePlanner />} /> */}
               <Route path="*" element={<NotFound />}></Route>
               <Route element={<PrivateRoutes />}>
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/ridercreation" element={<RiderCreation />} />
+                <Route path="/create-rider" element={<RiderCreation />} />
                 <Route path="/createband" element={<CreateBand />} />
                 <Route path="/create-venue" element={<CreateVenue />} />
               </Route>
