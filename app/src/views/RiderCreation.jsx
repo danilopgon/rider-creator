@@ -1,3 +1,62 @@
-const RiderCreation = () => {};
+import useRiderCreationContext from "../context/RiderCreationContext";
+import RiderCreationForm from "../components/riderCreator/RiderCreationForm";
+import StagePlanner from "../components/riderCreator/StagePlanner";
+
+const RiderCreation = () => {
+  const { store, actions } = useRiderCreationContext();
+  const { creatorStep } = store;
+  const { setCreatorStep } = actions;
+
+  return (
+    <div className="flex justify-center items-center min-h-screen max-w-screen bg-cover bg-no-repeat bg-fixed bg-[url('https://images.pexels.com/photos/811838/pexels-photo-811838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
+      <div className="w-full mx-10 backdrop-blur-md bg-base-200/50 p-5 rounded-lg my-10">
+        <h1 className="text-center my-4 text-3xl font-bold text-base-content">
+          {creatorStep === 1
+            ? "Crea tu rider"
+            : creatorStep === 2
+            ? "Añade los instrumentos"
+            : "Añade los detalles"}
+        </h1>
+        {creatorStep === 1 && <RiderCreationForm />}
+        {creatorStep === 2 && <StagePlanner />}
+
+        <div className="flex justify-center my-5">
+          <div className="join">
+            <button
+              className={`join-item btn btn-primary ${
+                creatorStep === 1 ? "btn-active" : ""
+              }`}
+              onClick={() => {
+                setCreatorStep(1);
+              }}
+            >
+              1
+            </button>
+            <button
+              className={`join-item btn btn-primary ${
+                creatorStep === 2 ? "btn-active" : ""
+              }`}
+              onClick={() => {
+                setCreatorStep(2);
+              }}
+            >
+              2
+            </button>
+            <button
+              className={`join-item btn btn-primary ${
+                creatorStep === 3 ? "btn-active" : ""
+              }`}
+              onClick={() => {
+                setCreatorStep(3);
+              }}
+            >
+              3
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default RiderCreation;

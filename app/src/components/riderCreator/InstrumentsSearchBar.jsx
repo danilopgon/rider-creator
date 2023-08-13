@@ -68,7 +68,7 @@ const InstrumentsSearchBar = () => {
       </Form>
 
       <div
-        className={`dropdown mx-5 mb-32  ${
+        className={`dropdown mx-5 mb-5  ${
           searchResults.length === 0 ? "" : "dropdown-open"
         }`}
       >
