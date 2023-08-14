@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { getBand } from "../services/getBand";
 
-const mockData = [{
-    name: 'sala maja',
-    city: 'la papa gallega',
-    street: 'gallego46'
-},
-{
-    name: 'sala pica',
-    city: 'barcelona',
-    street: 'diputacio'
-}]
-
+const mockData = [
+    {
+        name: 'sala maja',
+        city: 'la papa gallega',
+        street: 'gallego46'
+    },
+    {
+        name: 'sala pica',
+        city: 'barcelona',
+        street: 'diputacio'
+    }
+];
 
 export const RoleManager = () => {
 
@@ -31,29 +32,25 @@ export const RoleManager = () => {
         fetchData();
     }, []);
 
-
-
     return (
         <section>
             <div className="container px-4 mx-auto shadow-md">
                 <h1 className="flex justify-center mb-6 text-4xl font-bold">
                     Tu Rider
                 </h1>
-                <div className="mb-4">
-                    {rooms.map(room => (
-                        <>
-                            <div className="card card-compact w-full bg-base-100 shadow-xl">
-                                <div className="card-body">
-                                    <h2 className="card-title">{room.name}</h2>
-                                    <p>{room.city}</p>
-                                    <p>{room.street}</p>
-                                    <div className="card-actions flex flex-col justify-between items-stretch gap-3">
-                                        <button className="btn btn-primary w-full">Ver Riders</button>
-                                        <button className="btn btn-primary w-full">Editar</button>
-                                    </div>
+                <div className="mb-4 space-y-4">
+                    {rooms.map((room, index) => (
+                        <div key={index} className="card card-compact w-full bg-base-100 shadow-xl">
+                            <div className="card-body">
+                                <h2 className="card-title">{room.name}</h2>
+                                <p>{room.city}</p>
+                                <p>{room.street}</p>
+                                <div className="card-actions flex flex-col justify-between items-stretch gap-3">
+                                    <button className="btn btn-primary w-full">Ver Riders</button>
+                                    <button className="btn btn-primary w-full">Editar</button>
                                 </div>
                             </div>
-                        </>
+                        </div>
                     ))}
                 </div>
             </div>
