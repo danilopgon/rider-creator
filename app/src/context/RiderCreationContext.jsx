@@ -4,6 +4,7 @@ import useAppContext from "./AppContext";
 import instrumentToIconMap from "../utils/instrumentToIcon";
 import getAllVenues from "../services/getAllVenues";
 import getAllBands from "../services/getAllBands";
+import { toast } from "react-hot-toast";
 
 const RiderCreationContext = createContext();
 
@@ -17,6 +18,9 @@ export const RiderCreationProvider = ({ children }) => {
   const [creatorStep, setCreatorStep] = useState(1);
   const [venues, setVenues] = useState([]);
   const [bands, setBands] = useState([]);
+  const [riderBandID, setRiderBandID] = useState(0);
+  const [riderVenueID, setRiderVenueID] = useState(0);
+  const [riderTime, setRiderTime] = useState("");
 
   const { store: appStore, actions: appActions } = useAppContext();
 
@@ -93,6 +97,28 @@ export const RiderCreationProvider = ({ children }) => {
     }
   }, [selectedInstruments, size, isMobile, isTablet, isDesktop]);
 
+  const handleFirstStepSubmit = (values) => {
+    try {
+      const bandID = bands.find((band) => band.name === values.banda).id;
+      const venueID = venues.find((venue) => venue.name === values.sala).id;
+      const date = values.fecha;
+      const timeParts = values.hora.split(":");
+      const hours = timeParts[0].padStart(2, "0");
+      const minutes = timeParts[1].padStart(2, "0");
+      const seconds = "00";
+      const time = `${hours}:${minutes}:${seconds}`;
+      toast.success("Datos guardados correctamente");
+
+      setRiderTime(`${date} ${time}`);
+      setRiderBandID(bandID);
+      setRiderVenueID(venueID);
+      console.log(riderTime, riderBandID, riderVenueID);
+      setCreatorStep(2);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleAddInstrument = (values, { resetForm }) => {
     const maxInstruments = 64;
     const findInstrument = translatedGear.find(
@@ -161,6 +187,7 @@ export const RiderCreationProvider = ({ children }) => {
     setCreatorStep,
     setVenues,
     setBands,
+    handleFirstStepSubmit,
   };
 
   return (

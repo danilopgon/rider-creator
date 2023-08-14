@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+
 import useRiderCreationContext from "../../context/RiderCreationContext";
 
 const RiderCreationForm = () => {
-  const { store: useRiderStore } = useRiderCreationContext();
+  const { store: useRiderStore, actions: useRiderActions } =
+    useRiderCreationContext();
+
   const { venues, bands } = useRiderStore;
+  const { handleFirstStepSubmit } = useRiderActions;
 
   const [bandaSearchResults, setBandaSearchResults] = useState([]);
   const [salaSearchResults, setSalaSearchResults] = useState([]);
@@ -14,6 +18,7 @@ const RiderCreationForm = () => {
     banda: "",
     sala: "",
     fecha: "",
+    hora: "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -27,12 +32,11 @@ const RiderCreationForm = () => {
       .required("Este campo es obligatorio")
       .min(3, "El nombre de la sala debe tener al menos 3 caracteres")
       .max(50, "El nombre de la sala no puede tener más de 50 caracteres"),
-    fecha: Yup.date().required("Este campo es obligatorio"),
+    fecha: Yup.date()
+      .required("Este campo es obligatorio")
+      .min(new Date(), "La fecha no puede ser anterior a hoy"),
+    hora: Yup.string().required("Este campo es obligatorio"),
   });
-
-  const handleSubmit = (values) => {
-    console.log(values.banda, values.sala, values.fecha);
-  };
 
   const handleBandaSearch = (query) => {
     const filteredBands = bands.filter((band) =>
@@ -54,7 +58,7 @@ const RiderCreationForm = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={handleSubmit}
+      onSubmit={handleFirstStepSubmit}
     >
       {({ values }) => (
         <Form className="flex flex-col">
@@ -65,9 +69,8 @@ const RiderCreationForm = () => {
             >
               Selecciona tu banda
             </label>
-            <Field
-              name="banda"
-              render={({ field }) => (
+            <Field name="banda">
+              {({ field }) => (
                 <div>
                   <input
                     {...field}
@@ -87,7 +90,7 @@ const RiderCreationForm = () => {
                   </datalist>
                 </div>
               )}
-            />
+            </Field>
             <ErrorMessage
               name="banda"
               component="div"
@@ -101,9 +104,8 @@ const RiderCreationForm = () => {
             >
               ¿En qué sala?
             </label>
-            <Field
-              name="sala"
-              render={({ field }) => (
+            <Field name="sala">
+              {({ field }) => (
                 <div>
                   <input
                     {...field}
@@ -123,7 +125,7 @@ const RiderCreationForm = () => {
                   </datalist>
                 </div>
               )}
-            />
+            </Field>
             <ErrorMessage
               name="sala"
               component="div"
@@ -146,6 +148,26 @@ const RiderCreationForm = () => {
             />
             <ErrorMessage
               name="fecha"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="hora"
+              className="block text-accent-content text-sm font-bold mb-2"
+            >
+              Hora
+            </label>
+            <Field
+              type="time"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-accent-content leading-tight focus:outline-none focus:shadow-outline"
+              id="hora"
+              name="hora"
+              value={values.hora}
+            />
+            <ErrorMessage
+              name="hora"
               component="div"
               className="text-red-500 text-sm"
             />

@@ -35,7 +35,7 @@ const instrumentToIconMap = {
   Amplificador: "amplificador.svg",
   Altavoz: "altavoz.svg",
   Monitor: "monitor.svg",
-  Audífonos: "cascos.svg",
+  Cascos: "cascos.svg",
   Foco: "foco.svg",
   Otro: "otro.svg",
 };
