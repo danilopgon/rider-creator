@@ -177,7 +177,7 @@ const RiderCreationForm = () => {
               type="submit"
               className=" btn btn-primary text-white font-bold py-2 px-4 rounded"
             >
-              ¡Comienza a crear!
+              Guardar la información de mi concierto
             </button>
           </div>
         </Form>

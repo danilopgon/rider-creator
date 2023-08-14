@@ -112,7 +112,7 @@ export const RiderCreationProvider = ({ children }) => {
       setRiderTime(`${date} ${time}`);
       setRiderBandID(bandID);
       setRiderVenueID(venueID);
-      console.log(riderTime, riderBandID, riderVenueID);
+
       setCreatorStep(2);
     } catch (error) {
       console.log(error);
@@ -129,6 +129,7 @@ export const RiderCreationProvider = ({ children }) => {
 
     const sizeMultiplier = size === "Small" ? 1 : size === "Medium" ? 2 : 3;
     const newInstrument = {
+      order: selectedInstruments.length + 1,
       id: selectedInstruments.length + 1,
       type,
       width: sizeMultiplier,
@@ -136,6 +137,7 @@ export const RiderCreationProvider = ({ children }) => {
       icon: `./src/assets/icons/${instrumentToIconMap[type]}`,
       x: 0,
       y: 0,
+      notes: "",
     };
 
     if (
@@ -149,18 +151,34 @@ export const RiderCreationProvider = ({ children }) => {
   };
 
   const handleInstrumentInformation = (event, data, instrument) => {
-    console.log(instrument.id, data.x, data.y, instrument.type);
-    console.log(instrumentInformation);
-    console.log(instrumentScale);
     setInstrumentInformation({
       ...instrumentInformation,
       [instrument.id]: {
-        x: data.x,
-        y: data.y,
-        type: instrument.type,
+        order: instrument.order,
         id: instrument.id,
+        coordinates_x: data.x,
+        coordinates_y: data.y,
+        type: instrument.type,
+        notes: instrument.notes,
       },
     });
+    console.log(instrumentInformation);
+  };
+
+  const getSavedPositions = (instrumentInformation) => {
+    return Object.values(instrumentInformation).reduce(
+      (positions, instrument) => {
+        if (instrument.coordinates_x && instrument.coordinates_y) {
+          positions[instrument.id] = {
+            x: instrument.coordinates_x,
+            y: instrument.coordinates_y,
+          };
+        }
+        console.log(positions);
+        return positions;
+      },
+      {}
+    );
   };
 
   const store = {
@@ -188,6 +206,7 @@ export const RiderCreationProvider = ({ children }) => {
     setVenues,
     setBands,
     handleFirstStepSubmit,
+    getSavedPositions,
   };
 
   return (
