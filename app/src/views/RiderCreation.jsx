@@ -1,6 +1,7 @@
 import useRiderCreationContext from "../context/RiderCreationContext";
 import RiderCreationForm from "../components/riderCreator/RiderCreationForm";
 import StagePlanner from "../components/riderCreator/StagePlanner";
+import InstrumentList from "../components/riderCreator/InstrumentList";
 
 const RiderCreation = () => {
   const { store, actions } = useRiderCreationContext();
@@ -23,6 +24,7 @@ const RiderCreation = () => {
         </h1>
         {creatorStep === 1 && <RiderCreationForm />}
         {creatorStep === 2 && <StagePlanner />}
+        {creatorStep === 3 && <InstrumentList />}
 
         <div className="flex justify-center my-5">
           <div className="join">

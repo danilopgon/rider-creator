@@ -162,7 +162,6 @@ export const RiderCreationProvider = ({ children }) => {
         notes: instrument.notes,
       },
     });
-    console.log(instrumentInformation);
   };
 
   const getSavedPositions = (instrumentInformation) => {
@@ -174,11 +173,22 @@ export const RiderCreationProvider = ({ children }) => {
             y: instrument.coordinates_y,
           };
         }
-        console.log(positions);
+
         return positions;
       },
       {}
     );
+  };
+
+  const onInstrumentOrderChange = (newInstrumentInformation) => {
+    const updatedInstrumentInformation = newInstrumentInformation.map(
+      (instrument, index) => ({
+        ...instrument,
+        order: index,
+      })
+    );
+
+    setInstrumentInformation(updatedInstrumentInformation);
   };
 
   const store = {
@@ -207,6 +217,7 @@ export const RiderCreationProvider = ({ children }) => {
     setBands,
     handleFirstStepSubmit,
     getSavedPositions,
+    onInstrumentOrderChange,
   };
 
   return (

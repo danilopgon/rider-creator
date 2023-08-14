@@ -29,7 +29,7 @@ const StagePlanner = () => {
             key={instrument.id}
             bounds="parent"
             scale={instrumentScale}
-            defaultPosition={savedPositions[instrument.id]} // Apply saved position
+            defaultPosition={savedPositions[instrument.id]}
             onStop={(event, data) => {
               handleInstrumentInformation(event, data, instrument);
             }}
