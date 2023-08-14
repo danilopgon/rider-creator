@@ -6,7 +6,7 @@ const getVenueByID = async (venueID) => {
 
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}api/venue/${venueID}/`,
+      `${import.meta.env.VITE_API_URL}api/venue/${venueID}`,
       {
         method: "GET",
         headers: {
