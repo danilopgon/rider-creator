@@ -9,7 +9,11 @@ const RiderCreation = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen max-w-screen bg-cover bg-no-repeat bg-fixed bg-[url('https://images.pexels.com/photos/811838/pexels-photo-811838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
-      <div className="w-full mx-10 backdrop-blur-md bg-base-200/50 p-5 rounded-lg my-10">
+      <div
+        className={`w-full ${
+          creatorStep === 2 ? "" : "xl:max-w-lg"
+        } mx-10 backdrop-blur-md bg-base-200/50 p-5 rounded-lg my-10`}
+      >
         <h1 className="text-center my-4 text-3xl font-bold text-base-content">
           {creatorStep === 1
             ? "Crea tu rider"
