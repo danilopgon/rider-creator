@@ -45,7 +45,7 @@ function App() {
               <Route element={<PrivateRoutes />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/create-rider" element={<RiderCreation />} />
-                <Route path="/createband" element={<CreateBand />} />
+                <Route path="/create-band" element={<CreateBand />} />
                 <Route path="/create-venue" element={<CreateVenue />} />
               </Route>
             </Routes>
