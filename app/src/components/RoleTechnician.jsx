@@ -1,17 +1,16 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getBand } from "../services/getBand";
+import getAllVenuesByManager from "../services/getAllVenuesByManager";
 
 export const RoleTechnician = () => {
-    const [bandData, setBandData] = useState([]);
+    const [venueData, setVenueData] = useState([]);
     const [expandedBandId, setExpandedBandId] = useState(null);
 
     useEffect(() => {
         async function fetchData() {
             try {
-                // const respData = await getBand();
-                setBandData(mockData);
-                // TO DO ENDPOINT RIDERS
+                const respData = await getAllVenuesByManager();
+                setVenueData(respData);
             } catch (error) {
                 console.error(error);
             }
