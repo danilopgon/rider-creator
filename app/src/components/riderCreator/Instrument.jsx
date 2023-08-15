@@ -9,10 +9,6 @@ const Instrument = ({
   filter,
   creatorStep,
 }) => {
-  useEffect(() => {
-    console.log(creatorStep);
-  }, [creatorStep]);
-
   return (
     <Draggable
       key={instrument.id}
