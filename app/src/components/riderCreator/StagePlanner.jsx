@@ -12,19 +12,14 @@ const StagePlanner = () => {
     handleInstrumentInformation,
     getSavedPositions,
   } = useRiderActions;
-  const {
-    selectedInstruments,
-    instrumentInformation,
-    instrumentScale,
-    filter,
-  } = useRiderStore;
+  const { instrumentInformation, instrumentScale, filter } = useRiderStore;
 
   const savedPositions = getSavedPositions(instrumentInformation);
 
   return (
     <div className="flex flex-col md:flex-row-reverse h-fit py-10 md:py-16 xl:py-32 max-w-screen justify-center items-center md:gap-12 xl:gap-48">
       <div className=" w-80 h-80 md:scale-125 xl:scale-[1.75] border-4 border-base-content rounded-xl relative">
-        {selectedInstruments?.map((instrument) => (
+        {instrumentInformation?.map((instrument) => (
           <Draggable
             key={instrument.id}
             bounds="parent"

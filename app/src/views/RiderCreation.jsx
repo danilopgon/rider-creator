@@ -2,6 +2,7 @@ import useRiderCreationContext from "../context/RiderCreationContext";
 import RiderCreationForm from "../components/riderCreator/RiderCreationForm";
 import StagePlanner from "../components/riderCreator/StagePlanner";
 import InstrumentList from "../components/riderCreator/InstrumentList";
+import ReviewRider from "../components/riderCreator/ReviewRider";
 
 const RiderCreation = () => {
   const { store, actions } = useRiderCreationContext();
@@ -16,15 +17,15 @@ const RiderCreation = () => {
         } md:mx-10 backdrop-blur-md bg-base-200/50 p-5 rounded-lg my-10`}
       >
         <h1 className="text-center my-4 text-3xl font-bold text-base-content">
-          {creatorStep === 1
-            ? "Crea tu rider"
-            : creatorStep === 2
-            ? "Añade los instrumentos"
-            : "Añade los detalles"}
+          {creatorStep === 1 && "¿Dónde tocamos?"}
+          {creatorStep === 2 && "Planifica el escenario"}
+          {creatorStep === 3 && "Ordena las entradas"}
+          {creatorStep === 4 && "¿Está todo correcto?"}
         </h1>
         {creatorStep === 1 && <RiderCreationForm />}
         {creatorStep === 2 && <StagePlanner />}
         {creatorStep === 3 && <InstrumentList />}
+        {creatorStep === 4 && <ReviewRider />}
 
         <div className="flex justify-center my-5">
           <div className="join">
@@ -57,6 +58,16 @@ const RiderCreation = () => {
               }}
             >
               3
+            </button>
+            <button
+              className={`join-item btn btn-primary ${
+                creatorStep === 4 ? "btn-active" : ""
+              }`}
+              onClick={() => {
+                setCreatorStep(4);
+              }}
+            >
+              4
             </button>
           </div>
         </div>

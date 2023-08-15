@@ -10,7 +10,6 @@ const RiderCreationContext = createContext();
 
 export const RiderCreationProvider = ({ children }) => {
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedInstruments, setSelectedInstruments] = useState([]);
   const [instrumentInformation, setInstrumentInformation] = useState([]);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [instrumentScale, setInstrumentScale] = useState(1);
@@ -95,7 +94,7 @@ export const RiderCreationProvider = ({ children }) => {
     } else if (size.width > 1280 && isDesktop) {
       setInstrumentScale(1.75);
     }
-  }, [selectedInstruments, size, isMobile, isTablet, isDesktop]);
+  }, [instrumentInformation, size, isMobile, isTablet, isDesktop]);
 
   const handleFirstStepSubmit = (values) => {
     try {
@@ -129,8 +128,8 @@ export const RiderCreationProvider = ({ children }) => {
 
     const sizeMultiplier = size === "Small" ? 1 : size === "Medium" ? 2 : 3;
     const newInstrument = {
-      order: selectedInstruments.length + 1,
-      id: selectedInstruments.length + 1,
+      order: instrumentInformation.length + 1,
+      id: instrumentInformation.length + 1,
       type,
       width: sizeMultiplier,
       height: sizeMultiplier,
@@ -141,11 +140,11 @@ export const RiderCreationProvider = ({ children }) => {
     };
 
     if (
-      selectedInstruments.length < maxInstruments &&
+      instrumentInformation.length < maxInstruments &&
       newInstrument.width < 8 &&
       newInstrument.height < 8
     ) {
-      setSelectedInstruments([...selectedInstruments, newInstrument]);
+      setInstrumentInformation([...instrumentInformation, newInstrument]);
     }
     resetForm();
   };
@@ -199,9 +198,12 @@ export const RiderCreationProvider = ({ children }) => {
     setInstrumentInformation(updatedInstrumentInformation);
   };
 
+  useEffect(() => {
+    console.log(instrumentInformation);
+  }, [instrumentInformation]);
+
   const store = {
     searchResults,
-    selectedInstruments,
     instrumentInformation,
     size,
     instrumentScale,
@@ -213,7 +215,6 @@ export const RiderCreationProvider = ({ children }) => {
 
   const actions = {
     setSearchResults,
-    setSelectedInstruments,
     setInstrumentInformation,
     setSize,
     setInstrumentScale,
