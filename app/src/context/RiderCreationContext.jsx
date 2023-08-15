@@ -199,8 +199,9 @@ export const RiderCreationProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log(instrumentInformation);
-  }, [instrumentInformation]);
+    // console.log(instrumentInformation);
+    // console.log(creatorStep);
+  }, [instrumentInformation, creatorStep]);
 
   const store = {
     searchResults,

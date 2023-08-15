@@ -1,9 +1,7 @@
+import StagePlanner from "./StagePlanner";
+
 const ReviewRider = () => {
-  return (
-    <div>
-      <h1>Review Rider</h1>
-    </div>
-  );
+  return <StagePlanner />;
 };
 
 export default ReviewRider;
