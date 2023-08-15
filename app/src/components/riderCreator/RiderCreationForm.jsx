@@ -8,17 +8,17 @@ const RiderCreationForm = () => {
   const { store: useRiderStore, actions: useRiderActions } =
     useRiderCreationContext();
 
-  const { venues, bands } = useRiderStore;
-  const { handleFirstStepSubmit } = useRiderActions;
+  const { venues, bands, riderVenueID, riderBandID, riderTime } = useRiderStore;
+  const { handleFirstStepSubmit, getHours, getDate } = useRiderActions;
 
   const [bandaSearchResults, setBandaSearchResults] = useState([]);
   const [salaSearchResults, setSalaSearchResults] = useState([]);
 
   const initialValues = {
-    banda: "",
-    sala: "",
-    fecha: "",
-    hora: "",
+    banda: bands.find((band) => band.id === riderBandID)?.name || "",
+    sala: venues.find((venue) => venue.id === riderVenueID)?.name || "",
+    fecha: riderTime ? getDate() : "",
+    hora: riderTime ? getHours() : "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -56,6 +56,7 @@ const RiderCreationForm = () => {
 
   return (
     <Formik
+      enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleFirstStepSubmit}

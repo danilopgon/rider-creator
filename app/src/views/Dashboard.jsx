@@ -8,15 +8,13 @@ import { RoleManager } from "../components/RoleManager";
 import { RoleTechnician } from "../components/RoleTechnician";
 
 import { HiOutlinePencil } from "react-icons/hi";
-import {AiOutlinePlus} from "react-icons/ai";
-
+import { AiOutlinePlus } from "react-icons/ai";
 
 const Dashboard = () => {
   const [isSelect, setIsSelect] = useState(null);
 
   const { store } = useLoginContext();
-  const {store: appStore, actions : appActions} = useAppContext();
-  
+  const { store: appStore, actions: appActions } = useAppContext();
 
   if (
     store?.venueManagerID === null &&
@@ -42,25 +40,36 @@ const Dashboard = () => {
         <div className="flex justify-center">
           <div className="text-center">
             <div className="flex">
-            <img
-              src={store?.myUser?.img || 'https://i.pinimg.com/474x/ea/e3/8f/eae38f025c73045f983dd155949f81b1.jpg'}
-              className="w-40 h-40 mx-auto mb-4 rounded-full"
-              alt="Fotografia"
-            />
-            {store?.myUser?.img!==null?(<button onClick={()=>window.my_modal_1.showModal()} className="absolute p-2 mx-auto mt-32 text-2xl text-white rounded-full ms-48 bg-slate-500">
-              <HiOutlinePencil/>  
-            </button>) :(
-              (<button onClick={()=>window.my_modal_1.showModal()} className="absolute p-2 mx-auto mt-32 text-2xl text-white rounded-full ms-48 bg-slate-500">
-              <AiOutlinePlus/>  
-            </button>)
-            )}
+              <img
+                src={
+                  store?.myUser?.img ||
+                  "https://i.pinimg.com/474x/ea/e3/8f/eae38f025c73045f983dd155949f81b1.jpg"
+                }
+                className="w-40 h-40 mx-auto mb-4 rounded-full"
+                alt="Fotografia"
+              />
+              {store?.myUser?.img !== null ? (
+                <button
+                  onClick={() => window.my_modal_1.showModal()}
+                  className="absolute p-2 mx-auto mt-32 text-2xl text-white rounded-full ms-48 bg-slate-500"
+                >
+                  <HiOutlinePencil />
+                </button>
+              ) : (
+                <button
+                  onClick={() => window.my_modal_1.showModal()}
+                  className="absolute p-2 mx-auto mt-32 text-2xl text-white rounded-full ms-48 bg-slate-500"
+                >
+                  <AiOutlinePlus />
+                </button>
+              )}
             </div>
-            
+
             <div className="flex items-center justify-center p-4 my-8 space-x-24 rounded shadow-md bg-base-300">
               <p>Mensajes</p>
               <button type="button" className="w-32 h-8 btn btn-primary">
                 Leer
-              </button>  
+              </button>
             </div>
           </div>
         </div>
@@ -104,16 +113,25 @@ const Dashboard = () => {
           <h3 className="text-lg font-bold">Hello!</h3>
           <h4>Agrega tu foto de perfil</h4>
           <div className="flex justify-center modal-action">
-          <input onChange={appActions.handleChargeImgProfile} type="file" />
-          {/* if there is a button in form, it will close the modal */}
+            <input onChange={appActions.handleChargeImgProfile} type="file" />
+            {/* if there is a button in form, it will close the modal */}
           </div>
           <div className="flex justify-center w-full gap-3 mt-8">
-          <button onClick={store?.myUser.img === null? appActions.handleSaveImgProfile : appActions.handleUpdateImgProfile} type="button" className="btn btn-success">{store?.myUser?.img === null?'Save': 'Update'}</button>
-           <button className="btn">Close</button>
+            <button
+              onClick={
+                store?.myUser.img === null
+                  ? appActions.handleSaveImgProfile
+                  : appActions.handleUpdateImgProfile
+              }
+              type="button"
+              className="btn btn-success"
+            >
+              {store?.myUser?.img === null ? "Save" : "Update"}
+            </button>
+            <button className="btn">Close</button>
           </div>
-          </form>
+        </form>
       </dialog>
-      
     </div>
   );
 };

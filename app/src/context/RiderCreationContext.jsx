@@ -1,10 +1,12 @@
 import { useContext, createContext, useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 import useAppContext from "./AppContext";
 import instrumentToIconMap from "../utils/instrumentToIcon";
 import getAllVenues from "../services/getAllVenues";
 import getAllBands from "../services/getAllBands";
-import { toast } from "react-hot-toast";
+import postNewRider from "../services/postNewRider";
 
 const RiderCreationContext = createContext();
 
@@ -25,6 +27,8 @@ export const RiderCreationProvider = ({ children }) => {
 
   const { isDesktop, isMobile, isTablet, translatedGear } = appStore;
   const { setIsDesktop, setIsMobile, setIsTablet } = appActions;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -196,12 +200,76 @@ export const RiderCreationProvider = ({ children }) => {
       notes: instrument.notes,
     };
     setInstrumentInformation(updatedInstrumentInformation);
+    toast.success("Notas guardadas correctamente");
   };
 
-  useEffect(() => {
-    console.log(instrumentInformation);
-    console.log(creatorStep);
-  }, [instrumentInformation, creatorStep]);
+  const getVenueName = (id) => {
+    const venue = venues.find((venue) => venue.id === id);
+    return venue.name;
+  };
+
+  const getBandName = (id) => {
+    const band = bands.find((band) => band.id === id);
+    return band.name;
+  };
+
+  const getTime = () => {
+    const date = riderTime.split(" ")[0].split("-").reverse().join("-");
+    const time = riderTime.split(" ")[1].split(":").slice(0, 2).join(":");
+
+    return `${date} ${time}`;
+  };
+
+  const getHours = () => {
+    const time = riderTime.split(" ")[1].split(":").slice(0, 2).join(":");
+    return time;
+  };
+
+  const getDate = () => {
+    const date = riderTime.split(" ")[0];
+    return date;
+  };
+
+  const submitRiderInformation = async () => {
+    if (
+      !riderBandID ||
+      !riderVenueID ||
+      !riderTime ||
+      instrumentInformation.length === 0
+    ) {
+      toast.error("Falta información para generar el rider");
+      return;
+    }
+
+    const riderInformation = {
+      band_id: riderBandID,
+      venue_id: riderVenueID,
+      date: riderTime,
+      gears: instrumentInformation.map((instrument) => ({
+        order: instrument.order,
+        gear_id: translatedGear.find(
+          (translatedInstrument) =>
+            translatedInstrument.type === instrument.type
+        ).id,
+        coordinates_x: instrument.coordinates_x,
+        coordinates_y: instrument.coordinates_y,
+        notes: instrument.notes,
+      })),
+    };
+
+    const response = await postNewRider(riderInformation);
+    console.log(response);
+    if (response.status !== 200) {
+      toast.error("Error al generar el rider");
+      return;
+    }
+
+    toast.success("Rider generado correctamente");
+    const timeout = setTimeout(() => {
+      navigate("/dashboard");
+    }, 2000);
+    return () => clearTimeout(timeout);
+  };
 
   const store = {
     searchResults,
@@ -212,6 +280,9 @@ export const RiderCreationProvider = ({ children }) => {
     creatorStep,
     venues,
     bands,
+    riderVenueID,
+    riderBandID,
+    riderTime,
   };
 
   const actions = {
@@ -228,6 +299,12 @@ export const RiderCreationProvider = ({ children }) => {
     handleFirstStepSubmit,
     getSavedPositions,
     handleUpdateNotes,
+    getVenueName,
+    getBandName,
+    getTime,
+    getHours,
+    getDate,
+    submitRiderInformation,
   };
 
   return (
