@@ -11,7 +11,7 @@ const RiderCreationContext = createContext();
 export const RiderCreationProvider = ({ children }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedInstruments, setSelectedInstruments] = useState([]);
-  const [instrumentInformation, setInstrumentInformation] = useState({});
+  const [instrumentInformation, setInstrumentInformation] = useState([]);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [instrumentScale, setInstrumentScale] = useState(1);
   const [filter, setFilter] = useState("");
@@ -151,43 +151,51 @@ export const RiderCreationProvider = ({ children }) => {
   };
 
   const handleInstrumentInformation = (event, data, instrument) => {
-    setInstrumentInformation({
-      ...instrumentInformation,
-      [instrument.id]: {
+    const updatedInstrumentInformation = [...instrumentInformation];
+    const instrumentIndex = updatedInstrumentInformation.findIndex(
+      (i) => i.id === instrument.id
+    );
+    if (instrumentIndex === -1) {
+      updatedInstrumentInformation.push({
         order: instrument.order,
         id: instrument.id,
         coordinates_x: data.x,
         coordinates_y: data.y,
         type: instrument.type,
         notes: instrument.notes,
-      },
-    });
+      });
+    } else {
+      updatedInstrumentInformation[instrumentIndex] = {
+        ...updatedInstrumentInformation[instrumentIndex],
+        coordinates_x: data.x,
+        coordinates_y: data.y,
+      };
+    }
+    setInstrumentInformation(updatedInstrumentInformation);
   };
 
   const getSavedPositions = (instrumentInformation) => {
-    return Object.values(instrumentInformation).reduce(
-      (positions, instrument) => {
-        if (instrument.coordinates_x && instrument.coordinates_y) {
-          positions[instrument.id] = {
-            x: instrument.coordinates_x,
-            y: instrument.coordinates_y,
-          };
-        }
+    return instrumentInformation.reduce((positions, instrument) => {
+      if (instrument.coordinates_x && instrument.coordinates_y) {
+        positions[instrument.id] = {
+          x: instrument.coordinates_x,
+          y: instrument.coordinates_y,
+        };
+      }
 
-        return positions;
-      },
-      {}
-    );
+      return positions;
+    }, {});
   };
 
-  const onInstrumentOrderChange = (newInstrumentInformation) => {
-    const updatedInstrumentInformation = newInstrumentInformation.map(
-      (instrument, index) => ({
-        ...instrument,
-        order: index,
-      })
+  const handleUpdateNotes = (instrument) => {
+    const updatedInstrumentInformation = [...instrumentInformation];
+    const instrumentIndex = updatedInstrumentInformation.findIndex(
+      (i) => i.id === instrument.id
     );
-
+    updatedInstrumentInformation[instrumentIndex] = {
+      ...updatedInstrumentInformation[instrumentIndex],
+      notes: instrument.notes,
+    };
     setInstrumentInformation(updatedInstrumentInformation);
   };
 
@@ -217,7 +225,7 @@ export const RiderCreationProvider = ({ children }) => {
     setBands,
     handleFirstStepSubmit,
     getSavedPositions,
-    onInstrumentOrderChange,
+    handleUpdateNotes,
   };
 
   return (
