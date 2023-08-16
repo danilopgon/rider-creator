@@ -28,7 +28,7 @@ export const RoleMusician = () => {
     <section>
       <div className="container px-4 mx-auto shadow-md">
         <h1 className="flex justify-center mb-6 text-4xl font-bold">
-          Tu Rider
+          Tus riders
         </h1>
         <div className="mb-4">
           <h1 className="block mb-2 text-sm font-bold text-base-content">
@@ -39,9 +39,7 @@ export const RoleMusician = () => {
                     <button
                       className="text-blue-500 underline cursor-pointer"
                       onClick={() =>
-                        setExpandBand(
-                          expandBand === band.id ? null : band.id
-                        )
+                        setExpandBand(expandBand === band.id ? null : band.id)
                       }
                     >
                       <span className="font-semibold text-lg text-indigo-600">
@@ -143,10 +141,7 @@ export const RoleMusician = () => {
                   {expandedBandId === band.id && (
                     <ul className="mt-2 pl-4 border-l-2 border-blue-500 space-y-1">
                       {band.all_members.map((member, index) => (
-                        <li
-                          key={index}
-                          className="mb-1 pl-2 flex items-center"
-                        >
+                        <li key={index} className="mb-1 pl-2 flex items-center">
                           <span className="mr-2 text-blue-500">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +173,11 @@ export const RoleMusician = () => {
             Editar
           </button>
 
-          <Link to="/createband" className="w-full btn btn-primary" type="button">
+          <Link
+            to="/createband"
+            className="w-full btn btn-primary"
+            type="button"
+          >
             Añadir
           </Link>
         </div>

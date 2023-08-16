@@ -141,6 +141,10 @@ export const AppProvider = ({ children }) => {
     });
   };
 
+  const handleNewRoleSelection = () => {
+    setSelectNewRole(true);
+  };
+
   const store = {
     selectedRole,
     defaultGear,
@@ -165,6 +169,7 @@ export const AppProvider = ({ children }) => {
     handleChargeImgProfile,
     handleUpdateImgProfile,
     setSelectNewRole,
+    handleNewRoleSelection,
   };
 
   return (
