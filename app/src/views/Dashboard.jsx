@@ -41,8 +41,8 @@ const Dashboard = () => {
         className={`w-full xl:w-4/7 md:mx-10 backdrop-blur-md bg-base-200/50 p-5 rounded-lg my-10`}
       >
         <div className="flex flex-col md:flex-row h-fit py-10 md:py-16 xl:py-32 max-w-screen justify-center items-center md:gap-12 shadow-md ">
-          <div className="text-center bg-base-200 p-10 rounded-xl">
-            <div className="flex">
+          <div className="text-center my-4 w-full md:w-1/2  bg-base-200 p-10 rounded-xl">
+            <div className="relative">
               <img
                 src={
                   store?.myUser?.img ||
@@ -55,14 +55,14 @@ const Dashboard = () => {
               {store?.myUser?.img !== null ? (
                 <button
                   onClick={() => window.my_modal_1.showModal()}
-                  className="absolute p-2 mx-auto mt-32 text-2xl text-white rounded-full ms-48 bg-slate-500"
+                  className="absolute p-2 text-2xl text-white rounded-full bg-slate-500 top-0 right-0 transform translate-x-1/2 -translate-y-1/2"
                 >
                   <HiOutlinePencil />
                 </button>
               ) : (
                 <button
                   onClick={() => window.my_modal_1.showModal()}
-                  className="absolute p-2 mx-auto mt-32 text-2xl text-white rounded-full ms-48 bg-slate-500"
+                  className="absolute p-2 text-2xl text-white rounded-full bg-slate-500 top-0 right-0 transform translate-x-1/2 -translate-y-1/2"
                 >
                   <AiOutlinePlus />
                 </button>
@@ -123,7 +123,11 @@ const Dashboard = () => {
               <RoleManager />
             ) : isSelect === "technician" ? (
               <RoleTechnician />
-            ) : null}
+            ) : (
+              <h1 className="text-xl">
+                ¡Selecciona el rol que quieres gestionar!
+              </h1>
+            )}
           </section>
         </div>
 
