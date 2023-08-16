@@ -1,44 +1,38 @@
 import useBand from "../../context/BandContext";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import {CardUserBand} from "../CardUserBand";
+import { CardUserBand } from "../CardUserBand";
 
 import { toast } from "react-hot-toast";
 
-
 export const StepTwo = () => {
+  const { storeBand, actionsBand } = useBand();
+  const { findUser, members, userList, showAutocompleteUser } = storeBand;
+  const {
+    handleFindUser,
+    handleSelectUser,
+    handleAddMemberNotRegistred,
+    handleOnSubmitAddMember,
+    handleDeleteMember,
+  } = actionsBand;
 
-    const { storeBand, actionsBand } = useBand();
-    const { 
-      findUser,
-      members,
-      userList,
-      showAutocompleteUser } = storeBand;
-    const {
-      handleFindUser,
-      handleSelectUser,
-      handleAddMemberNotRegistred,
-      handleOnSubmitAddMember,
-      handleDeleteMember
-      } = actionsBand;
+  const initialValues = {
+    name: "",
+    musician: "",
+  };
 
-    const initialValues = {
-        name: '',
-        musician: ''
-      } 
-    
-      const validationSchema = Yup.object().shape({
-        name: Yup.string()
-          .trim()
-          .required('Este campo es obligatorio')
-          .min(3, 'El lugar debe tener al menos 3 caracteres')
-          .max(50, 'El lugar no puede tener más de 50 caracteres'),
-        musician: Yup.string()
-          .trim()
-          .required('Este campo es obligatorio')
-          .min(3, 'La sala debe tener al menos 5 caracteres')
-          .max(100, 'La sala no puede tener más de 100 caracteres'),
-      });
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .trim()
+      .required("Este campo es obligatorio")
+      .min(3, "El lugar debe tener al menos 3 caracteres")
+      .max(50, "El lugar no puede tener más de 50 caracteres"),
+    musician: Yup.string()
+      .trim()
+      .required("Este campo es obligatorio")
+      .min(3, "La sala debe tener al menos 5 caracteres")
+      .max(100, "La sala no puede tener más de 100 caracteres"),
+  });
 
   return (
     <div className="flex flex-col w-full h-full gap-4 p-4 rounded bg-slate-300 sm:w-full lg:w-full xl:w-full animate-fade-left">
@@ -129,7 +123,13 @@ export const StepTwo = () => {
             <button type="submit" className="btn btn-primary">
               Finalizar
             </button>
-            <button className="btn btn-error" type="button" onClick={()=>window.my_modal_5.showModal()}>Cancelar</button>
+            <button
+              className="btn btn-error"
+              type="button"
+              onClick={() => window.my_modal_5.showModal()}
+            >
+              Cancelar
+            </button>
           </div>
         </Form>
       </Formik>

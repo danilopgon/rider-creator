@@ -180,7 +180,7 @@ export const LoginProvider = ({ children }) => {
 
   const handleRolePermissions = (token) => {
     const decoded = jwt_decode(token);
-    if(decoded?.sub) {
+    if (decoded?.sub) {
       setMyUser(decoded?.sub);
     }
     if (decoded?.sub.musician_id) {
@@ -201,7 +201,10 @@ export const LoginProvider = ({ children }) => {
       handleRolePermissions
     );
   }, []);
-  
+
+  useEffect(() => {
+    console.log(myUser);
+  }, [myUser]);
 
   const actions = {
     setSignupMode,
@@ -225,7 +228,7 @@ export const LoginProvider = ({ children }) => {
     musicianID,
     technicianID,
     venueManagerID,
-    myUser
+    myUser,
   };
 
   return (

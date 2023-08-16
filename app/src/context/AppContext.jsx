@@ -19,6 +19,7 @@ export const AppProvider = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [imgProfile, setImgProfile] = useState(null);
+  const [selectNewRole, setSelectNewRole] = useState(false);
 
   const navigate = useNavigate();
 
@@ -147,6 +148,7 @@ export const AppProvider = ({ children }) => {
     isMobile,
     isTablet,
     translatedGear,
+    selectNewRole,
   };
 
   const actions = {
@@ -162,6 +164,7 @@ export const AppProvider = ({ children }) => {
     handleSaveImgProfile,
     handleChargeImgProfile,
     handleUpdateImgProfile,
+    setSelectNewRole,
   };
 
   return (
