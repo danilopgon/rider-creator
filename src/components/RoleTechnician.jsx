@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import getAllVenuesByManager from "../services/getAllVenuesByManager";
+import { getBand } from "../services/getBand";
 
 export const RoleTechnician = () => {
-    const [venueData, setVenueData] = useState([]);
+    const [bandData, setBandData] = useState([]);
     const [expandedBandId, setExpandedBandId] = useState(null);
+
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const respData = await getAllVenuesByManager();
-                setVenueData(respData);
+                const respData = await getBand();
+                setBandData(respData);
             } catch (error) {
                 console.error(error);
             }
@@ -45,7 +46,7 @@ export const RoleTechnician = () => {
                 </div>
             </div>
 
-            <div className="container px-4 mx-auto shadow-md mt-8">
+            <div className="container p-4 mx-auto shadow-md mt-8">
                 <h1 className="flex justify-center mb-6 text-4xl font-bold">
                     Tus bolos
                 </h1>

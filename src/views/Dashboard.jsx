@@ -37,7 +37,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-full bg-cover bg-no-repeat bg-fixed bg-[url('https://images.pexels.com/photos/2078076/pexels-photo-2078076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
+    <div className="flex justify-center items-center min-h-screen w-full bg-cover pb-3 bg-no-repeat bg-fixed bg-[url('https://images.pexels.com/photos/2078076/pexels-photo-2078076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
       <div className="pt-10 m-auto mt-4 rounded shadow-md w-96 bg-base-100">
         <div className="flex justify-center">
           <div className="text-center">
