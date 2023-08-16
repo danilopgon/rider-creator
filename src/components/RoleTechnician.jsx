@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getBand } from "../services/getBand";
+import getVenueByID from "../services/getVenueByID";
 
 export const RoleTechnician = () => {
     const [bandData, setBandData] = useState([]);
@@ -11,6 +12,9 @@ export const RoleTechnician = () => {
         async function fetchData() {
             try {
                 const respData = await getBand();
+                getVenueByID(respData.venue_id);
+                console.log(bandData);
+                console.log(expandedBandId);
                 setBandData(respData);
             } catch (error) {
                 console.error(error);
@@ -69,23 +73,42 @@ export const RoleTechnician = () => {
                                 {expandedBandId === band.id && (
                                     <ul className="mt-2 pl-4 border-l-2 border-blue-500 space-y-1">
                                         {band.riders.map((rider, index) => (
-                                            <li key={index} className="mb-1 pl-2 flex items-center">
-                                                <span className="mr-2 text-blue-500">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-4 w-4"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2-2a1 1 0 00-1 1v2a1 1 0 001 1h8a1 1 0 001-1V3a1 1 0 00-1-1H6zm-1 5a3 3 0 016 0H5z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                </span>
-                                                {rider.technician_id}
-                                            </li>
+                                            <>
+                                                <li key={index} className="mb-1 pl-2 flex items-center">
+                                                    <span className="mr-2 text-blue-500">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            className="h-4 w-4"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                        >
+                                                            <path
+                                                                fillRule="evenodd"
+                                                                d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2-2a1 1 0 00-1 1v2a1 1 0 001 1h8a1 1 0 001-1V3a1 1 0 00-1-1H6zm-1 5a3 3 0 016 0H5z"
+                                                                clipRule="evenodd"
+                                                            />
+                                                        </svg>
+                                                    </span>
+                                                    {rider.technician_id}
+                                                </li>
+                                                <li key={index} className="mb-1 pl-2 flex items-center">
+                                                    <span className="mr-2 text-blue-500">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            className="h-4 w-4"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                        >
+                                                            <path
+                                                                fillRule="evenodd"
+                                                                d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2-2a1 1 0 00-1 1v2a1 1 0 001 1h8a1 1 0 001-1V3a1 1 0 00-1-1H6zm-1 5a3 3 0 016 0H5z"
+                                                                clipRule="evenodd"
+                                                            />
+                                                        </svg>
+                                                    </span>
+                                                    {rider.venue_id}
+                                                </li>
+                                            </>
                                         ))}
                                     </ul>
                                 )}
