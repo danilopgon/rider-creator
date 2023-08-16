@@ -20,6 +20,7 @@ import RiderCreation from "./views/RiderCreation";
 import PrivateRoutes from "./components/PrivateRoutes";
 import { CreateBand } from "./views/CreateBand";
 import CreateVenue from "./views/CreateVenue";
+import { DashboardProvider } from "./context/DashboardContext";
 
 function App() {
   const backend = window.innerWidth <= 768 ? TouchBackend : HTML5Backend;
@@ -31,30 +32,32 @@ function App() {
       <DndProvider backend={backend} options={options}>
         <LoginProvider>
           <AppProvider>
-            <RiderCreationProvider>
-              <NavBar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
+            <DashboardProvider>
+              <RiderCreationProvider>
+                <NavBar />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<Login />} />
 
-                <Route path="/reset-password" element={<ResetPassword />} />
-                <Route
-                  path="/recover-password/:token"
-                  element={<NewPassword />}
-                />
-                <Route
-                  path="/activation/:token"
-                  element={<PageActivation />}
-                ></Route>
-                <Route path="*" element={<NotFound />}></Route>
-                <Route element={<PrivateRoutes />}>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/create-rider" element={<RiderCreation />} />
-                  <Route path="/create-band" element={<CreateBand />} />
-                  <Route path="/create-venue" element={<CreateVenue />} />
-                </Route>
-              </Routes>
-            </RiderCreationProvider>
+                  <Route path="/reset-password" element={<ResetPassword />} />
+                  <Route
+                    path="/recover-password/:token"
+                    element={<NewPassword />}
+                  />
+                  <Route
+                    path="/activation/:token"
+                    element={<PageActivation />}
+                  ></Route>
+                  <Route path="*" element={<NotFound />}></Route>
+                  <Route element={<PrivateRoutes />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/create-rider" element={<RiderCreation />} />
+                    <Route path="/create-band" element={<CreateBand />} />
+                    <Route path="/create-venue" element={<CreateVenue />} />
+                  </Route>
+                </Routes>
+              </RiderCreationProvider>
+            </DashboardProvider>
           </AppProvider>
         </LoginProvider>
       </DndProvider>

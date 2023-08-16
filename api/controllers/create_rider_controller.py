@@ -3,6 +3,11 @@ from utils.db import db
 from models.rider import Rider
 from models.rider_gear import Rider_Gear
 from models.gear import Gear
+from models.band import Band
+from models.band_members import Band_Members
+from models.rider import Rider
+from models.rider_gear import Rider_Gear
+
 import json
 from datetime import datetime
 
@@ -71,7 +76,48 @@ def create_rider_controller():
         return jsonify({"msg": "Internal server error"}), 500        
     
 
+def get_rider_controller(id):
+    try:
+        if id is None:
+            return jsonify({"msg": "Missing data in request, id is empty"}), 400
+        
+        rider = Rider.query.filter_by(id=id).first()
+        if rider is None:
+            return jsonify({"msg": "Rider not found"}), 404
+        
+        rider_serialezed = rider.serialize()
+        gears = Rider_Gear.query.filter_by(rider_id=rider_serialezed.get('id')).all()
+        rider_serialezed.get('gears').extend([gear.serialize() for gear in gears])
+        return jsonify({'rider':rider_serialezed}), 200
+    except ValueError as e:
+        print(e)
+        return jsonify({"msg": "Internal server error"}), 500
+    
 
+def get_all_riders_by_user_controller(musician_id):
+    try:
+        if musician_id is None:
+            return jsonify({"msg": " musician_id is empty"}), 400
+        
+        
+
+        band_members = Band_Members.query.filter_by(musician_id=musician_id).all()
+        band_ids = [band_member.band_id for band_member in band_members]
+        riders = Rider.query.filter(Rider.band_id.in_(band_ids)).all()
+
+        
+        if not riders:
+            return jsonify({"msg": "Riders not found"}), 404
+        
+        riders_serialized = [rider.serialize() for rider in riders]
+        for rider in riders_serialized:
+            gears = Rider_Gear.query.filter_by(rider_id=rider.get('id')).all()
+            rider.get('gears').extend([gear.serialize() for gear in gears])    
+        return jsonify({'riders':riders_serialized}), 200
+    except ValueError as e:
+        print(e)
+        return jsonify({"msg": "Internal server error"}), 500
+    
 def get_all_riders_by_band_controller(id):
     try:
         if id is None:

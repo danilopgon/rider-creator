@@ -1,43 +1,58 @@
-import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { getBand } from "../services/getBand";
-import getVenueByID from "../services/getVenueByID";
 import DashboardCard from "./DashboardCard";
 import RoleCardContainer from "./RoleContainer";
 
-export const RoleMusician = () => {
-  const [bandData, setBandData] = useState([]);
-  const [expandedBandId, setExpandedBandId] = useState(null);
-  const [expandBand, setExpandBand] = useState(false);
+import useDashboardContext from "../context/DashboardContext";
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const respData = await getBand();
-        getVenueByID(respData.venue_id);
-        console.log(bandData);
-        console.log(expandedBandId);
-        setBandData(respData);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchData();
-  }, []);
+export const RoleMusician = () => {
+  const { store, actions } = useDashboardContext();
+  const { bandData, riderData, isLoading, bands, venues } = store;
 
   return (
     <section>
-      <div className="container px-4 mx-auto shadow-md">
+      <div className="container px-4 mx-auto mt-4 ">
         <h1 className="flex justify-center mb-6 text-4xl font-bold">
-          Tus riders
+          Tus Riders
         </h1>
         <div className="flex flex-col gap-5 justify-center items-center my-4">
-          <RoleCardContainer></RoleCardContainer>
+          <RoleCardContainer>
+            {isLoading ? (
+              <p>Cargando...</p>
+            ) : riderData && riderData.length > 0 ? (
+              riderData.map((rider) => (
+                <DashboardCard
+                  key={rider.id}
+                  title={
+                    bands &&
+                    bands.find((band) => band.id === rider.band_id)?.name
+                  }
+                  firstButton={"Editar"}
+                >
+                  <p className="badge badge-lg badge-outline badge-primary-content">
+                    {venues &&
+                      venues.find((venue) => venue.id === rider.venue_id)?.name}
+                  </p>
+                  <p className="badge badge-lg badge-outline badge-primary-content">
+                    {rider.date}
+                  </p>
+                </DashboardCard>
+              ))
+            ) : (
+              <p>No hay riders</p>
+            )}
+          </RoleCardContainer>
+          <Link
+            to="/create-rider"
+            className="w-full max-w-lg btn btn-secondary"
+            type="button"
+          >
+            Crea un rider
+          </Link>
         </div>
       </div>
 
-      <div className="container px-4 mx-auto mt-4 shadow-md">
+      <div className="container px-4 mx-auto mt-4 ">
         <h1 className="flex justify-center mb-6 text-4xl font-bold">
           Tus Grupos
         </h1>
@@ -75,7 +90,7 @@ export const RoleMusician = () => {
 
           <Link
             to="/create-band"
-            className="w-full max-w-md btn btn-secondary"
+            className="w-full max-w-lg btn btn-secondary"
             type="button"
           >
             Añadir una nueva banda

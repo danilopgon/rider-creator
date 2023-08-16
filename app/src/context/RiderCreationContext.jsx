@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import useAppContext from "./AppContext";
 import instrumentToIconMap from "../utils/instrumentToIcon";
-import getAllVenues from "../services/getAllVenues";
-import getAllBands from "../services/getAllBands";
+import fetchRiderData from "../utils/fetchRiderData";
 import postNewRider from "../services/postNewRider";
 
 const RiderCreationContext = createContext();
@@ -31,13 +30,12 @@ export const RiderCreationProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const responseVenues = await getAllVenues();
-      const responseBands = await getAllBands();
-      setVenues(responseVenues.venues);
-      setBands(responseBands);
+    const fetchRiderDataAndSetState = async () => {
+      const { venues, bands } = await fetchRiderData();
+      setVenues(venues);
+      setBands(bands);
     };
-    fetchData();
+    fetchRiderDataAndSetState();
   }, []);
 
   useEffect(() => {

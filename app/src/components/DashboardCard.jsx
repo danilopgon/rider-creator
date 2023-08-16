@@ -7,7 +7,7 @@ const DashboardCard = ({
   handleSecondButton,
 }) => {
   return (
-    <div className="card w-full xl:w-2/5 bg-primary text-primary-content">
+    <div className="card w-full  bg-primary text-primary-content">
       <div className="card-body">
         <h2 className="card-title ">{title}</h2>
         <div className="flex flex-1 flex-wrap gap-3 basis-1"> {children} </div>
