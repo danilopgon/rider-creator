@@ -1,17 +1,14 @@
-import  useBand  from "../../context/BandContext";
+import useBand from "../../context/BandContext";
 import { StepOne } from "./stepOne.jsx";
 import { StepTwo } from "./stepTwo.jsx";
 import { StepFinal } from "./stepFinal.jsx";
 
-export const BandCreator = ({children}) => {
-  
-  
+export const BandCreator = ({ children }) => {
   const { storeBand, actionsBand } = useBand();
-  const{nameBand, step} = storeBand;
-  const {handleCancelledCreateBand, setStep } = actionsBand;
+  const { nameBand, step } = storeBand;
+  const { handleCancelledCreateBand, setStep } = actionsBand;
 
   return (
-    
     <section className="flex flex-col items-center w-screen h-auto gap-4 p-4">
       <h1 className="text-3xl">
         {step === 1
@@ -40,16 +37,21 @@ export const BandCreator = ({children}) => {
         </button>
       </div>
       <div className="w-[90%] sm:w-[80%] md:w-[60%] lg:w-[55%] xl:w-[40%]">
-      {step === 1 ? <StepOne/> : step === 2 ? <StepTwo/> : <StepFinal />}
+        {step === 1 ? <StepOne /> : step === 2 ? <StepTwo /> : <StepFinal />}
       </div>
-      
+
       <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
         <form method="dialog" className="modal-box">
           <h3 className="text-lg font-bold">Hello!</h3>
           <p className="py-4">Segur@ que quieres cerrar sin guardar?</p>
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-success" onClick={handleCancelledCreateBand}>Aceptar</button>
+            <button
+              className="btn btn-success"
+              onClick={handleCancelledCreateBand}
+            >
+              Aceptar
+            </button>
             <button className="btn btn-error">Close</button>
           </div>
         </form>

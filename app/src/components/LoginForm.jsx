@@ -41,7 +41,7 @@ const ContactForm = () => {
   });
 
   return (
-    <div className="w-4/5 md:w-2/5 bg-base-100 p-10 rounded-lg">
+    <div className="w-4/5 md:w-2/5 bg-base-100 p-5 rounded-lg">
       <Formik
         enableReinitialize
         initialValues={

@@ -1,9 +1,9 @@
-const getAllVenues = async () => {
+const getAllBands = async () => {
   try {
     if (!localStorage.getItem("jwt-token"))
       throw new Error("Debes estar logueado para obtener esta información");
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}api/venue/`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}api/band/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -17,4 +17,4 @@ const getAllVenues = async () => {
   }
 };
 
-export default getAllVenues;
+export default getAllBands;
