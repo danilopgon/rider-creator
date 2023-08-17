@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
-from controllers.create_rider_controller import (create_rider_controller, get_all_riders_by_band_controller, update_rider_controller,delete_rider_controller, get_rider_controller, get_all_riders_by_user_controller, get_rider_by_technician)
+from controllers.create_rider_controller import (create_rider_controller, get_all_riders_by_band_controller, update_rider_controller,delete_rider_controller, get_rider_controller, get_all_riders_by_user_controller, get_rider_by_technician, get_public_rider_data_by_uid)
 
 
 create_rider = Blueprint('create_rider', __name__)
@@ -52,4 +52,10 @@ def rider_by_band(id):
 def delete_rider(id):
     if request.method == 'DELETE':
         return delete_rider_controller(id)
+    return jsonify({"msg": "Method not allowed"}), 405
+
+@create_rider.route('/view/<uid>', methods=['GET'])
+def get_public_rider_data(uid):
+    if request.method == 'GET':
+        return get_public_rider_data_by_uid(uid)
     return jsonify({"msg": "Method not allowed"}), 405

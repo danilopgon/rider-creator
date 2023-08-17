@@ -10,6 +10,12 @@ from models.rider_gear import Rider_Gear
 
 import json
 from datetime import datetime
+import random
+import string
+
+def generate_uid():
+    uid = ''.join(random.choices(string.ascii_lowercase + string.digits, k=6))
+    return uid
 
 def create_rider_controller():
     try:
@@ -35,13 +41,13 @@ def create_rider_controller():
             return jsonify({"msg": "Rider already exists"}), 400
         
         for gear in gears:
-            print(gear)
             if (gear.get('order') is None or gear.get('gear_id') is None 
                 or gear.get('coordinates_x') is None or gear.get('coordinates_y') is None 
                 or gear.get('notes') is None):
                 return jsonify({"msg": "Missing data in request line35"}), 400
-            
+        
         rider = Rider()
+        rider.uid = generate_uid()  # Generate a new UID and assign it to the `uid` attribute of the `Rider` object
         rider.band_id=band_id
         rider.venue_id=venue_id
         rider.technician_id=technician_id
@@ -73,7 +79,7 @@ def create_rider_controller():
         return jsonify({"msg": "Rider created successfully"}), 200
     except ValueError as e:
         print(e)
-        return jsonify({"msg": "Internal server error"}), 500        
+        return jsonify({"msg": "Internal server error"}), 500     
     
 
 def get_rider_controller(id):
@@ -194,6 +200,21 @@ def get_rider_by_technician(id):
             gears = Rider_Gear.query.filter_by(rider_id=rider.get('id')).all()
             rider.get('gears').extend([gear.serialize() for gear in gears])    
         return jsonify({'riders':riders_serialezed}), 200
+    except ValueError as e:
+        print(e)
+        return jsonify({"msg": "Internal server error"}), 500
+    
+def get_public_rider_data_by_uid(uid):
+    try:
+        if uid is None:
+            return jsonify({"msg": "Missing data in request, uid is empty"}), 400
+        
+        rider = Rider.query.filter_by(uid=uid).first()
+        if rider is None:
+            return jsonify({"msg": "Rider not found"}), 404
+        
+        rider_serialezed = rider.public_serialize_with_gears()
+        return jsonify({'rider':rider_serialezed}), 200
     except ValueError as e:
         print(e)
         return jsonify({"msg": "Internal server error"}), 500

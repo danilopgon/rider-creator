@@ -70,7 +70,6 @@ export const DashboardProvider = ({ children }) => {
     async function fetchData() {
       try {
         const respData = await getBand();
-        getVenueByID(respData.venue_id);
 
         setBandData(respData);
       } catch (error) {
