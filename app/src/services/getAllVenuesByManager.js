@@ -17,11 +17,9 @@ const getAllVenuesByManager = async (managerID) => {
       }
     );
 
-    const data = await response.json(); 
+    const data = await response.json();
 
-    console.log(data.message); 
-
-    return data; 
+    return data;
   } catch (error) {
     console.log(error);
   }

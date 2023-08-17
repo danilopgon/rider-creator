@@ -13,7 +13,11 @@ const NavBar = () => {
         <div className="justify-center hidden md:flex">
           <ul className="px-1 menu menu-horizontal">
             <li>
-              <Link to={"/"}>Inicio</Link>
+              <Link to={localStorage.getItem("jwt-token") ? "/dashboard" : "/"}>
+                {localStorage.getItem("jwt-token")
+                  ? "Área de usuario"
+                  : "Inicio"}
+              </Link>
             </li>
             <li>
               {store.loggedIn ? (
@@ -29,7 +33,7 @@ const NavBar = () => {
         <div className="flex justify-center md:hidden">
           <ul className="px-1 text-lg menu menu-horizontal">
             <li>
-              <Link to={"/"}>
+              <Link to={localStorage.getItem("jwt-token") ? "/dashboard" : "/"}>
                 <FiHome />
               </Link>
             </li>
