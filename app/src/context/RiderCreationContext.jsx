@@ -18,8 +18,8 @@ export const RiderCreationProvider = ({ children }) => {
   const [instrumentScale, setInstrumentScale] = useState(1);
   const [filter, setFilter] = useState("");
   const [creatorStep, setCreatorStep] = useState(1);
-  const [venues, setVenues] = useState([]);
-  const [bands, setBands] = useState([]);
+  const [venues, setVenues] = useState(null);
+  const [bands, setBands] = useState(null);
   const [riderBandID, setRiderBandID] = useState(0);
   const [riderVenueID, setRiderVenueID] = useState(0);
   const [riderTime, setRiderTime] = useState("");

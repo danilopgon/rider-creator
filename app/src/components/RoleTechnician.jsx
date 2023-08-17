@@ -40,14 +40,14 @@ export const RoleTechnician = () => {
   return (
     <>
       <h1 className="flex justify-center mb-6 text-4xl font-bold">
-        Estas buscando trabajo?
+        ¿Estás buscando trabajo?
       </h1>
       <div className="flex justify-center mb-4">
         <div className="flex items-center">
           <h2 className="mb-4 mr-8 text-2xl">Disponible</h2>
           <label className="relative inline-flex items-center cursor-pointer mb-3">
             <input type="checkbox" value="" className="sr-only peer" />
-            <div className="w-12 h-6 bg-green-200 peer-focus:outline-none dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-green-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+            <div className="w-12 h-6 bg-primary peer-focus:outline-none dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-base-content peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-success"></div>
           </label>
         </div>
       </div>

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
-from controllers.create_rider_controller import (create_rider_controller, get_all_riders_by_band_controller, update_rider_controller,delete_rider_controller, get_rider_controller, get_all_riders_by_user_controller)
+from controllers.create_rider_controller import (create_rider_controller, get_all_riders_by_band_controller, update_rider_controller,delete_rider_controller, get_rider_controller, get_all_riders_by_user_controller, get_rider_by_technician)
 
 
 create_rider = Blueprint('create_rider', __name__)
@@ -29,6 +29,15 @@ def rider_by_user():
         verify_jwt_in_request()
         user_identity = get_jwt_identity()
         return get_all_riders_by_user_controller(user_identity["musician_id"])        
+    return jsonify({"msg": "Method not allowed"}), 405
+
+@create_rider.route('/by-technician', methods=['GET'])
+@jwt_required()
+def rider_by_technician():
+    if request.method == 'GET':
+        verify_jwt_in_request()
+        user_identity = get_jwt_identity()
+        return get_rider_by_technician(user_identity["technician_id"])        
     return jsonify({"msg": "Method not allowed"}), 405
 
 @create_rider.route('/by-band/<id>', methods=['GET'])

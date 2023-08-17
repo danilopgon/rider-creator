@@ -178,3 +178,22 @@ def delete_rider_controller(id):
     except ValueError as e:
         print(e)
         return jsonify({"msg": "Internal server error"}), 500
+    
+
+def get_rider_by_technician(id):
+    try:
+        if id is None:
+            return jsonify({"msg": "Missing data in request, id is empty"}), 400
+        
+        riders = Rider.query.filter_by(technician_id=id).all()
+        if riders is None:
+            return jsonify({"msg": "Riders not found"}), 404
+        
+        riders_serialezed = [rider.serialize() for rider in riders]
+        for rider in riders_serialezed:
+            gears = Rider_Gear.query.filter_by(rider_id=rider.get('id')).all()
+            rider.get('gears').extend([gear.serialize() for gear in gears])    
+        return jsonify({'riders':riders_serialezed}), 200
+    except ValueError as e:
+        print(e)
+        return jsonify({"msg": "Internal server error"}), 500

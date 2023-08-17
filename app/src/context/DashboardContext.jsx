@@ -7,40 +7,38 @@ import useRiderCreationContext from "./RiderCreationContext";
 import { getBand } from "../services/getBand";
 import getRidersByUserID from "../services/getRidersByUserID";
 import getVenueByID from "../services/getVenueByID";
+import getAllVenuesByManager from "../services/getAllVenuesByManager";
 
 const DashboardContext = createContext();
 
 export const DashboardProvider = ({ children }) => {
-  const [bandData, setBandData] = useState([]);
-  const [riderData, setRiderData] = useState([]);
+  const [bandData, setBandData] = useState(null);
+  const [riderData, setRiderData] = useState(null);
+  const [myVenues, setMyVenues] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const { store: riderStore } = useRiderCreationContext();
   const { store: loginStore } = useLoginContext();
 
   useEffect(() => {
-    if (!loginStore.loggedIn) {
+    if (!loginStore.loggedIn || !loginStore.venueManagerID) {
       return;
     }
 
-    if (
-      riderStore.venues.length > 0 &&
-      riderStore.bands.length > 0 &&
-      bandData.length > 0 &&
-      riderData.length > 0
-    ) {
-      setIsLoading(false);
+    async function fetchData() {
+      try {
+        const respData = await getAllVenuesByManager(loginStore.venueManagerID);
+        setMyVenues(respData.venues);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }, [
-    loginStore.loggedIn,
-    riderStore.venues,
-    riderStore.bands,
-    bandData,
-    riderData,
-  ]);
+
+    fetchData();
+  }, [loginStore.venueManagerID, loginStore.loggedIn]);
 
   useEffect(() => {
-    if (!loginStore.loggedIn) {
+    if (!loginStore.loggedIn || !loginStore.musicianID) {
       return;
     }
 
@@ -55,10 +53,10 @@ export const DashboardProvider = ({ children }) => {
       }
     }
     fetchData();
-  }, [loginStore.loggedIn]);
+  }, [loginStore.loggedIn, loginStore.musicianID]);
 
   useEffect(() => {
-    if (!loginStore.loggedIn) {
+    if (!loginStore.loggedIn || !loginStore.musicianID) {
       return;
     }
 
@@ -72,18 +70,42 @@ export const DashboardProvider = ({ children }) => {
       }
     }
     fetchData();
-  }, [loginStore.loggedIn]);
+  }, [loginStore.loggedIn, loginStore.musicianID]);
+
+  useEffect(() => {
+    if (!loginStore.loggedIn || !loginStore.musicianID) {
+      return;
+    }
+
+    if (
+      riderStore.venues !== null &&
+      riderStore.bands !== null &&
+      bandData !== null &&
+      riderData !== null
+    ) {
+      setIsLoading(false);
+    }
+  }, [
+    loginStore.loggedIn,
+    loginStore.musicianID,
+    riderStore.venues,
+    riderStore.bands,
+    bandData,
+    riderData,
+  ]);
 
   const store = {
     bandData,
     riderData,
     isLoading,
+    myVenues,
   };
 
   const actions = {
     setBandData,
     setRiderData,
     setIsLoading,
+    setMyVenues,
   };
 
   return (
