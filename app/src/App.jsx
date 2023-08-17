@@ -21,6 +21,7 @@ import PrivateRoutes from "./components/PrivateRoutes";
 import { CreateBand } from "./views/CreateBand";
 import CreateVenue from "./views/CreateVenue";
 import { ChatView } from "./views/ChatView";
+import { DashboardProvider } from "./context/DashboardContext";
 
 function App() {
   const backend = window.innerWidth <= 768 ? TouchBackend : HTML5Backend;

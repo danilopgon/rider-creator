@@ -1,8 +1,5 @@
 const getAllBands = async () => {
   try {
-    if (!localStorage.getItem("jwt-token"))
-      throw new Error("Debes estar logueado para obtener esta información");
-
     const response = await fetch(`${import.meta.env.VITE_API_URL}api/band/`, {
       method: "GET",
       headers: {

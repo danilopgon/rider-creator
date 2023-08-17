@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 import useAppContext from "./AppContext";
+import useLoginContext from "./LoginContext";
 import instrumentToIconMap from "../utils/instrumentToIcon";
 import getAllVenues from "../services/getAllVenues";
 import getAllBands from "../services/getAllBands";
@@ -17,12 +18,14 @@ export const RiderCreationProvider = ({ children }) => {
   const [instrumentScale, setInstrumentScale] = useState(1);
   const [filter, setFilter] = useState("");
   const [creatorStep, setCreatorStep] = useState(1);
-  const [venues, setVenues] = useState([]);
-  const [bands, setBands] = useState([]);
+  const [venues, setVenues] = useState(null);
+  const [bands, setBands] = useState(null);
   const [riderBandID, setRiderBandID] = useState(0);
   const [riderVenueID, setRiderVenueID] = useState(0);
   const [riderTime, setRiderTime] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  const { store: loginStore } = useLoginContext();
   const { store: appStore, actions: appActions } = useAppContext();
 
   const { isDesktop, isMobile, isTablet, translatedGear } = appStore;
@@ -31,14 +34,25 @@ export const RiderCreationProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
+
     const fetchData = async () => {
-      const responseVenues = await getAllVenues();
-      const responseBands = await getAllBands();
-      setVenues(responseVenues.venues);
-      setBands(responseBands);
+      if (!loginStore.loggedIn) {
+        return;
+      }
+
+      const venuesResponse = await getAllVenues();
+      const bandsResponse = await getAllBands();
+
+      const fetchedVenues = venuesResponse.venues;
+      const fetchedBands = bandsResponse;
+
+      setVenues(fetchedVenues);
+      setBands(fetchedBands);
     };
     fetchData();
-  }, []);
+    setLoading(false);
+  }, [loginStore.loggedIn]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -258,7 +272,6 @@ export const RiderCreationProvider = ({ children }) => {
     };
 
     const response = await postNewRider(riderInformation);
-    console.log(response);
     if (response.status !== 200) {
       toast.error("Error al generar el rider");
       return;
@@ -267,6 +280,11 @@ export const RiderCreationProvider = ({ children }) => {
     toast.success("Rider generado correctamente");
     const timeout = setTimeout(() => {
       navigate("/dashboard");
+      setCreatorStep(1);
+      setInstrumentInformation([]);
+      setRiderBandID(0);
+      setRiderVenueID(0);
+      setRiderTime("");
     }, 2000);
     return () => clearTimeout(timeout);
   };
@@ -283,6 +301,7 @@ export const RiderCreationProvider = ({ children }) => {
     riderVenueID,
     riderBandID,
     riderTime,
+    loading,
   };
 
   const actions = {
@@ -305,6 +324,7 @@ export const RiderCreationProvider = ({ children }) => {
     getHours,
     getDate,
     submitRiderInformation,
+    setLoading,
   };
 
   return (
