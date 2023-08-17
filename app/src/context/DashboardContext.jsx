@@ -1,6 +1,5 @@
 import { useContext, createContext, useState, useEffect } from "react";
-import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import useLoginContext from "./LoginContext";
 import useRiderCreationContext from "./RiderCreationContext";
@@ -8,17 +7,43 @@ import { getBand } from "../services/getBand";
 import getRidersByUserID from "../services/getRidersByUserID";
 import getVenueByID from "../services/getVenueByID";
 import getAllVenuesByManager from "../services/getAllVenuesByManager";
+import getRidersByTechnician from "../services/getRidersByTechnician";
 
 const DashboardContext = createContext();
 
 export const DashboardProvider = ({ children }) => {
+  const [isSelect, setIsSelect] = useState(null);
   const [bandData, setBandData] = useState(null);
   const [riderData, setRiderData] = useState(null);
+  const [techRiderData, setTechRiderData] = useState(null);
   const [myVenues, setMyVenues] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const { store: riderStore } = useRiderCreationContext();
   const { store: loginStore } = useLoginContext();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsSelect(null);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!loginStore.loggedIn || !loginStore.technicianID) {
+      return;
+    }
+
+    const fetchTechRiders = async () => {
+      try {
+        const respData = await getRidersByTechnician();
+        setTechRiderData(respData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTechRiders();
+  }, [loginStore.loggedIn, loginStore.technicianID, isSelect]);
 
   useEffect(() => {
     if (!loginStore.loggedIn || !loginStore.venueManagerID) {
@@ -35,7 +60,7 @@ export const DashboardProvider = ({ children }) => {
     }
 
     fetchData();
-  }, [loginStore.venueManagerID, loginStore.loggedIn]);
+  }, [loginStore.venueManagerID, loginStore.loggedIn, isSelect]);
 
   useEffect(() => {
     if (!loginStore.loggedIn || !loginStore.musicianID) {
@@ -53,7 +78,7 @@ export const DashboardProvider = ({ children }) => {
       }
     }
     fetchData();
-  }, [loginStore.loggedIn, loginStore.musicianID]);
+  }, [loginStore.loggedIn, loginStore.musicianID, isSelect]);
 
   useEffect(() => {
     if (!loginStore.loggedIn || !loginStore.musicianID) {
@@ -70,7 +95,7 @@ export const DashboardProvider = ({ children }) => {
       }
     }
     fetchData();
-  }, [loginStore.loggedIn, loginStore.musicianID]);
+  }, [loginStore.loggedIn, loginStore.musicianID, isSelect]);
 
   useEffect(() => {
     if (!loginStore.loggedIn || !loginStore.musicianID) {
@@ -92,13 +117,47 @@ export const DashboardProvider = ({ children }) => {
     riderStore.bands,
     bandData,
     riderData,
+    isSelect,
   ]);
+
+  useEffect(() => {
+    if (!loginStore.loggedIn || !loginStore.technicianID) {
+      return;
+    }
+
+    if (
+      riderStore.venues !== null &&
+      riderStore.bands !== null &&
+      techRiderData !== null
+    ) {
+      setIsLoading(false);
+    }
+  }, [
+    loginStore.loggedIn,
+    loginStore.technicianID,
+    riderStore.venues,
+    riderStore.bands,
+    techRiderData,
+    isSelect,
+  ]);
+
+  useEffect(() => {
+    if (!loginStore.loggedIn || !loginStore.venueManagerID) {
+      return;
+    }
+
+    if (myVenues !== null) {
+      setIsLoading(false);
+    }
+  }, [loginStore.loggedIn, loginStore.venueManagerID, myVenues, isSelect]);
 
   const store = {
     bandData,
     riderData,
     isLoading,
     myVenues,
+    techRiderData,
+    isSelect,
   };
 
   const actions = {
@@ -106,6 +165,7 @@ export const DashboardProvider = ({ children }) => {
     setRiderData,
     setIsLoading,
     setMyVenues,
+    setIsSelect,
   };
 
   return (

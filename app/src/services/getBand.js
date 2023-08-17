@@ -11,6 +11,10 @@ export const getBand = async () => {
       }
     );
 
+    if (response.status === 404) {
+      return [];
+    }
+
     if (!response.ok) {
       throw new Error("Error en getBand");
     }

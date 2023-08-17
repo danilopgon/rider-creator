@@ -13,7 +13,7 @@ export const RoleManager = () => {
         <h1 className="flex justify-center mb-6 text-4xl font-bold">
           Tus Salas
         </h1>
-        <div className="flex flex-col gap-5 justify-center items-center my-4">
+        <div className="flex flex-col gap-5  my-4">
           <RoleCardContainer>
             {store.myVenues && store.myVenues.length > 0 ? (
               store.myVenues.map((venue) => (
@@ -36,7 +36,7 @@ export const RoleManager = () => {
           </RoleCardContainer>
           <Link
             to="/create-venue"
-            className="w-full max-w-lg btn btn-secondary"
+            className="w-full max-w-lg btn btn-secondary self-center"
             type="button"
           >
             Crea una sala

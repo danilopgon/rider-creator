@@ -17,7 +17,7 @@ export const RoleMusician = () => {
         <h1 className="flex justify-center mb-6 text-4xl font-bold">
           Tus Riders
         </h1>
-        <div className="flex flex-col gap-5 justify-center items-center my-4">
+        <div className="flex flex-col gap-5  my-4">
           <RoleCardContainer>
             {riderData && riderData.length > 0 ? (
               riderData?.map((rider) => (
@@ -44,7 +44,7 @@ export const RoleMusician = () => {
           </RoleCardContainer>
           <Link
             to="/create-rider"
-            className="w-full max-w-lg btn btn-secondary"
+            className="w-full max-w-lg btn btn-secondary self-center"
             type="button"
           >
             Crea un rider
@@ -56,7 +56,7 @@ export const RoleMusician = () => {
         <h1 className="flex justify-center mb-6 text-4xl font-bold">
           Tus Grupos
         </h1>
-        <div className="flex flex-col gap-5 justify-center items-center my-4">
+        <div className="flex flex-col gap-5 my-4">
           <RoleCardContainer>
             {bandData && bandData.length > 0 ? (
               bandData.map((band) => (
@@ -90,7 +90,7 @@ export const RoleMusician = () => {
 
           <Link
             to="/create-band"
-            className="w-full max-w-lg btn btn-secondary"
+            className="w-full max-w-lg btn btn-secondary self-center"
             type="button"
           >
             Añadir una nueva banda

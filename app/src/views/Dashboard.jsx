@@ -12,27 +12,12 @@ import { HiOutlinePencil } from "react-icons/hi";
 import { AiOutlinePlus } from "react-icons/ai";
 
 const Dashboard = () => {
-  const [isSelect, setIsSelect] = useState(null);
-
   const { store } = useLoginContext();
   const { store: appStore, actions: appActions } = useAppContext();
   const { store: dashboardStore, actions: dashboardActions } =
     useDashboardContext();
-
-  if (dashboardStore.isLoading === true) {
-    return (
-      <div className="flex justify-center items-center min-h-screen w-full bg-cover bg-no-repeat bg-fixed bg-[url('https://images.pexels.com/photos/2078076/pexels-photo-2078076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
-        <div
-          className={` flex justify-center  xl:w-4/7 md:mx-10 backdrop-blur-md bg-base-200/50 p-5 rounded-lg my-10`}
-        >
-          <span className="loading loading-ball loading-xs"></span>
-          <span className="loading loading-ball loading-sm"></span>
-          <span className="loading loading-ball loading-md"></span>
-          <span className="loading loading-ball loading-lg"></span>
-        </div>
-      </div>
-    );
-  }
+  const { isSelect } = dashboardStore;
+  const { setIsSelect } = dashboardActions;
 
   if (
     (store?.venueManagerID === null &&
@@ -49,6 +34,21 @@ const Dashboard = () => {
           Selecciona tu rol
         </h6>
         <RoleSelectionCards />
+      </div>
+    );
+  }
+
+  if (dashboardStore.isLoading === true) {
+    return (
+      <div className="flex justify-center items-center min-h-screen w-full bg-cover bg-no-repeat bg-fixed bg-[url('https://images.pexels.com/photos/2078076/pexels-photo-2078076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
+        <div
+          className={` flex justify-center  xl:w-4/7 md:mx-10 backdrop-blur-md bg-base-200/50 p-5 rounded-lg my-10`}
+        >
+          <span className="loading loading-ball loading-xs"></span>
+          <span className="loading loading-ball loading-sm"></span>
+          <span className="loading loading-ball loading-md"></span>
+          <span className="loading loading-ball loading-lg"></span>
+        </div>
       </div>
     );
   }
