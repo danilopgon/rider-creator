@@ -26,6 +26,7 @@
     "socket.io-client": "^4.7.2",
     "tailwindcss-animated": "^1.0.1",
     "theme-change": "^2.5.0",
+    "uuid": "^9.0.0",
     "yup": "^1.2.0",
     "zustand": "^4.4.0"
   },

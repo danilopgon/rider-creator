@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { Contacts } from "../components/chat/Contacts"
+import { v4 as uuidv4 } from 'uuid';
 
 const socket = io('http://localhost:10000')
 
@@ -38,7 +39,8 @@ export const ChatView = () => {
             toast.error('Faltan datos para crear el chat');
             return
         }
-        const data = { "user_id1":user_id1, "user_id2":user_id2}
+        const uuid = uuidv4()
+        const data = { "user_id1":user_id1, "user_id2":user_id2, "id":uuid}
         socket.emit('chat', data);
       }
 
@@ -66,9 +68,9 @@ export const ChatView = () => {
       
       createChat(1,2);
 
-      sendMessage('Hola desde el cliente', 1, 1);
+      //sendMessage('Hola desde el cliente', 1, 1);
       
-      getChats(1,2);
+      //getChats(1,2);
     
     return(
         <ChatProvider>
