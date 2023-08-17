@@ -8,6 +8,8 @@ from .role_register_route import role_register_route
 from .users_route import users_routes
 from .create_rider_route import create_rider
 from .images_route import images_routes
+from .sockets_routes import chat
+
 
 api = Blueprint("api", __name__)
 
@@ -20,3 +22,4 @@ api.register_blueprint(role_register_route, url_prefix="/role-register")
 api.register_blueprint(users_routes, url_prefix="/users")
 api.register_blueprint(create_rider, url_prefix="/rider")
 api.register_blueprint(images_routes, url_prefix="/images")
+api.register_blueprint(chat, url_prefix="/chat")

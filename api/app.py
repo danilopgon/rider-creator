@@ -12,6 +12,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from flask_mail import Message
+from utils.mail import mail
+from controllers.chat_controller import socketio
 
 import cloudinary
 
@@ -51,7 +53,8 @@ cloudinary.config(
   api_secret = os.getenv("API_SECRET_CLOUDINARY")
 )
 
-
+#socketio = SocketIO(app)
+socketio.init_app(app, cors_allowed_origins='*')
 
 # migrate the database
 migrate = Migrate(app, db)
@@ -75,6 +78,8 @@ def serve_any_other_file(path="index.html"):
     return response
 
 
-if __name__ == "__main__":
-    PORT = int(os.environ.get("PORT", 3000))
-    app.run(host="0.0.0.0", port=PORT, debug=True)
+# if __name__ == "__main__":
+#     PORT = int(os.environ.get("PORT", 3000))
+#     app.run(host="0.0.0.0", port=PORT, debug=True)
+if __name__ == '__main__':
+    socketio.run(app)
