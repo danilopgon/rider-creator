@@ -280,6 +280,11 @@ export const RiderCreationProvider = ({ children }) => {
     toast.success("Rider generado correctamente");
     const timeout = setTimeout(() => {
       navigate("/dashboard");
+      setCreatorStep(1);
+      setInstrumentInformation([]);
+      setRiderBandID(0);
+      setRiderVenueID(0);
+      setRiderTime("");
     }, 2000);
     return () => clearTimeout(timeout);
   };
