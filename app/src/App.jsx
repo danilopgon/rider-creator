@@ -20,7 +20,7 @@ import RiderCreation from "./views/RiderCreation";
 import PrivateRoutes from "./components/PrivateRoutes";
 import { CreateBand } from "./views/CreateBand";
 import CreateVenue from "./views/CreateVenue";
-import { Chat } from "./components/chat/Chat";
+import { DashboardProvider } from "./context/DashboardContext";
 import { ChatView } from "./views/ChatView";
 
 function App() {
@@ -34,29 +34,31 @@ function App() {
         <LoginProvider>
           <AppProvider>
             <RiderCreationProvider>
-              <NavBar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
+              <DashboardProvider>
+                <NavBar />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<Login />} />
 
-                <Route path="/reset-password" element={<ResetPassword />} />
-                <Route
-                  path="/recover-password/:token"
-                  element={<NewPassword />}
-                />
-                <Route
-                  path="/activation/:token"
-                  element={<PageActivation />}
-                ></Route>
-                <Route path="*" element={<NotFound />}></Route>
-                <Route element={<PrivateRoutes />}>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/create-rider" element={<RiderCreation />} />
-                  <Route path="/create-band" element={<CreateBand />} />
-                  <Route path="/create-venue" element={<CreateVenue />} />
-                  <Route path="chat" element={<ChatView/>}></Route>
-                </Route>
-              </Routes>
+                  <Route path="/reset-password" element={<ResetPassword />} />
+                  <Route
+                    path="/recover-password/:token"
+                    element={<NewPassword />}
+                  />
+                  <Route
+                    path="/activation/:token"
+                    element={<PageActivation />}
+                  ></Route>
+                  <Route path="*" element={<NotFound />}></Route>
+                  <Route element={<PrivateRoutes />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/create-rider" element={<RiderCreation />} />
+                    <Route path="/create-band" element={<CreateBand />} />
+                    <Route path="/create-venue" element={<CreateVenue />} />
+                    <Route path="/chat" element={<ChatView/>}/>
+                  </Route>
+                </Routes>
+              </DashboardProvider>
             </RiderCreationProvider>
           </AppProvider>
         </LoginProvider>

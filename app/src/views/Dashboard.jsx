@@ -7,7 +7,7 @@ import RoleSelectionCards from "../components/RoleSelectionCards";
 import { RoleMusician } from "../components/RoleMusician";
 import { RoleManager } from "../components/RoleManager";
 import { RoleTechnician } from "../components/RoleTechnician";
-
+import { Link } from "react-router-dom";
 import { HiOutlinePencil } from "react-icons/hi";
 import { AiOutlinePlus } from "react-icons/ai";
 
@@ -89,9 +89,9 @@ const Dashboard = () => {
             <h1 className="text-lg">{store.myUser?.username}</h1>
             <div className="flex items-center justify-center p-4 my-8 space-x-24 rounded shadow-md bg-base-300">
               <p>Mensajes</p>
-              <button type="button" className="w-32 h-8 btn btn-primary">
+              <Link to={'/chat'} className="w-32 h-8 btn btn-primary">
                 Leer
-              </button>
+              </Link>
             </div>
             <div className="flex justify-center w-full p-4 gap-3 ">
               <button

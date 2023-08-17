@@ -12,7 +12,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from flask_mail import Message
-from flask_socketio import SocketIO
+from utils.mail import mail
+from controllers.chat_controller import socketio
 
 import cloudinary
 
@@ -52,7 +53,7 @@ cloudinary.config(
   api_secret = os.getenv("API_SECRET_CLOUDINARY")
 )
 
-socketio = SocketIO(app)
+#socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins='*')
 
 # migrate the database

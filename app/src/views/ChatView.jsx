@@ -6,7 +6,9 @@ export const ChatView = () => {
     
     return(
         <ChatProvider>
-            <Chat/>
+            <section>
+                <Chat/>
+            </section>
         </ChatProvider>
     )
 }
