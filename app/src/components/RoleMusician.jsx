@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 
 import DashboardCard from "./DashboardCard";
 import RoleCardContainer from "./RoleContainer";
-
 import useDashboardContext from "../context/DashboardContext";
+import useRiderCreationContext from "../context/RiderCreationContext";
 
 export const RoleMusician = () => {
-  const { store, actions } = useDashboardContext();
-  const { bandData, riderData, isLoading, bands, venues } = store;
+  const { store } = useDashboardContext();
+  const { store: riderCreationStore } = useRiderCreationContext();
+  const { riderData, bandData } = store;
+  const { bands, venues } = riderCreationStore;
 
   return (
     <section>
@@ -17,10 +19,8 @@ export const RoleMusician = () => {
         </h1>
         <div className="flex flex-col gap-5 justify-center items-center my-4">
           <RoleCardContainer>
-            {isLoading ? (
-              <p>Cargando...</p>
-            ) : riderData && riderData.length > 0 ? (
-              riderData.map((rider) => (
+            {riderData && riderData.length > 0 ? (
+              riderData?.map((rider) => (
                 <DashboardCard
                   key={rider.id}
                   title={

@@ -32,8 +32,8 @@ function App() {
       <DndProvider backend={backend} options={options}>
         <LoginProvider>
           <AppProvider>
-            <DashboardProvider>
-              <RiderCreationProvider>
+            <RiderCreationProvider>
+              <DashboardProvider>
                 <NavBar />
                 <Routes>
                   <Route path="/" element={<Home />} />
@@ -56,8 +56,8 @@ function App() {
                     <Route path="/create-venue" element={<CreateVenue />} />
                   </Route>
                 </Routes>
-              </RiderCreationProvider>
-            </DashboardProvider>
+              </DashboardProvider>
+            </RiderCreationProvider>
           </AppProvider>
         </LoginProvider>
       </DndProvider>

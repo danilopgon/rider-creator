@@ -202,10 +202,6 @@ export const LoginProvider = ({ children }) => {
     );
   }, []);
 
-  useEffect(() => {
-    console.log(myUser);
-  }, [myUser]);
-
   const actions = {
     setSignupMode,
     setLoggedIn,

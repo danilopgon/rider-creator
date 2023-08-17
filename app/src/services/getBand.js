@@ -11,8 +11,6 @@ export const getBand = async () => {
       }
     );
 
-    console.log(response);
-
     if (!response.ok) {
       throw new Error("Error en getBand");
     }

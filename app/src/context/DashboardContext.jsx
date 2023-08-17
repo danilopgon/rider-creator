@@ -2,7 +2,8 @@ import { useContext, createContext, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-import fetchRiderData from "../utils/fetchRiderData";
+import useLoginContext from "./LoginContext";
+import useRiderCreationContext from "./RiderCreationContext";
 import { getBand } from "../services/getBand";
 import getRidersByUserID from "../services/getRidersByUserID";
 import getVenueByID from "../services/getVenueByID";
@@ -13,30 +14,36 @@ export const DashboardProvider = ({ children }) => {
   const [bandData, setBandData] = useState([]);
   const [riderData, setRiderData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [bands, setBands] = useState([]);
-  const [venues, setVenues] = useState([]);
+
+  const { store: riderStore } = useRiderCreationContext();
+  const { store: loginStore } = useLoginContext();
 
   useEffect(() => {
-    if (bands.length > 0 && venues.length > 0) {
+    if (!loginStore.loggedIn) {
+      return;
+    }
+
+    if (
+      riderStore.venues.length > 0 &&
+      riderStore.bands.length > 0 &&
+      bandData.length > 0 &&
+      riderData.length > 0
+    ) {
       setIsLoading(false);
     }
-  }, [bands, venues]);
+  }, [
+    loginStore.loggedIn,
+    riderStore.venues,
+    riderStore.bands,
+    bandData,
+    riderData,
+  ]);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const { venues, bands } = await fetchRiderData();
-        console.log(venues, bands);
-        setVenues(venues);
-        setBands(bands);
-      } catch (error) {
-        console.error(error);
-      }
+    if (!loginStore.loggedIn) {
+      return;
     }
-    fetchData();
-  }, []);
 
-  useEffect(() => {
     async function fetchData() {
       try {
         const respData = await getBand();
@@ -48,9 +55,13 @@ export const DashboardProvider = ({ children }) => {
       }
     }
     fetchData();
-  }, []);
+  }, [loginStore.loggedIn]);
 
   useEffect(() => {
+    if (!loginStore.loggedIn) {
+      return;
+    }
+
     async function fetchData() {
       try {
         const respData = await getRidersByUserID();
@@ -61,29 +72,18 @@ export const DashboardProvider = ({ children }) => {
       }
     }
     fetchData();
-  }, []);
-
-  const navigate = useNavigate();
+  }, [loginStore.loggedIn]);
 
   const store = {
     bandData,
-
     riderData,
-
     isLoading,
-
-    bands,
-
-    venues,
   };
 
   const actions = {
     setBandData,
     setRiderData,
     setIsLoading,
-    setBands,
-    setVenues,
-    navigate,
   };
 
   return (

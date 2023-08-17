@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import useLoginContext from "../context/LoginContext";
+import useDashboardContext from "../context/DashboardContext";
 import useAppContext from "../context/AppContext";
 import RoleSelectionCards from "../components/RoleSelectionCards";
 import { RoleMusician } from "../components/RoleMusician";
@@ -15,6 +16,23 @@ const Dashboard = () => {
 
   const { store } = useLoginContext();
   const { store: appStore, actions: appActions } = useAppContext();
+  const { store: dashboardStore, actions: dashboardActions } =
+    useDashboardContext();
+
+  if (dashboardStore.isLoading === true) {
+    return (
+      <div className="flex justify-center items-center min-h-screen w-full bg-cover bg-no-repeat bg-fixed bg-[url('https://images.pexels.com/photos/2078076/pexels-photo-2078076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
+        <div
+          className={` flex justify-center  xl:w-4/7 md:mx-10 backdrop-blur-md bg-base-200/50 p-5 rounded-lg my-10`}
+        >
+          <span className="loading loading-ball loading-xs"></span>
+          <span className="loading loading-ball loading-sm"></span>
+          <span className="loading loading-ball loading-md"></span>
+          <span className="loading loading-ball loading-lg"></span>
+        </div>
+      </div>
+    );
+  }
 
   if (
     (store?.venueManagerID === null &&
@@ -40,8 +58,8 @@ const Dashboard = () => {
       <div
         className={`w-full xl:w-4/7 md:mx-10 backdrop-blur-md bg-base-200/50 p-5 rounded-lg my-10`}
       >
-        <div className="flex flex-col md:flex-row h-fit py-10 md:py-16 xl:py-32 max-w-screen justify-center items-center md:gap-12 shadow-md ">
-          <div className="text-center my-4 w-full md:w-1/2  bg-base-200 p-10 rounded-xl">
+        <div className="flex flex-col lg:flex-row h-fit py-10 md:py-16 xl:py-32 max-w-screen justify-center items-center md:gap-12 shadow-md ">
+          <div className="text-center my-4 w-full lg:w-1/2  bg-base-200 p-10 rounded-xl">
             <div className="relative">
               <img
                 src={
@@ -116,7 +134,7 @@ const Dashboard = () => {
               </button>
             )}
           </div>
-          <section className="container w-full md:w-1/2  px-4  shadow-md text-center bg-base-200 p-10 rounded-xl">
+          <section className="container w-full lg:w-1/2  px-4  shadow-md text-center bg-base-200 p-10 rounded-xl">
             {isSelect === "musician" ? (
               <RoleMusician />
             ) : isSelect === "manager" ? (
