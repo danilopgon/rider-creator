@@ -15,8 +15,8 @@ const RiderCreationForm = () => {
   const [salaSearchResults, setSalaSearchResults] = useState([]);
 
   const initialValues = {
-    banda: bands.find((band) => band.id === riderBandID)?.name || "",
-    sala: venues.find((venue) => venue.id === riderVenueID)?.name || "",
+    banda: bands?.find((band) => band.id === riderBandID)?.name || "",
+    sala: venues?.find((venue) => venue.id === riderVenueID)?.name || "",
     fecha: riderTime ? getDate() : "",
     hora: riderTime ? getHours() : "",
   };
@@ -62,7 +62,7 @@ const RiderCreationForm = () => {
       onSubmit={handleFirstStepSubmit}
     >
       {({ values }) => (
-        <Form className="flex flex-col">
+        <Form className="flex flex-col animate-fade">
           <div className="mb-4">
             <label
               htmlFor="banda"

@@ -30,7 +30,7 @@ export const BandProvider = ({ children }) => {
     ) {
       setMembers([myUser]);
     }
-  }, [myUser, members]);
+  }, [myUser]);
 
   const handleInputNameBand = (e) => {
     setNameBand(e.target.value);
@@ -138,10 +138,6 @@ export const BandProvider = ({ children }) => {
     setShowAutocompleteUser(false);
     navigate("/dashboard");
   };
-
-  useEffect(() => {
-    console.log(members);
-  }, [members]);
 
   const storeBand = {
     step,

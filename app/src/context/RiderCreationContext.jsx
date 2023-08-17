@@ -23,6 +23,7 @@ export const RiderCreationProvider = ({ children }) => {
   const [riderBandID, setRiderBandID] = useState(0);
   const [riderVenueID, setRiderVenueID] = useState(0);
   const [riderTime, setRiderTime] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { store: loginStore } = useLoginContext();
   const { store: appStore, actions: appActions } = useAppContext();
@@ -33,6 +34,8 @@ export const RiderCreationProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
+
     const fetchData = async () => {
       if (!loginStore.loggedIn) {
         return;
@@ -48,6 +51,7 @@ export const RiderCreationProvider = ({ children }) => {
       setBands(fetchedBands);
     };
     fetchData();
+    setLoading(false);
   }, [loginStore.loggedIn]);
 
   useEffect(() => {
@@ -292,6 +296,7 @@ export const RiderCreationProvider = ({ children }) => {
     riderVenueID,
     riderBandID,
     riderTime,
+    loading,
   };
 
   const actions = {
@@ -314,6 +319,7 @@ export const RiderCreationProvider = ({ children }) => {
     getHours,
     getDate,
     submitRiderInformation,
+    setLoading,
   };
 
   return (

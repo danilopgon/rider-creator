@@ -35,8 +35,8 @@ export const StepTwo = () => {
   });
 
   return (
-    <div className="flex flex-col w-full h-full gap-4 p-4 rounded bg-slate-300 sm:w-full lg:w-full xl:w-full animate-fade-left">
-      <h2 className="text-xl font-semibold text-center text-black ">
+    <div className="flex flex-col w-full h-full gap-4 p-4 rounded bg-base-100/50 p-5 rounded-lg backdrop-blur-sm sm:w-full lg:w-full xl:w-full animate-fade-left">
+      <h2 className="text-xl font-semibold text-center text-base-content ">
         Agrega miembros a tu banda
       </h2>
       <Formik validationSchema={validationSchema} initialValues={initialValues}>

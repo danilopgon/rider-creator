@@ -42,7 +42,7 @@ export const InstrumentList = () => {
   }, []);
   return (
     <>
-      <div>
+      <div className="animate-fade">
         {instrumentInformation.map((card, i) =>
           renderInstrumentListItem(card, i)
         )}
