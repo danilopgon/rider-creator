@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import DashboardCard from "./DashboardCard";
 import RoleCardContainer from "./RoleContainer";
@@ -10,6 +10,12 @@ export const RoleMusician = () => {
   const { store: riderCreationStore } = useRiderCreationContext();
   const { riderData, bandData } = store;
   const { bands, venues } = riderCreationStore;
+
+  const navigate = useNavigate();
+
+  const navigateToRider = (rider) => {
+    navigate(`/rider/${rider.uid}`);
+  };
 
   return (
     <section>
@@ -27,7 +33,10 @@ export const RoleMusician = () => {
                     bands &&
                     bands.find((band) => band.id === rider.band_id)?.name
                   }
-                  firstButton={"Editar"}
+                  firstButton={"Ver rider"}
+                  handleFirstButton={() => {
+                    navigateToRider(rider);
+                  }}
                 >
                   <p className="badge badge-lg badge-outline badge-primary-content">
                     {venues &&
