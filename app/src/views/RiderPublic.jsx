@@ -27,6 +27,22 @@ const RiderPublic = () => {
         );
   }, []);
 
+  useEffect(() => {
+    const handleThemeChange = (e) => {
+      if (e.detail.theme === "dark") {
+        setFilter(
+          "invert(85%) sepia(3%) saturate(883%) hue-rotate(181deg) brightness(80%) contrast(94%)"
+        );
+      } else {
+        setFilter(
+          "invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)"
+        );
+      }
+    };
+    window.addEventListener("themechange", handleThemeChange);
+    return () => window.removeEventListener("storage", handleThemeChange);
+  }, []);
+
   const { store: appStore, actions: appActions } = useAppContext();
   const { isDesktop, isMobile, isTablet, translatedGear, defaultGear } =
     appStore;
