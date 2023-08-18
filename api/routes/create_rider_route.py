@@ -54,7 +54,7 @@ def delete_rider(id):
         return delete_rider_controller(id)
     return jsonify({"msg": "Method not allowed"}), 405
 
-@create_rider.route('/view/<uid>', methods=['GET'])
+@create_rider.route('/public/<uid>', methods=['GET'])
 def get_public_rider_data(uid):
     if request.method == 'GET':
         return get_public_rider_data_by_uid(uid)

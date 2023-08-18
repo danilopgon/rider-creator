@@ -1,5 +1,6 @@
 from utils.db import db
 from models.rider_gear import Rider_Gear
+from models.gear_type import Gear_Type
 from models.band import Band
 from models.venue import Venue
 class Rider(db.Model):
@@ -10,8 +11,7 @@ class Rider(db.Model):
     venue_id = db.Column(db.Integer, db.ForeignKey("venue.id"), nullable=False)
     technician_id = db.Column(db.Integer, db.ForeignKey("technician.id"), nullable=True)
     date = db.Column(db.DateTime, nullable=False)
-
-    gears = db.relationship("Gear", backref="rider", lazy='dynamic', secondary="rider_gear")
+    gears = db.relationship("Gear_Type", backref="rider", lazy='dynamic', secondary="rider_gear")
    
     
     def serialize(self):
@@ -35,5 +35,5 @@ class Rider(db.Model):
             "band_name": band.name if band else None,
             "venue_name": venue.name if venue else None,
             "date": self.date,
-            "gears": [gear.public_serialize() for gear in self.gears]
+            "gears": [rg.serialize() for rg in self.gears]
         }
