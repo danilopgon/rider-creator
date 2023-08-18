@@ -54,6 +54,45 @@ const RiderPublic = () => {
 
   const { uid } = useParams();
 
+  function convertDate(dateString) {
+    const months = [
+      "enero",
+      "febrero",
+      "marzo",
+      "abril",
+      "mayo",
+      "junio",
+      "julio",
+      "agosto",
+      "septiembre",
+      "octubre",
+      "noviembre",
+      "diciembre",
+    ];
+
+    const days = [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+    ];
+
+    const dateObj = new Date(dateString);
+    const day = days[dateObj.getUTCDay()];
+    const date = dateObj.getUTCDate();
+    const month = months[dateObj.getUTCMonth()];
+    const year = dateObj.getUTCFullYear();
+    const hours = dateObj.getUTCHours();
+    const minutes = dateObj.getUTCMinutes();
+
+    const formattedDate = `${day}, ${date} de ${month} de ${year} a las ${hours}:${minutes}h`;
+
+    return formattedDate;
+  }
+
   const getSavedPositions = (instrumentInformation) => {
     return instrumentInformation.reduce((positions, instrument) => {
       if (instrument.x && instrument.y) {
@@ -162,7 +201,7 @@ const RiderPublic = () => {
             </div>
             <div className="p-4 bg-base-200 shadow-lg rounded-lg border border-primary">
               <div className="text-xl text-center pr-2 font-bold text-base-content">
-                {riderInfo.date}
+                {convertDate(riderInfo.date)}
               </div>
             </div>
             <h2 className="text-2xl font-bold ">Pistas:</h2>
