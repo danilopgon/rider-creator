@@ -6,6 +6,7 @@ from flask import jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.conversations import Conversation
 from models.message import Message
+from models.users import User
 import datetime
 from utils.db import db
 
@@ -73,6 +74,11 @@ def on_chat(data):
         conversation_serialized = find_conversation.serialize()
         emit('chat', {'msg': 'ya existe esta conversacion', 'data': conversation_serialized}, broadcast=True)
         return
+    find_user1 = User.query.filter_by(id=data['user_id1']).first()
+    find_user2 = User.query.filter_by(id=data['user_id2']).first()
+    if find_user1 is None or find_user2 is None:
+        emit('chat', {'msg': 'No se encontro el usuario'}, broadcast=True)
+        return
     conversation = Conversation()
     conversation.user_id1 = data['user_id1']
     conversation.user_id2 = data['user_id2']
@@ -106,4 +112,34 @@ def on_get_chat(data):
     emit('get_chat', {'msg': 'ok', 'data': []}, broadcast=True)
     
 
+@socketio.on('get_chats')
+def on_get_chats(data):
+    if data is None:
+        emit('get_chats', {'msg': 'error', 'data': 'No se recibio data'}, broadcast=True)
+        return
+    if data['user_id'] is None:
+        emit('get_chats', {'msg': 'error', 'data': 'No se recibio user_id'}, broadcast=True)
+        return
+    find_conversations = Conversation.query.filter_by(user_id1=data['user_id']).all()
+    if find_conversations is None:
+        emit('get_chats', {'msg': 'No se encontraron chats', 'data': []}, broadcast=True)
+        return
+    
+    conversations = [conversation.serialize() for conversation in find_conversations]
+    for conversation in conversations:
+        messages = Message.query.filter_by(conversation_id=conversation['id']).all()
+        if len(messages) > 0:    
+            conversation['messages'] = [message.serialize() for message in messages]
+        user1 = User.query.filter_by(id=conversation['user_id1']).first()
+        user2 = User.query.filter_by(id=conversation['user_id2']).first()
+        if user1 is not None:
+            user1_serialized = user1.serialize_for_jwt()
+            conversation['user1_serialized'] = user1_serialized
+        
 
+        if user2 is not None:
+            user2_serialized = user2.serialize_for_jwt()
+            conversation['user2_serialized'] = user2_serialized
+        
+        
+    emit('get_chats', {'msg': 'ok', 'data': conversations}, broadcast=True)

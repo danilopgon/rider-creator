@@ -23,7 +23,7 @@ import CreateVenue from "./views/CreateVenue";
 import { DashboardProvider } from "./context/DashboardContext";
 import { ChatView } from "./views/ChatView";
 import RiderPublic from "./views/RiderPublic";
-
+import { ChatProvider } from "./context/ChatContext";
 function App() {
   const backend = window.innerWidth <= 768 ? TouchBackend : HTML5Backend;
   const options = { enableMouseEvents: true };
@@ -34,6 +34,7 @@ function App() {
       <DndProvider backend={backend} options={options}>
         <LoginProvider>
           <AppProvider>
+            <ChatProvider>
             <RiderCreationProvider>
               <DashboardProvider>
                 <NavBar />
@@ -62,6 +63,7 @@ function App() {
                 </Routes>
               </DashboardProvider>
             </RiderCreationProvider>
+            </ChatProvider>
           </AppProvider>
         </LoginProvider>
       </DndProvider>

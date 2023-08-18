@@ -1,35 +1,43 @@
 import { useState, useEffect } from 'react';
 import {GrSend} from 'react-icons/gr'
 import {AiOutlineArrowLeft} from 'react-icons/ai'
-import useChat from '../../context/ChatContext';
 
 
-export const Chat = () => {
+
+export const Chat = ({store, actions}) => {
     const [showChat, setShowChat] = useState(false)
 
-    const {store:storeChat, actions: actionsChat} = useChat()
-    const {selectConversation} = storeChat
-    const {setSelectConversation} = actionsChat 
-    const [toUser, setToUser] = useState(null)
+    
+    const {selectConversation, toUser} = store
+    
+    
     console.log(selectConversation)
-    console.log(toUser)
 
+   
 
     useEffect(() => {
+        if(selectConversation === null){
+        setShowChat(prev => !prev)
+    }
     if(selectConversation !== null){
         if(showChat===false){
             
             setShowChat(prev => !prev)
         }
         if(selectConversation == ''|| selectConversation == null){
-            return
+            setSelectConversation(null)
         }
         if(toUser !== JSON.parse(selectConversation)){
-        setToUser(JSON.parse(selectConversation))
-    }
+        actions.setToUser(JSON.parse(selectConversation))
+    } 
+}
+if(selectConversation === null){
+    setShowChat(false)
+
 }
 },[selectConversation])
         
+    
     
      return (
         <section className={`h-full p-2 w-[100%] absolute md:w-[80%] md:relative ${showChat?'':'hidden'}`}>
@@ -37,9 +45,9 @@ export const Chat = () => {
                 <div className="w-full h-full">
                     
                     <div className='flex p-1'>
-                    <button className='p-2 me-auto'><AiOutlineArrowLeft/></button>
-                    <span className='flex items-center p-2'>{toUser?.name}</span>
-                    {toUser?.img!==''?<img src={toUser?.img} alt="" />:<div className="flex items-center justify-center w-10 h-10 text-2xl text-black rounded bg-slate-50/10 bg-slate-300">{toUser?.name.charAt(0).toUpperCase()}</div>}
+                    <button className='p-2 mt-2 me-auto' onClick={() => actions.setSelectConversation(null)}><AiOutlineArrowLeft/></button>
+                    <span className='flex items-center p-2 text-xl'>{store.toUser?.username}</span>
+                    {store.toUser?.img !== null && store.toUser?.img !== ''?<img className='w-8 h-8 mt-2 rounded me-4' src={store.toUser?.img} alt="img profile" />:<div className="flex items-center justify-center w-8 h-8 mt-2 text-2xl text-white border-0 rounded me-2 bg-slate-300">{store?.toUser?.username.charAt(0).toUpperCase()}</div>}
             
                     </div>
                     <div className="w-full h-[80%] p-3">
