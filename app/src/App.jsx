@@ -22,6 +22,7 @@ import { CreateBand } from "./views/CreateBand";
 import CreateVenue from "./views/CreateVenue";
 import { DashboardProvider } from "./context/DashboardContext";
 import { ChatView } from "./views/ChatView";
+import RiderPublic from "./views/RiderPublic";
 
 function App() {
   const backend = window.innerWidth <= 768 ? TouchBackend : HTML5Backend;
@@ -49,13 +50,14 @@ function App() {
                     path="/activation/:token"
                     element={<PageActivation />}
                   ></Route>
+                  <Route path="/rider/:uid" element={<RiderPublic />}></Route>
                   <Route path="*" element={<NotFound />}></Route>
                   <Route element={<PrivateRoutes />}>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/create-rider" element={<RiderCreation />} />
                     <Route path="/create-band" element={<CreateBand />} />
                     <Route path="/create-venue" element={<CreateVenue />} />
-                    <Route path="/chat" element={<ChatView/>}/>
+                    <Route path="/chat" element={<ChatView />} />
                   </Route>
                 </Routes>
               </DashboardProvider>
