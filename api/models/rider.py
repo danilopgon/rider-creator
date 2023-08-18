@@ -11,7 +11,7 @@ class Rider(db.Model):
     venue_id = db.Column(db.Integer, db.ForeignKey("venue.id"), nullable=False)
     technician_id = db.Column(db.Integer, db.ForeignKey("technician.id"), nullable=True)
     date = db.Column(db.DateTime, nullable=False)
-    gears = db.relationship("Gear_Type", backref="rider", lazy='dynamic', secondary="rider_gear")
+    gears = db.relationship("Rider_Gear", backref="rider", lazy=True)
    
     
     def serialize(self):
