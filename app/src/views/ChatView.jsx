@@ -5,23 +5,27 @@ import toast from 'react-hot-toast';
 import { Contacts } from "../components/chat/Contacts"
 import { v4 as uuidv4 } from 'uuid';
 import useLogin from "../context/LoginContext";
+import jwt_decode from "jwt-decode";
 
 import getUserByUserName from "../services/getUserByUserName";
 
 const socket = io('http://localhost:10000')
 
 export const ChatView = () => {
+    const token = localStorage.getItem('jwt-token')
+    const decoded = jwt_decode(token)
 
-
-    const {store: storeLogin} = useLogin();
-    const {myUser} = storeLogin;
-
-
+    
+    const [myUser, setMyUser] = useState(decoded.sub)
+    const [newMessage, setNewMessage] = useState('');
     const [listFindUser, setListFindUser] = useState([]);
     const [listChatByMyUser, setListChatByMyUser] = useState(null);
     const [selectConversation, setSelectConversation] = useState(null);
     const [listMessagesByConversation, setListMessagesByConversation] = useState(null);
     const [toUser, setToUser] = useState(null);
+
+    console.log(decoded)
+    console.log(myUser)
 
     useEffect(() => {
         socket.on('connect', () => {
@@ -30,24 +34,38 @@ export const ChatView = () => {
 
         socket.on('message', (data) => {
           console.log('Mensaje recibido:', data);
+          const msg = async  () => {
+            await setListMessagesByConversation(getMessages(selectConversation?.id))
+          }
+          msg()
         });
 
         socket.on('chat', (data) => {
             if (data.msg === "ya existe esta conversacion") {
                  toast.error('Ya existe esta conversacion')
-                 setSelectConversation(data.data?.id)
+                 const conversation = listChatByMyUser.find((chat) => String(chat.id) === String(data?.data?.id))
+                 setSelectConversation(conversation?.id)
              }
         })
 
         socket.on('get_chat', (data) => {
             console.log('Chat recibido:', data);
+            if(data.msg === 'error'){
+                toast.error('No se pudo obtener el chat')
+                return
+            }
+            const get_chat = async () => {
+            await setListMessagesByConversation(data.data)
+            }
+            get_chat()
         })
 
         socket.on('get_chats', (data) => {
-          if(listChatByMyUser?.length !== data.data?.length){
-            setListChatByMyUser(data.data)
-          }
-
+          console.log(data)
+          data.data.length > 0 && setListChatByMyUser(data.data)
+            
+         
+          getChats()
         })
         return () => {
           socket.off('chat_message');
@@ -67,8 +85,11 @@ export const ChatView = () => {
       }
 
       const sendMessage = (message=null, user_id=null, conversation_id=null) => {
+        if(message === ''){
+            toast.error('No puedes enviar un mensaje vacio');
+            return
+        }
         if(message === null || user_id === null || conversation_id === null){
-            toast.error('Faltan datos para enviar el mensaje');
             return
         }
         const data = {
@@ -79,24 +100,32 @@ export const ChatView = () => {
         socket.emit('message',  data);
       }
 
-      const getMessages = (user_id=null, conversation_id=null) => {
-        if(user_id === null || conversation_id === null){
-            toast.error('Faltan datos para obtener el chat');
+      console.log(myUser?.id)
+
+      const getMessages = (conversation_id=null) => {
+        if(conversation_id === null){
             return
         }
-        const data = { "user_id":user_id, "conversation_id":conversation_id}
+        const data = {"conversation_id":conversation_id}
         socket.emit('get_chat', data);
       }
 
       const getChats = (user_id=null) => {
         if(user_id === null){
-            toast.error('Faltan datos para obtener el chat');
             return
         }
         const data = { "user_id":user_id}
         socket.emit('get_chats', data);
       }
 
+      const handleCaptureMessageInput = (e) => {
+        try{
+            const {value} = e.target;
+            setNewMessage(value);
+        }catch(error){
+            console.log(error)
+        }
+      }
 
       const handleCreateChat = (e) => {
         try{
@@ -120,34 +149,30 @@ export const ChatView = () => {
                 
                 
                 if(selectConversation !== null || selectConversation !== undefined || selectConversation !== ''){
-                  if(JSON.parse(selectConversation) !== JSON.parse(id)){  
+                  if(selectConversation !== id){  
                     setSelectConversation(id);
                   }
                   
                 }
+                getMessages(id?.chat_id)
                 return 
             }catch(error){
                 console.log(error)
             }
        }
-
        
 
        const handleSendMessage = (e) => {
         try{
 
-            sendMessage(e.target.value, myUser.id, selectConversation?.id)
-
+            sendMessage(newMessage, myUser?.id, selectConversation)
+            setNewMessage('')
         }catch(error){
             console.log(error)
         }
        }
 
-       useEffect(() => {
-        getMessages(myUser.id, selectConversation?.id)
-       }, [myUser])
-
-
+       
        const handleFindUserByUserName = (e) => {
         try{
             const userName = e.target.value;
@@ -164,12 +189,19 @@ export const ChatView = () => {
 
     }
 
-      //createChat(1,2);
-      
-      //sendMessage('Hola desde el cliente', 1, 1);
-
-      //getChats(1,2);
-       getChats(1);
+    useEffect(() => {
+        if(myUser === null) return;
+        if(myUser?.id === null) return;
+        if(myUser?.id === undefined) return;
+        getChats(myUser?.id)
+       
+    },[myUser, selectConversation, listChatByMyUser])
+    
+    useEffect(() => {
+      if(selectConversation === null) return;
+      if(selectConversation === undefined) return;
+      getMessages(selectConversation)
+    },[selectConversation, sendMessage, createChat, listChatByMyUser])
 
     const store = {
         myUser,
@@ -177,7 +209,9 @@ export const ChatView = () => {
         listChatByMyUser,
         selectConversation,
         listMessagesByConversation,
-        toUser
+        toUser,
+        newMessage
+        
 
     }
 
@@ -188,7 +222,8 @@ export const ChatView = () => {
         handleFindUserByUserName,
         listChatByMyUser,
         setSelectConversation,
-        setToUser
+        setToUser,
+        handleCaptureMessageInput
 
 
     }

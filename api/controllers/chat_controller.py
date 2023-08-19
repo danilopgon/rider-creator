@@ -37,7 +37,6 @@ def on_message(data):
     
     find_conversation = Conversation.query.filter_by(id=data['conversation_id']).first()
     if find_conversation is not None:
-        find_conversation['updated_at'] = datetime.datetime.now()
         db.session.add(find_conversation)
         db.session.commit()
         message = Message()
@@ -99,16 +98,15 @@ def on_get_chat(data):
     if data['conversation_id'] is None:
         emit('get_chat', {'msg': 'error', 'data': 'No se recibio conversation_id'}, broadcast=True)
         return
-    if data['user_id'] is None:
-        emit('get_chat', {'msg': 'error', 'data': 'No se recibio user_id'}, broadcast=True)
-        return
-    find_conversation = Conversation.query.filter_by(id=data['conversation_id']).first()
-    if find_conversation is None:
-        emit('get_chat', {'msg': 'No se encontraron chats', 'data': []}, broadcast=True)
-        return    
+    
     find_message_by_conversation = Message.query.filter_by(conversation_id=data['conversation_id']).all()
     if len(find_message_by_conversation) > 0:    
-        find_conversation['messages'] = [message.serialize() for message in find_message_by_conversation]
+        if find_message_by_conversation is None:
+            emit('get_chat', {'msg': 'No se encontraron mensajes', 'data': []}, broadcast=True)
+            return
+        serialized_message = [message.serialize() for message in find_message_by_conversation]
+        emit('get_chat', {'msg': 'lista de mensajes', 'data': serialized_message}, broadcast=True)
+        return
     emit('get_chat', {'msg': 'ok', 'data': []}, broadcast=True)
     
 

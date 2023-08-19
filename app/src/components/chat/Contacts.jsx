@@ -40,7 +40,7 @@ export const Contacts = ({store, actions}) => {
                     </div>
                     <div className="flex flex-col justify-center w-full h-24 overflow-y-auto">
                         {store.listFindUser.length>0? store.listFindUser?.map((user) => {
-                            return <CardFindUser userFind={user} key={user?.user?.id} handle={actions}/>
+                            return <CardFindUser userFind={user} key={user?.user?.id} store={store} actions={actions}/>
                         }) : <p className="text-center">No se encontraron usuarios</p>}
                     </div>
                     

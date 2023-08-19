@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {GrSend} from 'react-icons/gr'
 import {AiOutlineArrowLeft} from 'react-icons/ai'
 
-
+import { ChatStart } from './ChatStart';
+import { ChatEnd } from './ChatEnd';
 
 export const Chat = ({store, actions}) => {
     const [showChat, setShowChat] = useState(false)
@@ -10,9 +11,18 @@ export const Chat = ({store, actions}) => {
     
     const {selectConversation, toUser} = store
     
+    const chatContainerRef = useRef(null);
     
-    console.log(selectConversation)
+    const scrollToBottom = () => {
+        const chatContainer = chatContainerRef.current;
+        if (chatContainer) {
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+      };
 
+      useEffect(() => {
+        scrollToBottom();
+      }, [store.newMessage]);
    
 
     useEffect(() => {
@@ -27,9 +37,14 @@ export const Chat = ({store, actions}) => {
         if(selectConversation == ''|| selectConversation == null){
             setSelectConversation(null)
         }
-        if(toUser !== JSON.parse(selectConversation)){
-        actions.setToUser(JSON.parse(selectConversation))
-    } 
+        const findUser = store.listChatByMyUser.find((chat) => String(chat.id) === String(selectConversation))
+        if(findUser?.user_id1 === store.myUser?.id){
+            actions.setToUser(findUser?.user2_serialized)
+        }else{
+            actions.setToUser(findUser?.user1_serialized)
+        }
+        
+     
 }
 if(selectConversation === null){
     setShowChat(false)
@@ -52,18 +67,23 @@ if(selectConversation === null){
                     </div>
                     <div className="w-full h-[80%] p-3">
                         
-                        <div className='w-full h-full'>
-                        <div className="chat chat-start">
-                            <div className="text-black chat-bubble bg-slate-300 w-[40%]">It's over Anakin, <br/>I have the high ground.</div>
-                        </div>
-                        <div className="chat chat-end">
-                            <div className="text-black chat-bubble bg-slate-300 w-[40%]">You underestimate my power!</div>
-                        </div>
+                        <div className='chat-container w-full h-[26rem] overflow-y-auto scrollbar-thin' ref={chatContainerRef} >
+                        
+                        {store.listMessagesByConversation?.length>0? store.listMessagesByConversation?.map((message) => {
+                            if(message?.user_id === store.myUser?.id){
+                                return <ChatEnd message={message?.content} key={message?.id}/>
+                            }else{
+                                return <ChatStart message={message?.content} key={message?.id}/>
+                            }
+                        }):<p className='text-center'>No hay mensajes</p>}
+
+
+                        
                         </div>
                     </div>
                     <div className="flex items-center justify-center w-full">
-                        <input className="w-[70%] p-2  rounded-s bg-slate-200" type="text" />
-                        <button className="h-full  xl:w-[8%] md:w-[18%] bg-slate-200 flex items-center p-2 gap-2 rounded-e"><GrSend/>Send</button>
+                        <input onChange={actions.handleCaptureMessageInput} value={store.newMessage} className="w-[70%] p-2  rounded-s bg-slate-200" type="text" />
+                        <button onClick={actions.handleSendMessage} className="h-full  xl:w-[8%] md:w-[18%] bg-slate-200 flex items-center p-2 gap-2 rounded-e"><GrSend/>Send</button>
                     </div>
                 </div>
             </div>

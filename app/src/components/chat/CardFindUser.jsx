@@ -27,7 +27,7 @@ export const CardFindUser = ({userFind, store, actions}) => {
             <h2>{user?.user?.username}</h2>
 
             <div className="p-1 ms-auto">
-                <button  onClick={store.handleCreateChat} className="p-2 rounded bg-[#641ae6]">Chatear</button>
+                <button  onClick={actions.handleCreateChat} className="p-2 rounded bg-[#641ae6]">Chatear</button>
             </div>
         </article>
     )

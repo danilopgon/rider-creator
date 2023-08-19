@@ -10,8 +10,8 @@ class Message(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "content": self.content,
+            "content": str(self.content),
             "user_id": self.user_id,
             "conversation_id": self.conversation_id,
-            "created_at": self.created_at
+            "created_at": str(self.created_at)
         }
