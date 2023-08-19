@@ -17,4 +17,3 @@ from .musician import Musician
 from .rider_gear import Rider_Gear
 from .conversations import Conversation
 from .message import Message
-from .conversation_user import Conversation_User

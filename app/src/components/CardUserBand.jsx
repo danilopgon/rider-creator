@@ -1,10 +1,11 @@
 export const CardUserBand = ({ member, handler }) => {
   const imageSrc =
     member?.img || `https://ui-avatars.com/api/?name=${member?.username}`;
+    
 
   return (
     <article
-      className="flex items-center p-1 rounded bg-slate-50 h-14"
+      className="flex items-center p-1 rounded bg-slate-50 h-14 animate-jump-in"
       key={member?.id}
       id={member?.id}
     >

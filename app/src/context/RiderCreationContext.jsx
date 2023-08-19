@@ -116,8 +116,8 @@ export const RiderCreationProvider = ({ children }) => {
 
   const handleFirstStepSubmit = (values) => {
     try {
-      const bandID = bands.find((band) => band.name === values.banda).id;
-      const venueID = venues.find((venue) => venue.name === values.sala).id;
+      const bandID = bands.find((band) => band.name === values.banda)?.id;
+      const venueID = venues.find((venue) => venue.name === values.sala)?.id;
       const date = values.fecha;
       const timeParts = values.hora.split(":");
       const hours = timeParts[0].padStart(2, "0");

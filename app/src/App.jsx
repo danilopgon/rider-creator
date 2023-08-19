@@ -34,6 +34,7 @@ function App() {
       <DndProvider backend={backend} options={options}>
         <LoginProvider>
           <AppProvider>
+            
             <RiderCreationProvider>
               <DashboardProvider>
                 <NavBar />
@@ -62,6 +63,7 @@ function App() {
                 </Routes>
               </DashboardProvider>
             </RiderCreationProvider>
+            
           </AppProvider>
         </LoginProvider>
       </DndProvider>
