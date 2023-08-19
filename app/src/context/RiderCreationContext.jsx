@@ -151,7 +151,7 @@ export const RiderCreationProvider = ({ children }) => {
       type,
       width: sizeMultiplier,
       height: sizeMultiplier,
-      icon: `./src/assets/icons/${instrumentToIconMap[type]}`,
+      icon: `/icons/${instrumentToIconMap[type]}`,
       x: 0,
       y: 0,
       notes: "",
