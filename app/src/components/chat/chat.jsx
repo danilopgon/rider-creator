@@ -22,8 +22,9 @@ export const Chat = ({store, actions}) => {
 
       useEffect(() => {
         scrollToBottom();
-      }, [store.newMessage]);
-   
+      }, [store.newMessage, store.listMessagesByConversation]);
+
+      
 
     useEffect(() => {
         if(selectConversation === null){
@@ -55,8 +56,8 @@ if(selectConversation === null){
     
     
      return (
-        <section className={`h-full p-2 w-[100%] absolute md:w-[80%] md:relative ${showChat?'':'hidden'}`}>
-            <div className="w-full h-full rounded-xl bg-slate-50/5">
+        <section className={`h-full p-2 w-[100%] absolute md:w-[80%] md:relative ${showChat?'':'hidden'} `}>
+            <div className="w-full h-full rounded-xl md:bg-slate-50/5 bg-base-100">
                 <div className="w-full h-full">
                     
                     <div className='flex p-1'>
