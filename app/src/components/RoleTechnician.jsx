@@ -11,7 +11,7 @@ export const RoleTechnician = () => {
   const { bands, venues } = riderCreationStore;
 
   return (
-    <section>
+    <section className="animate-fade-down animate-once animate-delay-100 animate-ease-in-out">
       <div className="container px-4 mx-auto mt-4 ">
         <h1 className="flex justify-center mb-6 text-4xl font-bold">
           ¿Estás buscando trabajo?
