@@ -69,15 +69,12 @@ export const BandProvider = ({ children }) => {
 
   const handleSelectUser = (e) => {
     const { id } = e.target.parentNode;
-    console.log(id);
-    console.log(userList);
     const user = userList.find(
       (user) => parseInt(user?.user.id) == parseInt(id)
     );
 
-    console.log(user);
+    
     setMembers([...members, user.user]);
-    console.log(members);
     setFindUser("");
     setShowAutocompleteUser(false);
     toast.success("Usuario agregado con exito");
