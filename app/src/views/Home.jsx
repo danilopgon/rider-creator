@@ -104,12 +104,12 @@ const Home = () => {
           <div>
             <img
               className="flex md:hidden "
-              src="./src/assets/612shots_so.png"
+              src="/612shots_so.png"
               alt="Smartphone mockup"
             />
             <img
               className="hidden md:flex"
-              src="./src/assets/326shots_so.png"
+              src="/326shots_so.png"
               alt="Desktop mockup"
             />
           </div>
