@@ -9,7 +9,7 @@ export const ChatCard = ({chat, store, actions}) => {
     const {store:storeLogin} = useLoginContext()
     const {myUser} = storeLogin
 
-    console.log(chat)
+    
     useEffect(() => {
         if(chat === null|| chat === undefined) return;
         if(myUser === null || chat === undefined) return;
@@ -23,15 +23,15 @@ export const ChatCard = ({chat, store, actions}) => {
         }
       }, [chat, myUser]);
     
-    console.log(chat)
+    
     
      
     return (
         <article onClick={actions.handleSelectChat} className="flex overflow-hidden h-14 bg-slate-50/5 hover:bg-slate-50/10" id={chat.id} key={user?.chat_id}>
             <div className="min-w-[20%] h-full p-1">
                 {
-                    user?.img !== null? <img className="w-full h-full border rounded" src={user?.img} alt="" />
-                    : <div className="w-full h-full border rounded bg-slate-50/10"></div>
+                    user?.img !== null? <img className="w-full h-full rounded" src={user?.img} alt="" />
+                    : <div className="flex items-center justify-center w-full h-full text-2xl font-bold text-white bg-green-500 rounded">{user?.username?.charAt(0).toUpperCase()}</div>
                 }
                 
             </div>

@@ -35,7 +35,7 @@ export const StepTwo = () => {
   });
 
   return (
-    <div className="flex flex-col w-full h-full gap-4 p-4 rounded bg-base-100/50 p-5 rounded-lg backdrop-blur-sm sm:w-full lg:w-full xl:w-full animate-fade-left">
+    <div className="flex flex-col w-full h-full gap-4 p-4 p-5 rounded rounded-lg bg-base-100/50 backdrop-blur-sm sm:w-full lg:w-full xl:w-full animate-fade-left">
       <h2 className="text-xl font-semibold text-center text-base-content ">
         Agrega miembros a tu banda
       </h2>
@@ -61,13 +61,13 @@ export const StepTwo = () => {
               />
             </label>
             <div
-              className={`absolute border bg-slate-50 w-[15rem] h-auto flex flex-col mt-9 ${
+              className={`absolute border z-20 bg-slate-50 w-[15rem] h-auto flex flex-col mt-9 ${
                 showAutocompleteUser ? "" : "hidden"
               }`}
             >
               <div className="h-auto">
                 {!userList?.length > 0 && (
-                  <ul className="p-2">
+                  <ul className="p-2 ">
                     <li className="flex items-center justify-between">
                       {findUser}
                       <button
@@ -108,7 +108,7 @@ export const StepTwo = () => {
             </div>
           </div>
 
-          <div className="h-[42vh] w-[100%] sm:w-[90%] flex flex-col gap-2 p-2 overflow-y-auto">
+          <div className="h-[42vh] w-[100%] sm:w-[90%] flex flex-col gap-2 p-2 overflow-y-auto overflow-x-hidden">
             {members.map((member) => {
               return (
                 <CardUserBand

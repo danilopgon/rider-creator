@@ -56,7 +56,7 @@ if(selectConversation === null){
     
     
      return (
-        <section className={`h-full p-2 w-[100%] absolute md:w-[80%] md:relative ${showChat?'':'hidden'} `}>
+        <section className={`h-full p-2 w-[100%] absolute md:w-[80%] md:relative ${showChat?'':'hidden'} animate-fade-left`}>
             <div className="w-full h-full rounded-xl md:bg-slate-50/5 bg-base-100">
                 <div className="w-full h-full">
                     

@@ -38,7 +38,7 @@ export const Contacts = ({store, actions}) => {
                     <div className="flex items-center justify-center w-full p-3">
                         <input onChange={actions?.handleFindUserByUserName} name="findUserById" type="text" className="w-[70%] p-2 rounded" placeholder="Busca un usuario"/>
                     </div>
-                    <div className="flex flex-col justify-center w-full h-24 overflow-y-auto">
+                    <div className="flex flex-col items-center justify-center w-full h-24 overflow-y-auto">
                         {store.listFindUser.length>0? store.listFindUser?.map((user) => {
                             return <CardFindUser userFind={user} key={user?.user?.id} store={store} actions={actions}/>
                         }) : <p className="text-center">No se encontraron usuarios</p>}

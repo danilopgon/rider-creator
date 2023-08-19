@@ -24,8 +24,7 @@ export const ChatView = () => {
     const [listMessagesByConversation, setListMessagesByConversation] = useState(null);
     const [toUser, setToUser] = useState(null);
 
-    console.log(decoded)
-    console.log(myUser)
+    
 
     useEffect(() => {
         socket.on('connect', () => {
@@ -49,7 +48,6 @@ export const ChatView = () => {
         })
 
         socket.on('get_chat', (data) => {
-            console.log('Chat recibido:', data);
             if(data.msg === 'error'){
                 toast.error('No se pudo obtener el chat')
                 return
@@ -61,11 +59,7 @@ export const ChatView = () => {
         })
 
         socket.on('get_chats', (data) => {
-          console.log(data)
           data.data.length > 0 && setListChatByMyUser(data.data)
-            
-         
-          getChats()
         })
         return () => {
           socket.off('chat_message');
@@ -100,8 +94,7 @@ export const ChatView = () => {
         socket.emit('message',  data);
       }
 
-      console.log(myUser?.id)
-
+      
       const getMessages = (conversation_id=null) => {
         if(conversation_id === null){
             return
@@ -188,6 +181,7 @@ export const ChatView = () => {
         }
 
     }
+    
 
     useEffect(() => {
         if(myUser === null) return;
