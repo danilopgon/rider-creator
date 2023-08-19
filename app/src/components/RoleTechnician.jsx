@@ -46,11 +46,11 @@ export const RoleTechnician = () => {
                   }
                   firstButton={"Editar"}
                 >
-                  <p className="badge badge-lg badge-outline badge-primary-content">
+                  <p className="badge badge-lg badge-outline p-5 py-8 md:py-6 badge-primary-content">
                     {venues &&
                       venues.find((venue) => venue.id === rider.venue_id)?.name}
                   </p>
-                  <p className="badge badge-lg badge-outline badge-primary-content">
+                  <p className="badge badge-lg badge-outline p-5 py-8 md:py-6 badge-primary-content">
                     {rider.date}
                   </p>
                 </DashboardCard>
