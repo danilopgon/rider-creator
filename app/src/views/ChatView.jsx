@@ -1,4 +1,4 @@
-import { Chat } from "../components/chat/Chat"
+import { Chat } from "../components/chat/chat"
 import io from 'socket.io-client';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
