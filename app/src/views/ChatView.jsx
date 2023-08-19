@@ -9,7 +9,7 @@ import jwt_decode from "jwt-decode";
 
 import getUserByUserName from "../services/getUserByUserName";
 
-const socket = io('http://localhost:10000')
+const socket = io(`${import.meta.env.VITE_API_URL}`)
 
 export const ChatView = () => {
     const token = localStorage.getItem('jwt-token')
