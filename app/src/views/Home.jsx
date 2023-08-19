@@ -36,8 +36,8 @@ const Home = () => {
         </div>
       </header>
 
-      <section className="container flex flex-col justify-center items-center my-5 p-5">
-        <h2 className="text-2xl font-bold mb-4 my-4">Preguntas frecuentes</h2>
+      <section className="container flex flex-col justify-center items-center my-7 p-5">
+        <h2 className="text-2xl font-bold mb-5">Preguntas frecuentes</h2>
         <div className="join join-vertical w-full max-w-4xl">
           <div className="collapse collapse-arrow join-item border-2 border-primary-content bg-primary text-primary-content">
             <input type="radio" name="my-accordion-2" checked="checked" />
