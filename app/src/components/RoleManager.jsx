@@ -22,10 +22,10 @@ export const RoleManager = () => {
                   title={venue.name}
                   firstButton={"Editar"}
                 >
-                  <p className="badge badge-lg badge-outline badge-primary-content">
+                  <p className="badge badge-lg badge-outline p-5 py-8 md:py-6 badge-primary-content">
                     {`${venue.address.street} ${venue.address.number}, ${venue.address.city}, ${venue.address.country}`}
                   </p>
-                  <p className="badge badge-lg badge-outline badge-primary-content">
+                  <p className="badge badge-lg badge-outline p-5 py-8 md:py-6 badge-primary-content">
                     Capacidad: {venue.capacity} personas
                   </p>
                 </DashboardCard>
