@@ -11,6 +11,10 @@ const SwitchTheme = () => {
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
+    const themeEvent = new CustomEvent("themechange", {
+      detail: { theme: newTheme },
+    });
+    window.dispatchEvent(themeEvent);
     localStorage.setItem("theme", newTheme);
   };
 

@@ -7,7 +7,7 @@ from .venue_manager import Venue_Manager
 class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    username = db.Column(db.String(255))
+    username = db.Column(db.String(255), unique=True)
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean, nullable=False, default=False)
@@ -15,6 +15,7 @@ class User(db.Model):
     musician = db.relationship("Musician", backref="user", uselist=False)
     technician = db.relationship("Technician", backref="user", uselist=False)
     venue_manager = db.relationship("Venue_Manager", backref="user", uselist=False)
+    img = db.Column(db.String(255), nullable=True)
 
     def serialize_for_jwt(self):
         return {
@@ -24,7 +25,8 @@ class User(db.Model):
             "musician_id": self.musician.id if self.musician else None,
             "technician_id": self.technician.id if self.technician else None,
             "venue_manager_id": self.venue_manager.id if self.venue_manager else None,
+            "img": self.img,
         }
 
     def serialize(self):
-        return {"id": self.id, "username": self.username, "email": self.email}
+        return {"id": self.id, "name": self.username, "email": self.email}

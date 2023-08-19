@@ -12,6 +12,9 @@ flask-jwt-extended = "*"
 flask-mail = "*"
 flask-cors = "*"
 python-dotenv = "*"
+datetime = "*"
+cloudinary = "*"
+flask-socketio = "*"
 
 [dev-packages]
 
@@ -20,7 +23,7 @@ python_version = "3.11"
 
 [scripts]
 start = "flask --app api/app.py run --host=0.0.0.0 --port=10000"
-build = "cd app && npm install && npm run build && cd .. && pipenv install" 
+build = "cd app && npm install && npm run build && cd .. && pipenv install"
 init = "flask db init"
 migrate = "flask db migrate"
 upgrade = "flask db upgrade"

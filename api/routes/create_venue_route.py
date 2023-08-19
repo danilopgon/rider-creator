@@ -41,7 +41,8 @@ def get_venue_by_id_controller(venue_id):
 @create_venue_route.route("/<int:venue_id>", methods=["DELETE"])
 @jwt_required()
 def delete_venue_by_id_controller(venue_id):
-    return delete_venue_by_id(venue_id)
+    manager_id = get_jwt_identity().get("manager_id")
+    return delete_venue_by_id(venue_id, manager_id)
 
 
 @create_venue_route.route("/<int:venue_id>", methods=["PUT"])

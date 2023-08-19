@@ -14,8 +14,7 @@ const registerVenue = async (venueInfo) => {
       body: JSON.stringify(venueInfo),
     });
 
-    const data = response;
-    return data;
+    return response;
   } catch (error) {
     throw new Error("Error al registrar la sala" + error.message);
   }

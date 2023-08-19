@@ -12,6 +12,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from flask_mail import Message
+from utils.mail import mail
+from controllers.chat_controller import socketio
+
+import cloudinary
+
+
 
 # modulos
 from utils import db, mail
@@ -40,6 +46,16 @@ jwt = JWTManager(app)
 # configure the SQLite database, relative to the app instance folder
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 
+#configure cloudinary
+cloudinary.config( 
+  cloud_name = os.getenv("ClOUD_NAME"), 
+  api_key = os.getenv("API_KEY_CLOUDINARY"), 
+  api_secret = os.getenv("API_SECRET_CLOUDINARY")
+)
+
+#socketio = SocketIO(app)
+socketio.init_app(app, cors_allowed_origins='*')
+
 # migrate the database
 migrate = Migrate(app, db)
 CORS(app)
@@ -62,5 +78,12 @@ def serve_any_other_file(path="index.html"):
     return response
 
 
+# if __name__ == "__main__":
+#     PORT = int(os.environ.get("PORT", 3000))
+#     app.run(host="0.0.0.0", port=PORT, debug=True)
+if __name__ == '__main__':
+    socketio.run(app)
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+

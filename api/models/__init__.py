@@ -15,3 +15,5 @@ from .venue import Venue
 from .venue_manager import Venue_Manager
 from .musician import Musician
 from .rider_gear import Rider_Gear
+from .conversations import Conversation
+from .message import Message

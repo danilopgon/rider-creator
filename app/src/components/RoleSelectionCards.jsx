@@ -5,7 +5,7 @@ const RoleSelectionCards = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-5 p-3">
-      <div className="card join-item bg-base-100 shadow-xl p-4 mb-4">
+      <div className="card join-item bg-base-100 shadow-xl p-4 mb-4 animate-fade-up animate-once animate-ease-in-out">
         <figure>
           <img
             src="https://images.pexels.com/photos/12327601/pexels-photo-12327601.jpeg?auto=compress&cs=tinysrgb&w=600"
@@ -27,7 +27,7 @@ const RoleSelectionCards = () => {
         </div>
       </div>
 
-      <div className="card join-item bg-base-100 shadow-xl p-4 mb-4">
+      <div className="card join-item bg-base-100 shadow-xl p-4 mb-4 animate-fade-up animate-once animate-delay-100 animate-ease-in-out">
         <figure>
           <img
             src="https://images.pexels.com/photos/1666816/pexels-photo-1666816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
@@ -49,7 +49,7 @@ const RoleSelectionCards = () => {
         </div>
       </div>
 
-      <div className="card join-item bg-base-100 shadow-xl p-4 mb-4">
+      <div className="card join-item bg-base-100 shadow-xl p-4 mb-4 animate-fade-up animate-once animate-delay-200 animate-ease-in-out">
         <figure>
           <img
             src="https://images.pexels.com/photos/4988133/pexels-photo-4988133.jpeg?auto=compress&cs=tinysrgb&w=600"

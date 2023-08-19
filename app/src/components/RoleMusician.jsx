@@ -1,171 +1,111 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import DashboardCard from "./DashboardCard";
+import RoleCardContainer from "./RoleContainer";
+import useDashboardContext from "../context/DashboardContext";
+import useRiderCreationContext from "../context/RiderCreationContext";
 
 export const RoleMusician = () => {
+  const { store } = useDashboardContext();
+  const { store: riderCreationStore } = useRiderCreationContext();
+  const { riderData, bandData } = store;
+  const { bands, venues } = riderCreationStore;
 
-    const initialValues = {
-        lugar: "",
-        sala: "",
-        tecnico: "",
-      };
-    
-      const handleSubmit = (values, { resetForm }) => {
-        console.log(values);
-        resetForm();
-      };
-    
-      const validationSchema = Yup.object().shape({
-        lugar: Yup.string()
-          .trim()
-          .required("Este campo es obligatorio")
-          .min(3, "El lugar debe tener al menos 3 caracteres")
-          .max(50, "El lugar no puede tener más de 50 caracteres"),
-        sala: Yup.string()
-          .trim()
-          .required("Este campo es obligatorio")
-          .min(5, "La sala debe tener al menos 5 caracteres")
-          .max(100, "La sala no puede tener más de 100 caracteres"),
-        tecnico: Yup.string()
-          .trim()
-          .required("Este campo es obligatorio")
-          .min(2, "El técnico debe tener al menos 2 caracteres")
-          .max(30, "El técnico no puede tener más de 30 caracteres"),
-      });
+  const navigate = useNavigate();
 
-    return (
-        <section>
-            <div className="container px-4 mx-auto shadow-md">
-          <h1 className="flex justify-center mb-6 text-4xl font-bold">
-            Tu Rider
-          </h1>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
+  const navigateToRider = (rider) => {
+    navigate(`/rider/${rider.uid}`);
+  };
+
+  return (
+    <section className="animate-fade-down animate-once animate-delay-100 animate-ease-in-out">
+      <div className="container px-4 mx-auto mt-4 ">
+        <h1 className="flex justify-center mb-6 text-4xl font-bold">
+          Tus Riders
+        </h1>
+        <div className="flex flex-col gap-5  my-4">
+          <RoleCardContainer>
+            {riderData && riderData.length > 0 ? (
+              riderData?.map((rider) => (
+                <DashboardCard
+                  key={rider.id}
+                  title={
+                    bands &&
+                    bands.find((band) => band.id === rider.band_id)?.name
+                  }
+                  firstButton={"Ver rider"}
+                  handleFirstButton={() => {
+                    navigateToRider(rider);
+                  }}
+                >
+                  <p className="badge badge-lg badge-outline badge-primary-content">
+                    {venues &&
+                      venues.find((venue) => venue.id === rider.venue_id)?.name}
+                  </p>
+                  <p className="badge badge-lg badge-outline badge-primary-content">
+                    {rider.date}
+                  </p>
+                </DashboardCard>
+              ))
+            ) : (
+              <p>No hay riders</p>
+            )}
+          </RoleCardContainer>
+          <Link
+            to="/create-rider"
+            className="w-full max-w-lg btn btn-secondary self-center"
+            type="button"
           >
-            <Form className="px-8 pt-6 pb-8 mb-4 bg-base-300">
-              <div className="mb-4">
-                <label
-                  className="block mb-2 text-sm font-bold text-base-content"
-                  htmlFor="lugar"
-                >
-                  Lugar
-                </label>
-                <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
-                  type="text"
-                  name="lugar"
-                  placeholder="Hotel Sur"
-                />
-                <ErrorMessage
-                  name="lugar"
-                  component="div"
-                  className="text-sm text-red-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  className="block mb-2 text-sm font-bold text-base-content"
-                  htmlFor="sala"
-                >
-                  Sala
-                </label>
-                <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
-                  type="text"
-                  name="sala"
-                  placeholder="Sala el Perro"
-                />
-                <ErrorMessage
-                  name="sala"
-                  component="div"
-                  className="text-sm text-red-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  className="block mb-2 text-sm font-bold text-base-content"
-                  htmlFor="tecnico"
-                >
-                  Técnico
-                </label>
-                <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
-                  type="text"
-                  name="tecnico"
-                  placeholder="Busca técnico"
-                />
-                <ErrorMessage
-                  name="tecnico"
-                  component="div"
-                  className="text-sm text-red-500"
-                />
-              </div>
-              <div className="container flex flex-col justify-center gap-3 mx-auto">
-                <button className="w-full btn btn-primary" type="submit">
-                  Buscar técnico
-                </button>
-
-                <button className="w-full btn btn-primary" type="button">
-                  Editar
-                </button>
-              </div>
-            </Form>
-          </Formik>
+            Crea un rider
+          </Link>
         </div>
+      </div>
 
-        <div className="container flex justify-center px-12 py-2 mx-auto">
-          <button className="w-full btn btn-primary" type="button">
-            Comienza a crear
-          </button>
-        </div>
-        <div className="container px-4 mx-auto mt-4 shadow-md">
-          <h1 className="flex justify-center mb-6 text-4xl font-bold">
-            Tus Grupos
-          </h1>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
+      <div className="container px-4 mx-auto mt-4 ">
+        <h1 className="flex justify-center mb-6 text-4xl font-bold">
+          Tus Grupos
+        </h1>
+        <div className="flex flex-col gap-5 my-4">
+          <RoleCardContainer>
+            {bandData && bandData.length > 0 ? (
+              bandData.map((band) => (
+                <DashboardCard
+                  key={band.id}
+                  title={band.name}
+                  firstButton={"Editar"}
+                >
+                  {band.members.map((member) => (
+                    <p
+                      className="badge badge-lg badge-outline badge-primary-content"
+                      key={member.id}
+                    >
+                      {member.name}
+                    </p>
+                  ))}
+                  {band.members_not_registred.map((member) => (
+                    <p
+                      className="badge badge-lg  badge-outline badge-primary-content"
+                      key={member.id}
+                    >
+                      {member.name}
+                    </p>
+                  ))}
+                </DashboardCard>
+              ))
+            ) : (
+              <p>No hay grupos</p>
+            )}
+          </RoleCardContainer>
+
+          <Link
+            to="/create-band"
+            className="w-full max-w-lg btn btn-secondary self-center"
+            type="button"
           >
-            <Form className="px-8 pt-6 pb-8 mb-4 bg-base-300">
-              <div className="mb-4">
-                <label
-                  className="block mb-2 text-sm font-bold text-base-content"
-                  htmlFor="lugar"
-                >
-                  Lugar
-                </label>
-                <Field
-                  className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none text-base-content focus:outline-none focus:shadow-outline"
-                  type="text"
-                  name="lugar"
-                  placeholder="Hotel Sur"
-                />
-                <ErrorMessage
-                  name="lugar"
-                  component="div"
-                  className="text-sm text-red-500"
-                />
-              </div>
-              <div className="container flex flex-col justify-center gap-3 mx-auto">
-                <button className="w-full btn btn-primary" type="button">
-                  Editar
-                </button>
-
-                <Link
-                  to="/createband"
-                  className="w-full btn btn-primary"
-                  type="button"
-                >
-                  Añadir
-                </Link>
-              </div>
-            </Form>
-          </Formik>
+            Añadir una nueva banda
+          </Link>
         </div>
-        
-        </section>
-    )
-}
+      </div>
+    </section>
+  );
+};
