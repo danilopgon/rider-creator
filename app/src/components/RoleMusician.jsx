@@ -20,9 +20,9 @@ export const RoleMusician = () => {
   return (
     <section className="animate-fade-down animate-once animate-delay-100 animate-ease-in-out">
       <div className="container px-4 mx-auto mt-4 ">
-        <h1 className="flex justify-center mb-6 text-4xl font-bold">
+        <h2 className="flex justify-center mb-6 text-4xl font-bold">
           Tus Riders
-        </h1>
+        </h2>
         <div className="flex flex-col gap-5  my-4">
           <RoleCardContainer>
             {riderData && riderData.length > 0 ? (
@@ -38,11 +38,11 @@ export const RoleMusician = () => {
                     navigateToRider(rider);
                   }}
                 >
-                  <p className="badge badge-lg badge-outline badge-primary-content">
+                  <p className="badge badge-lg badge-outline p-5 py-8 md:py-6 badge-primary-content">
                     {venues &&
                       venues.find((venue) => venue.id === rider.venue_id)?.name}
                   </p>
-                  <p className="badge badge-lg badge-outline badge-primary-content">
+                  <p className="badge badge-lg badge-outline p-5 py-8 md:py-6 badge-primary-content">
                     {rider.date}
                   </p>
                 </DashboardCard>
@@ -62,9 +62,9 @@ export const RoleMusician = () => {
       </div>
 
       <div className="container px-4 mx-auto mt-4 ">
-        <h1 className="flex justify-center mb-6 text-4xl font-bold">
+        <h2 className="flex justify-center mb-6 text-4xl font-bold">
           Tus Grupos
-        </h1>
+        </h2>
         <div className="flex flex-col gap-5 my-4">
           <RoleCardContainer>
             {bandData && bandData.length > 0 ? (
@@ -76,7 +76,7 @@ export const RoleMusician = () => {
                 >
                   {band.members.map((member) => (
                     <p
-                      className="badge badge-lg badge-outline badge-primary-content"
+                      className="badge badge-lg badge-outline p-5 py-8 md:py-6 badge-primary-content"
                       key={member.id}
                     >
                       {member.name}
@@ -84,7 +84,7 @@ export const RoleMusician = () => {
                   ))}
                   {band.members_not_registred.map((member) => (
                     <p
-                      className="badge badge-lg  badge-outline badge-primary-content"
+                      className="badge badge-lg badge-outline p-5 py-8 md:py-6 badge-primary-content"
                       key={member.id}
                     >
                       {member.name}
