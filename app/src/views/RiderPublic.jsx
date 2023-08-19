@@ -126,7 +126,7 @@ const RiderPublic = () => {
         type,
         width: sizeMultiplier,
         height: sizeMultiplier,
-        icon: `.././src/assets/icons/${instrumentToIconMap[type]}`,
+        icon: `/icons/${instrumentToIconMap[type]}`,
         x: gear.coordinates_x,
         y: gear.coordinates_y,
         notes: gear.notes,
