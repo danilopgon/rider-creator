@@ -26,7 +26,7 @@ const Dashboard = () => {
     appStore?.selectNewRole
   ) {
     return (
-      <div className="flex flex-col items-center justify-center w-full min-h-screen bg-base-300">
+      <div className="flex flex-col items-center justify-center w-full min-h-screen bg-base-300 animate-fade">
         <h1 className="flex justify-center mt-10 text-4xl font-bold">
           ¿A qué te dedicas?
         </h1>
@@ -54,12 +54,12 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-full bg-cover bg-no-repeat bg-fixed bg-[url('https://images.pexels.com/photos/2078076/pexels-photo-2078076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
+    <div className="flex justify-center items-center min-h-screen w-full bg-cover bg-no-repeat bg-fixed bg-[url('https://images.pexels.com/photos/2078076/pexels-photo-2078076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] animate-fade">
       <div
-        className={`w-full xl:w-4/7 md:mx-10 backdrop-blur-md bg-base-200/50 p-5 rounded-lg my-10`}
+        className={`w-full xl:w-4/7 md:mx-10 backdrop-blur-md bg-base-200/50 p-5 rounded-lg my-10 animate-fade`}
       >
         <div className="flex flex-col lg:flex-row h-fit py-10 md:py-16 xl:py-32 max-w-screen justify-center items-center md:gap-12 shadow-md ">
-          <div className="text-center my-4 w-full lg:w-1/2  bg-base-200 p-10 rounded-xl">
+          <div className="text-center my-4 w-full lg:w-1/2  bg-base-200 p-10 rounded-xl animate-fade-up animate-once animate-delay-100 animate-ease-in-out">
             <div className="relative">
               <img
                 src={
@@ -89,7 +89,7 @@ const Dashboard = () => {
             <h1 className="text-lg">{store.myUser?.username}</h1>
             <div className="flex items-center justify-center p-4 my-8 space-x-24 rounded shadow-md bg-base-300">
               <p>Mensajes</p>
-              <Link to={'/chat'} className="w-32 h-8 btn btn-primary">
+              <Link to={"/chat"} className="w-32 h-8 btn btn-primary">
                 Leer
               </Link>
             </div>
@@ -134,7 +134,7 @@ const Dashboard = () => {
               </button>
             )}
           </div>
-          <section className="container w-full lg:w-1/2  px-4  shadow-md text-center bg-base-200 p-10 rounded-xl">
+          <section className="container w-full lg:w-1/2  px-4  shadow-md text-center bg-base-200 p-10 rounded-xl animate-fade-up animate-once animate-delay-800 animate-ease-in-out">
             {isSelect === "musician" ? (
               <RoleMusician />
             ) : isSelect === "manager" ? (
