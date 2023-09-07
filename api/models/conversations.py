@@ -1,7 +1,7 @@
 from utils.db import db
 
 class Conversation(db.Model):
-    id = db.Column(db.String, primary_key=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
     user_id1 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True)
     user_id2 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True)
     messages = db.relationship('Message', backref='conversation', lazy=True) 
