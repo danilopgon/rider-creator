@@ -41,7 +41,7 @@ def set_register():
         user = User()
         user.username = username
         user.email = email
-        password_hash = bcrypt.generate_password_hash(password)
+        password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
         user.password = password_hash
         user.active = False
         db.session.add(user)
@@ -95,7 +95,7 @@ def set_active(token):
         return jsonify({"message": "Invalid token"}), 404
 
     if (
-        datetime.datetime.strptime(find_token.token_exp, "%Y-%m-%d %H:%M:%S.%f")
+        find_token.token_exp
         < datetime.datetime.now()
     ):
         Provisional_token.query.filter_by(token=token).delete()

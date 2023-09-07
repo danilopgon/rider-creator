@@ -5,7 +5,7 @@ class Provisional_token(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     token = db.Column(db.String(300), nullable=False)
-    token_exp = db.Column(db.Integer, nullable=False)
+    token_exp = db.Column(db.DateTime, nullable=False)
 
     def serialize(self):
         return {

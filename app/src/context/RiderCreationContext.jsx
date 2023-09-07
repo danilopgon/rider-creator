@@ -116,8 +116,8 @@ export const RiderCreationProvider = ({ children }) => {
 
   const handleFirstStepSubmit = (values) => {
     try {
-      const bandID = bands.find((band) => band.name === values.banda)?.id;
-      const venueID = venues.find((venue) => venue.name === values.sala)?.id;
+      const bandID = bands?.find((band) => band.name === values.banda)?.id;
+      const venueID = venues?.find((venue) => venue.name === values.sala)?.id;
       const date = values.fecha;
       const timeParts = values.hora.split(":");
       const hours = timeParts[0].padStart(2, "0");
@@ -138,7 +138,7 @@ export const RiderCreationProvider = ({ children }) => {
 
   const handleAddInstrument = (values, { resetForm }) => {
     const maxInstruments = 64;
-    const findInstrument = translatedGear.find(
+    const findInstrument = translatedGear?.find(
       (instrument) => instrument.type === values.searchQuery
     );
 
@@ -169,7 +169,7 @@ export const RiderCreationProvider = ({ children }) => {
 
   const handleInstrumentInformation = (event, data, instrument) => {
     const updatedInstrumentInformation = [...instrumentInformation];
-    const instrumentIndex = updatedInstrumentInformation.findIndex(
+    const instrumentIndex = updatedInstrumentInformation?.findIndex(
       (i) => i.id === instrument.id
     );
     if (instrumentIndex === -1) {
@@ -206,7 +206,7 @@ export const RiderCreationProvider = ({ children }) => {
 
   const handleUpdateNotes = (instrument) => {
     const updatedInstrumentInformation = [...instrumentInformation];
-    const instrumentIndex = updatedInstrumentInformation.findIndex(
+    const instrumentIndex = updatedInstrumentInformation?.findIndex(
       (i) => i.id === instrument.id
     );
     updatedInstrumentInformation[instrumentIndex] = {
@@ -218,12 +218,12 @@ export const RiderCreationProvider = ({ children }) => {
   };
 
   const getVenueName = (id) => {
-    const venue = venues.find((venue) => venue.id === id);
+    const venue = venues?.find((venue) => venue.id === id);
     return venue.name;
   };
 
   const getBandName = (id) => {
-    const band = bands.find((band) => band.id === id);
+    const band = bands?.find((band) => band.id === id);
     return band.name;
   };
 
@@ -261,7 +261,7 @@ export const RiderCreationProvider = ({ children }) => {
       date: riderTime,
       gears: instrumentInformation.map((instrument) => ({
         order: instrument.order,
-        gear_id: translatedGear.find(
+        gear_id: translatedGear?.find(
           (translatedInstrument) =>
             translatedInstrument.type === instrument.type
         ).id,
