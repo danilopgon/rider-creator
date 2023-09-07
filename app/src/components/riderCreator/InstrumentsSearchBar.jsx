@@ -32,7 +32,7 @@ const InstrumentsSearchBar = () => {
 
   return (
     <>
-      <Form className="form-control m-5">
+      <Form className="form-control m-5 ">
         <div className="input-group">
           <Field
             name="searchQuery"
@@ -68,11 +68,11 @@ const InstrumentsSearchBar = () => {
       </Form>
 
       <div
-        className={`dropdown mx-5 mb-5  ${
+        className={`dropdown mx-5 mb-32 md:mb-5  z-20 ${
           searchResults.length === 0 ? "" : "dropdown-open"
         }`}
       >
-        <ul className=" p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box  w-52">
+        <ul className=" p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box  w-52 ">
           {searchResults?.map((instrument, index) => {
             if (values.searchQuery.length < 2 && index >= 5) {
               return null;
