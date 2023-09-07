@@ -15,7 +15,7 @@ python-dotenv = "*"
 datetime = "*"
 cloudinary = "*"
 flask-socketio = "*"
-psycopg2-binary = "*"
+psycopg2 = "*"
 
 [dev-packages]
 
