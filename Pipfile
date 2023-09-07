@@ -16,6 +16,7 @@ datetime = "*"
 cloudinary = "*"
 flask-socketio = "*"
 psycopg2 = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
