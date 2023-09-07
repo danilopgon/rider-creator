@@ -10,9 +10,13 @@ const NavBar = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
-        <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl">🎹 Rider Creator</a>
-        </div>
+        <Link to={localStorage.getItem("jwt-token") ? "/dashboard" : "/"}>
+          <div className="flex-1">
+            <a className="btn btn-ghost normal-case text-xl">
+              🎹 Rider Creator
+            </a>
+          </div>
+        </Link>
       </div>
       <div className="justify-center navbar-center">
         <div className="justify-center hidden md:flex">
