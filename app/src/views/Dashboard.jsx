@@ -73,21 +73,21 @@ const Dashboard = () => {
               {store?.myUser?.img !== null ? (
                 <button
                   onClick={() => window.my_modal_1.showModal()}
-                  className="absolute p-2 text-2xl text-white rounded-full bg-slate-500 top-0 right-0 transform translate-x-1/2 -translate-y-1/2"
+                  className="absolute p-2 text-2xl text-white rounded-full bg-base-300 top-0 right-0 transform translate-x-1/2 -translate-y-1/2"
                 >
                   <HiOutlinePencil />
                 </button>
               ) : (
                 <button
                   onClick={() => window.my_modal_1.showModal()}
-                  className="absolute p-2 text-2xl text-white rounded-full bg-slate-500 top-0 right-0 transform translate-x-1/2 -translate-y-1/2"
+                  className="absolute p-2 text-2xl text-white rounded-full bg-base-300 top-0 right-0 transform translate-x-1/2 -translate-y-1/2"
                 >
                   <AiOutlinePlus />
                 </button>
               )}
             </div>
             <h1 className="text-lg">{store.myUser?.username}</h1>
-            <div className="flex items-center justify-center p-4 my-8 space-x-24 rounded shadow-md bg-base-300">
+            <div className="flex gap-4 items-center justify-center p-4 my-8 rounded shadow-md bg-base-300">
               <p>Mensajes</p>
               <Link to={"/chat"} className="w-32 h-8 btn btn-primary">
                 Leer

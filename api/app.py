@@ -44,7 +44,7 @@ app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 jwt = JWTManager(app)
 
 # configure the SQLite database, relative to the app instance folder
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
 
 #configure cloudinary
 cloudinary.config( 

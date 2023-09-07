@@ -43,48 +43,32 @@ const RiderCreation = () => {
         {creatorStep === 4 && <ReviewRider />}
 
         <div className="flex justify-center my-5">
-          <div className="join">
-            <button
-              className={`join-item btn btn-primary ${
-                creatorStep === 1 ? "btn-active" : ""
-              }`}
+          <ul className="steps">
+            <li
+              className={`step ${creatorStep ? "step-success" : ""}`}
               onClick={() => {
                 setCreatorStep(1);
               }}
-            >
-              1
-            </button>
-            <button
-              className={`join-item btn btn-primary ${
-                creatorStep === 2 ? "btn-active" : ""
-              }`}
+            ></li>
+            <li
+              className={`step ${creatorStep >= 2 ? "step-success" : ""}`}
               onClick={() => {
                 setCreatorStep(2);
               }}
-            >
-              2
-            </button>
-            <button
-              className={`join-item btn btn-primary ${
-                creatorStep === 3 ? "btn-active" : ""
-              }`}
+            ></li>
+            <li
+              className={`step ${creatorStep >= 3 ? "step-success" : ""}`}
               onClick={() => {
                 setCreatorStep(3);
               }}
-            >
-              3
-            </button>
-            <button
-              className={`join-item btn btn-primary ${
-                creatorStep === 4 ? "btn-active" : ""
-              }`}
+            ></li>
+            <li
+              className={`step ${creatorStep === 4 ? "step-success" : ""}`}
               onClick={() => {
                 setCreatorStep(4);
               }}
-            >
-              4
-            </button>
-          </div>
+            ></li>
+          </ul>
         </div>
       </div>
     </div>

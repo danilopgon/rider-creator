@@ -66,7 +66,7 @@ const RiderCreationForm = () => {
           <div className="mb-4">
             <label
               htmlFor="banda"
-              className="block text-accent-content text-sm font-bold mb-2"
+              className="block text-base-content text-sm font-bold mb-2"
             >
               Selecciona tu banda
             </label>
@@ -76,7 +76,7 @@ const RiderCreationForm = () => {
                   <input
                     {...field}
                     type="text"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-accent-content leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-base-content leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="Nombre de la banda"
                     onChange={(e) => {
                       field.onChange(e);
@@ -101,7 +101,7 @@ const RiderCreationForm = () => {
           <div className="mb-4">
             <label
               htmlFor="sala"
-              className="block text-accent-content text-sm font-bold mb-2"
+              className="block text-base-content text-sm font-bold mb-2"
             >
               ¿En qué sala?
             </label>
@@ -111,7 +111,7 @@ const RiderCreationForm = () => {
                   <input
                     {...field}
                     type="text"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-accent-content leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-base-content leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="Nombre de la sala"
                     onChange={(e) => {
                       field.onChange(e);
@@ -136,13 +136,13 @@ const RiderCreationForm = () => {
           <div className="mb-4">
             <label
               htmlFor="fecha"
-              className="block text-accent-content text-sm font-bold mb-2"
+              className="block text-base-content text-sm font-bold mb-2"
             >
               Fecha
             </label>
             <Field
               type="date"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-accent-content leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-base-content leading-tight focus:outline-none focus:shadow-outline"
               id="fecha"
               name="fecha"
               value={values.fecha}
@@ -156,13 +156,13 @@ const RiderCreationForm = () => {
           <div className="mb-4">
             <label
               htmlFor="hora"
-              className="block text-accent-content text-sm font-bold mb-2"
+              className="block text-base-content text-sm font-bold mb-2"
             >
               Hora
             </label>
             <Field
               type="time"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-accent-content leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-base-content leading-tight focus:outline-none focus:shadow-outline"
               id="hora"
               name="hora"
               value={values.hora}

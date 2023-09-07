@@ -35,7 +35,7 @@ export const StepTwo = () => {
   });
 
   return (
-    <div className="flex flex-col w-full h-full gap-4 p-4 p-5 rounded rounded-lg bg-base-100/50 backdrop-blur-sm sm:w-full lg:w-full xl:w-full animate-fade-left">
+    <div className="flex flex-col w-full h-full gap-4 p-4 rounded-lg bg-base-100/50 backdrop-blur-sm sm:w-full lg:w-full xl:w-full animate-fade-left">
       <h2 className="text-xl font-semibold text-center text-base-content ">
         Agrega miembros a tu banda
       </h2>
@@ -47,10 +47,10 @@ export const StepTwo = () => {
           <div className="md:w-[60%] w-[90%] flex flex-col flex-nowrap">
             <label
               htmlFor="inputMusician "
-              className="flex p-0 border rounded bg-slate-100 justify-evenly"
+              className="flex p-0 border rounded bg-base-200 justify-evenly"
             >
               <Field
-                className="w-full md:w-[70%] p-1 m-0 text-xl border-0 bg-slate-100"
+                className="w-full input input-bordered"
                 name="name"
                 type="text"
                 id="inputMusician"
@@ -61,7 +61,7 @@ export const StepTwo = () => {
               />
             </label>
             <div
-              className={`absolute border z-20 bg-slate-50 w-[15rem] h-auto flex flex-col mt-9 ${
+              className={`absolute border z-20 bg-base-100 w-[15rem] h-auto flex flex-col mt-9 ${
                 showAutocompleteUser ? "" : "hidden"
               }`}
             >
@@ -78,7 +78,7 @@ export const StepTwo = () => {
                         +
                       </button>
                     </li>
-                    <li>user not found</li>
+                    <li>User not found</li>
                   </ul>
                 )}
 
@@ -108,7 +108,7 @@ export const StepTwo = () => {
             </div>
           </div>
 
-          <div className="h-[42vh] w-[100%] sm:w-[90%] flex flex-col gap-2 p-2 overflow-y-auto overflow-x-hidden">
+          <div className="h-[42vh] w-[100%] sm:w-[90%] flex flex-col gap-4 p-2 overflow-y-auto overflow-x-hidden">
             {members.map((member) => {
               return (
                 <CardUserBand

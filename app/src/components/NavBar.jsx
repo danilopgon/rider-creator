@@ -10,6 +10,18 @@ const NavBar = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
+        <Link to={localStorage.getItem("jwt-token") ? "/dashboard" : "/"}>
+          <div className="flex-1">
+            <a className="btn btn-ghost normal-case text-xl hidden md:flex">
+              🎹 Rider Creator
+            </a>
+            <a className="btn btn-ghost normal-case text-xl flex md:hidden">
+              🎹
+            </a>
+          </div>
+        </Link>
+      </div>
+      <div className="justify-center navbar-center">
         <div className="justify-center hidden md:flex">
           <ul className="px-1 menu menu-horizontal">
             <li>
@@ -28,8 +40,6 @@ const NavBar = () => {
             </li>
           </ul>
         </div>
-      </div>
-      <div className="justify-center navbar-center">
         <div className="flex justify-center md:hidden">
           <ul className="px-1 text-lg menu menu-horizontal">
             <li>
