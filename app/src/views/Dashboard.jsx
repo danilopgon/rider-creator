@@ -73,14 +73,14 @@ const Dashboard = () => {
               {store?.myUser?.img !== null ? (
                 <button
                   onClick={() => window.my_modal_1.showModal()}
-                  className="absolute p-2 text-2xl text-white rounded-full bg-slate-500 top-0 right-0 transform translate-x-1/2 -translate-y-1/2"
+                  className="absolute p-2 text-2xl text-white rounded-full bg-base-100500 top-0 right-0 transform translate-x-1/2 -translate-y-1/2"
                 >
                   <HiOutlinePencil />
                 </button>
               ) : (
                 <button
                   onClick={() => window.my_modal_1.showModal()}
-                  className="absolute p-2 text-2xl text-white rounded-full bg-slate-500 top-0 right-0 transform translate-x-1/2 -translate-y-1/2"
+                  className="absolute p-2 text-2xl text-white rounded-full bg-base-100500 top-0 right-0 transform translate-x-1/2 -translate-y-1/2"
                 >
                   <AiOutlinePlus />
                 </button>

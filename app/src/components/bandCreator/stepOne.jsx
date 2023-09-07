@@ -27,10 +27,9 @@ export const StepOne = () => {
 
   return (
     <div className="animate-fade">
-      <div className="w-full h-full bg-base-100/50 backdrop-blur-sm p-5 rounded-lg sm:w-[80%] md:w-[80%] lg:w-[90%] xl:w-[100%] mx-auto flex flex-col gap-4 p-4 rounded">
+      <div className="w-full h-full bg-base-100/50 backdrop-blur-sm p-5 rounded-lg sm:w-[80%] md:w-[80%] lg:w-[90%] xl:w-[100%] mx-auto flex flex-col gap-4 ">
         <h2 className="my-10 text-4xl font-semibold text-center text-base-content">
-          La musica te <br />
-          llama!
+          ¡La musica te llama!
         </h2>
         <Formik
           validationSchema={validationSchema}
@@ -41,7 +40,7 @@ export const StepOne = () => {
             onSubmit={handleOnsubmitBandName}
           >
             <Field
-              className="input input-bordered w-[70%] bg-slate-100"
+              className="input input-bordered w-[70%]"
               name="name"
               type="text"
               placeholder="Nombre de la banda"
@@ -49,7 +48,7 @@ export const StepOne = () => {
               value={nameBand}
             />
 
-            <button className="btn btn-primary w-[70%]" type="submit">
+            <button className="mt-5 btn btn-primary w-[70%]" type="submit">
               Agregar Nombre
             </button>
             <button

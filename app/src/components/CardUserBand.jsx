@@ -1,11 +1,10 @@
 export const CardUserBand = ({ member, handler }) => {
   const imageSrc =
     member?.img || `https://ui-avatars.com/api/?name=${member?.username}`;
-    
 
   return (
     <article
-      className="flex items-center p-1 rounded bg-slate-50 h-14 animate-jump-in"
+      className="p-4 py-6 flex items-center rounded bg-base-100 h-14 animate-jump-in"
       key={member?.id}
       id={member?.id}
     >
@@ -20,7 +19,7 @@ export const CardUserBand = ({ member, handler }) => {
         <h3 className="ms-4">{member?.username}</h3>
       </div>
       <div className="ms-auto">
-        <button type="button" onClick={handler} className="btn btn-error">
+        <button type="button" onClick={handler} className="btn btn-error ">
           Eliminar
         </button>
       </div>
