@@ -12,8 +12,11 @@ const NavBar = () => {
       <div className="navbar-start">
         <Link to={localStorage.getItem("jwt-token") ? "/dashboard" : "/"}>
           <div className="flex-1">
-            <a className="btn btn-ghost normal-case text-xl">
+            <a className="btn btn-ghost normal-case text-xl hidden md:flex">
               🎹 Rider Creator
+            </a>
+            <a className="btn btn-ghost normal-case text-xl flex md:hidden">
+              🎹
             </a>
           </div>
         </Link>
