@@ -5,11 +5,11 @@ import { FiMoon, FiSun } from "react-icons/fi";
 const SwitchTheme = () => {
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
-    return savedTheme ? savedTheme : "dark";
+    return savedTheme ? savedTheme : "forest";
   });
 
   const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
+    const newTheme = theme === "forest" ? "cupcake" : "forest";
     setTheme(newTheme);
     const themeEvent = new CustomEvent("themechange", {
       detail: { theme: newTheme },
@@ -31,10 +31,10 @@ const SwitchTheme = () => {
     <button
       className="btn btn-circle"
       onClick={toggleTheme}
-      data-toggle-theme="dark,light"
+      data-toggle-theme="forest,cupcake"
       data-act-class="ACTIVECLASS"
     >
-      {theme === "dark" ? (
+      {theme === "forest" ? (
         <FiSun className="w-5 h-5" />
       ) : (
         <FiMoon className="w-5 h-5" />
