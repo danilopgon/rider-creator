@@ -11,6 +11,14 @@ export default {
     require("tailwind-scrollbar"),
   ],
   daisyui: {
-    themes: ["cupcake", "forest"],
+    themes: [
+      "light",
+      {
+        dracula: {
+          ...require("daisyui/src/theming/themes")["[data-theme=dracula]"],
+          primary: "#4822d5",
+        },
+      },
+    ],
   },
 };

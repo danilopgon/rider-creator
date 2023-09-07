@@ -18,7 +18,7 @@ const RiderPublic = () => {
   const [filter, setFilter] = useState("none");
 
   useEffect(() => {
-    localStorage.getItem("theme") === "dark"
+    localStorage.getItem("theme") === "dracula"
       ? setFilter(
           "invert(85%) sepia(3%) saturate(883%) hue-rotate(181deg) brightness(80%) contrast(94%)"
         )
@@ -29,7 +29,7 @@ const RiderPublic = () => {
 
   useEffect(() => {
     const handleThemeChange = (e) => {
-      if (e.detail.theme === "dark") {
+      if (e.detail.theme === "dracula") {
         setFilter(
           "invert(85%) sepia(3%) saturate(883%) hue-rotate(181deg) brightness(80%) contrast(94%)"
         );
