@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 
 import useLoginContext from "./LoginContext";
 import useRiderCreationContext from "./RiderCreationContext";
+import useAppContext from "./AppContext";
 import { getBand } from "../services/getBand";
 import getRidersByUserID from "../services/getRidersByUserID";
 import getVenueByID from "../services/getVenueByID";
@@ -21,6 +22,7 @@ export const DashboardProvider = ({ children }) => {
 
   const { store: riderStore } = useRiderCreationContext();
   const { store: loginStore } = useLoginContext();
+  const { store: appStore, actions: appActions } = useAppContext();
 
   const location = useLocation();
 
@@ -50,14 +52,14 @@ export const DashboardProvider = ({ children }) => {
       return;
     }
 
-    async function fetchData() {
+    const fetchData = async () => {
       try {
         const respData = await getAllVenuesByManager(loginStore.venueManagerID);
         setMyVenues(respData.venues);
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     fetchData();
   }, [loginStore.venueManagerID, loginStore.loggedIn, isSelect]);
@@ -117,6 +119,7 @@ export const DashboardProvider = ({ children }) => {
     bandData,
     riderData,
     isSelect,
+    appStore.refreshData,
   ]);
 
   useEffect(() => {

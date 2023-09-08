@@ -6,10 +6,10 @@ import ReviewRider from "../components/riderCreator/ReviewRider";
 
 const RiderCreation = () => {
   const { store, actions } = useRiderCreationContext();
-  const { creatorStep, isLoading } = store;
+  const { creatorStep, loading } = store;
   const { setCreatorStep } = actions;
 
-  if (isLoading === true) {
+  if (loading === true) {
     return (
       <div className="flex justify-center items-center min-h-screen w-full bg-cover bg-no-repeat bg-fixed bg-[url('https://images.pexels.com/photos/2078076/pexels-photo-2078076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
         <div
