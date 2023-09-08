@@ -37,7 +37,7 @@ export const RiderCreationProvider = ({ children }) => {
     setLoading(true);
 
     const fetchData = async () => {
-      if (!loginStore.loggedIn) {
+      if (!loginStore?.loggedIn) {
         return;
       }
 
@@ -49,10 +49,10 @@ export const RiderCreationProvider = ({ children }) => {
 
       setVenues(fetchedVenues);
       setBands(fetchedBands);
+      setLoading(false);
     };
     fetchData();
-    setLoading(false);
-  }, [loginStore.loggedIn]);
+  }, [loginStore.loggedIn, appStore.refreshData]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -285,6 +285,7 @@ export const RiderCreationProvider = ({ children }) => {
       setRiderBandID(0);
       setRiderVenueID(0);
       setRiderTime("");
+      appActions.handleRefreshData();
     }, 2000);
     return () => clearTimeout(timeout);
   };

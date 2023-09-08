@@ -12,7 +12,7 @@ export const Contacts = ({ store, actions }) => {
         <div className="flex justify-center w-full p-3">
           <div className="flex w-full gap-2">
             <input
-              className="w-[80%] p-2 text-xl text-black rounded bg-base-200"
+              className="w-[80%] p-2 text-xl text-base-content rounded bg-base-200"
               type="text"
             />
             <button

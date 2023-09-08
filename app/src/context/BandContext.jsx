@@ -6,12 +6,15 @@ import postNewBand from "../services/postNewBand";
 import { useNavigate } from "react-router-dom";
 
 import useLoginContext from "./LoginContext";
+import useAppContext from "./AppContext";
 
 const BandContext = createContext();
 
 export const BandProvider = ({ children }) => {
   const { store } = useLoginContext();
   const { myUser } = store;
+  const { actions: appActions } = useAppContext();
+  const { handleRefreshData } = appActions;
 
   const [step, setStep] = useState(1);
   const [nameBand, setNameBand] = useState("");
@@ -73,7 +76,6 @@ export const BandProvider = ({ children }) => {
       (user) => parseInt(user?.user.id) == parseInt(id)
     );
 
-    
     setMembers([...members, user.user]);
     setFindUser("");
     setShowAutocompleteUser(false);
@@ -111,6 +113,7 @@ export const BandProvider = ({ children }) => {
       if (res.status == "200") {
         setStep(3);
         toast.success("Banda creada con exito");
+        handleRefreshData();
       } else {
         toast.error(res.message);
       }

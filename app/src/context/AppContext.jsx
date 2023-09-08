@@ -20,6 +20,7 @@ export const AppProvider = ({ children }) => {
   const [isTablet, setIsTablet] = useState(false);
   const [imgProfile, setImgProfile] = useState(null);
   const [selectNewRole, setSelectNewRole] = useState(false);
+  const [refreshData, setRefreshData] = useState(false);
 
   const navigate = useNavigate();
 
@@ -42,6 +43,10 @@ export const AppProvider = ({ children }) => {
       console.log(error);
     }
   }, []);
+
+  const handleRefreshData = () => {
+    return setRefreshData((prevState) => !prevState);
+  };
 
   const handleRoleSelection = (values) => {
     setSelectedRole(values);
@@ -71,10 +76,11 @@ export const AppProvider = ({ children }) => {
 
     registerVenue(values).then((response) => {
       if (response.status === 201) {
-        toast.success("Sala registrada!", {
+        toast.success("¡Sala registrada!", {
           id: registerVenueToast,
         });
         navigate("/dashboard");
+        handleRefreshData();
       }
       if (response.status === 400) {
         toast.error(`${response.message}`, {
@@ -153,6 +159,7 @@ export const AppProvider = ({ children }) => {
     isTablet,
     translatedGear,
     selectNewRole,
+    refreshData,
   };
 
   const actions = {
@@ -170,6 +177,7 @@ export const AppProvider = ({ children }) => {
     handleUpdateImgProfile,
     setSelectNewRole,
     handleNewRoleSelection,
+    handleRefreshData,
   };
 
   return (
