@@ -45,7 +45,7 @@ export const BandProvider = ({ children }) => {
       toast.error("Debes agregar un nombre a la banda");
       return;
     }
-    toast.success("Banda creada con exito");
+    toast.success("¡Genial! Ahora agrega los miembros del grupo");
     setStep(2);
   };
 
@@ -110,12 +110,13 @@ export const BandProvider = ({ children }) => {
       return;
     }
     postNewBand(band).then((res) => {
+      const createBandToast = toast.loading("Creando banda...");
       if (res.status == "200") {
         setStep(3);
-        toast.success("Banda creada con exito");
+        toast.success("Banda creada con exito", { id: createBandToast });
         handleRefreshData();
       } else {
-        toast.error(res.message);
+        toast.error(res.message, { id: createBandToast });
       }
     });
   }, [band]);

@@ -245,13 +245,16 @@ export const RiderCreationProvider = ({ children }) => {
   };
 
   const submitRiderInformation = async () => {
+    const createRiderToast = toast.loading("Generando rider...");
     if (
       !riderBandID ||
       !riderVenueID ||
       !riderTime ||
       instrumentInformation.length === 0
     ) {
-      toast.error("Falta información para generar el rider");
+      toast.error("Falta información para generar el rider", {
+        id: createRiderToast,
+      });
       return;
     }
 
@@ -273,11 +276,11 @@ export const RiderCreationProvider = ({ children }) => {
 
     const response = await postNewRider(riderInformation);
     if (response.status !== 200) {
-      toast.error("Error al generar el rider");
+      toast.error("Error al generar el rider", { id: createRiderToast });
       return;
     }
 
-    toast.success("Rider generado correctamente");
+    toast.success("Rider generado correctamente", { id: createRiderToast });
     const timeout = setTimeout(() => {
       navigate("/dashboard");
       setCreatorStep(1);
