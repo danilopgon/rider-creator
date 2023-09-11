@@ -10,13 +10,13 @@ Nuestro creador de riders es una poderosa herramienta diseñada para facilitar l
 
 - **Generación de Riders Personalizados**: La aplicación permite a los grupos musicales crear riders de conciertos personalizados con facilidad, especificando sus necesidades técnicas y logísticas.
 
-- **Colaboración en Tiempo Real**: Los promotores y técnicos pueden acceder a los riders en tiempo real, lo que facilita la colaboración y la planificación de eventos.
+- **Diseño responsive**: Puedes editar los riders en tu móvil. ¡Arregla esos problemas de última hora!
 
-- **Seguridad de Datos**: Utilizamos la autenticación JWT y una base de datos SQLite segura para garantizar la protección de la información confidencial.
+- **Seguridad de Datos**: Utilizamos la autenticación JWT y una base de datos segura para garantizar la protección de la información confidencial.
 
 ### Tecnologías Utilizadas
 
-- **Front-end**: Desarrollado en React, con una interfaz de usuario moderna y receptiva.
+- **Front-end**: Desarrollado en React, con una interfaz de usuario moderna.
 
 - **Back-end**: Utilizamos Flask para crear un servidor robusto y escalable que gestiona las solicitudes de los usuarios.
 
