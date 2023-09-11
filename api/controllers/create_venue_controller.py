@@ -62,7 +62,7 @@ def create_venue(manager_id):
                     "venue": venue.serialize(),
                 }
             ),
-            201,
+            200,
         )
     except KeyError:
         return jsonify({"message": "Invalid request body"}), 400

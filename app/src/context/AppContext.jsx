@@ -75,7 +75,7 @@ export const AppProvider = ({ children }) => {
     const registerVenueToast = toast.loading("Registrando sala...");
 
     registerVenue(values).then((response) => {
-      if (response.status === 201) {
+      if (response.status === 200) {
         toast.success("¡Sala registrada!", {
           id: registerVenueToast,
         });
