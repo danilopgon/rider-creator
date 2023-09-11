@@ -32,13 +32,14 @@ export const DashboardProvider = ({ children }) => {
 
   useEffect(() => {
     if (!loginStore.loggedIn || !loginStore.technicianID) {
+      setTechRiderData([]);
       return;
     }
 
     const fetchTechRiders = async () => {
       try {
         const respData = await getRidersByTechnician();
-        setTechRiderData(respData);
+        setTechRiderData(respData || []);
       } catch (error) {
         console.error(error);
       }
@@ -49,13 +50,14 @@ export const DashboardProvider = ({ children }) => {
 
   useEffect(() => {
     if (!loginStore.loggedIn || !loginStore.venueManagerID) {
+      setMyVenues([]);
       return;
     }
 
     const fetchData = async () => {
       try {
         const respData = await getAllVenuesByManager(loginStore.venueManagerID);
-        setMyVenues(respData.venues);
+        setMyVenues(respData.venues || []);
       } catch (error) {
         console.error(error);
       }
@@ -66,6 +68,7 @@ export const DashboardProvider = ({ children }) => {
 
   useEffect(() => {
     if (!loginStore.loggedIn || !loginStore.musicianID) {
+      setBandData([]);
       return;
     }
 
@@ -73,7 +76,7 @@ export const DashboardProvider = ({ children }) => {
       try {
         const respData = await getBand();
 
-        setBandData(respData);
+        setBandData(respData || []);
       } catch (error) {
         console.error(error);
       }
@@ -83,6 +86,7 @@ export const DashboardProvider = ({ children }) => {
 
   useEffect(() => {
     if (!loginStore.loggedIn || !loginStore.musicianID) {
+      setRiderData([]);
       return;
     }
 
@@ -90,7 +94,7 @@ export const DashboardProvider = ({ children }) => {
       try {
         const respData = await getRidersByUserID();
 
-        setRiderData(respData);
+        setRiderData(respData || []);
       } catch (error) {
         console.error(error);
       }
@@ -99,7 +103,7 @@ export const DashboardProvider = ({ children }) => {
   }, [loginStore.loggedIn, loginStore.musicianID, isSelect]);
 
   useEffect(() => {
-    if (!loginStore.loggedIn || !loginStore.musicianID) {
+    if (!loginStore.loggedIn) {
       return;
     }
 
@@ -107,52 +111,27 @@ export const DashboardProvider = ({ children }) => {
       riderStore.venues !== null &&
       riderStore.bands !== null &&
       bandData !== null &&
-      riderData !== null
+      riderData !== null &&
+      techRiderData !== null &&
+      myVenues !== null
     ) {
       setIsLoading(false);
     }
   }, [
     loginStore.loggedIn,
     loginStore.musicianID,
+    loginStore.technicianID,
+    loginStore.venueManagerID,
     riderStore.venues,
     riderStore.bands,
+    techRiderData,
     bandData,
     riderData,
     isSelect,
     appStore.refreshData,
-  ]);
-
-  useEffect(() => {
-    if (!loginStore.loggedIn || !loginStore.technicianID) {
-      return;
-    }
-
-    if (
-      riderStore.venues !== null &&
-      riderStore.bands !== null &&
-      techRiderData !== null
-    ) {
-      setIsLoading(false);
-    }
-  }, [
-    loginStore.loggedIn,
-    loginStore.technicianID,
-    riderStore.venues,
-    riderStore.bands,
-    techRiderData,
+    myVenues,
     isSelect,
-    appStore.refreshData,
   ]);
-
-  useEffect(() => {
-    if (!loginStore.loggedIn || !loginStore.venueManagerID) {
-      return;
-    }
-
-    if (myVenues !== null) {
-      setIsLoading(false);
-    }
-  }, [loginStore.loggedIn, loginStore.venueManagerID, myVenues, isSelect]);
 
   const store = {
     bandData,
