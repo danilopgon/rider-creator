@@ -150,7 +150,7 @@ const RiderPublic = () => {
       setIsLoading(false);
     };
     getRiderInfo();
-  }, [uid, defaultGear, translatedGear]);
+  }, [uid, defaultGear, translatedGear, appStore.refreshData]);
 
   if (isLoading === true) {
     return (

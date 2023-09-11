@@ -141,6 +141,7 @@ export const DashboardProvider = ({ children }) => {
     riderStore.bands,
     techRiderData,
     isSelect,
+    appStore.refreshData,
   ]);
 
   useEffect(() => {
