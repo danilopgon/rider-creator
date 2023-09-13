@@ -19,12 +19,21 @@ export const DashboardProvider = ({ children }) => {
   const [techRiderData, setTechRiderData] = useState(null);
   const [myVenues, setMyVenues] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [img, setImg] = useState(null);
 
   const { store: riderStore } = useRiderCreationContext();
   const { store: loginStore } = useLoginContext();
   const { store: appStore, actions: appActions } = useAppContext();
 
   const location = useLocation();
+
+  useEffect(() => {
+    if (!loginStore.loggedIn) {
+      return;
+    }
+
+    setImg(loginStore.myUser?.img);
+  }, [loginStore.myUser, appStore.refreshData, loginStore.loggedIn]);
 
   useEffect(() => {
     setIsSelect(null);
@@ -140,6 +149,7 @@ export const DashboardProvider = ({ children }) => {
     myVenues,
     techRiderData,
     isSelect,
+    img,
   };
 
   const actions = {

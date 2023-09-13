@@ -50,7 +50,7 @@ def update_img_user_profile(id):
         user = User.query.filter_by(id=id).first()
         user.img = img_url
         db.session.commit()
-        return jsonify({"msg": "Image updated successfully"}), 200
+        return jsonify({"msg": "Image updated successfully", "img": img_url }), 200
     return jsonify({"msg": "Something went wrong"}), 500
 
 def delete_img_user_profile(id):
