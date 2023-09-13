@@ -170,6 +170,10 @@ export const LoginProvider = ({ children }) => {
         });
         return;
       }
+
+      toast.success("Cuenta activada", {
+        id: activeAccountToast,
+      });
     } catch (error) {
       console.log(error);
       toast.error("Error al activar la cuenta, vuelve a intentarlo", {

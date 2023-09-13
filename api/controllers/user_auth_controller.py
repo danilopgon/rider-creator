@@ -107,7 +107,6 @@ def set_active(token):
         return jsonify({"message": "User not found"}), 404
 
     find_user.active = True
-    db.session.commit()
     Provisional_token.query.filter_by(token=token).delete()
     db.session.commit()
     return jsonify({"message": "User activated"}), 200

@@ -4,10 +4,10 @@ import { CardFindUser } from "./CardFindUser";
 export const Contacts = ({ store, actions }) => {
   //console.log(listChatByMyUser)
   return (
-    <section className="w-[100%] md:w-[45%] lg:w-[30%] xl:w-[20%] full h-full p-2 overflow-hidden">
-      <div className="w-full h-full rounded-xl bg-base-300/5">
+    <section className="flex w-full p-2 md:w-[45%] lg:w-[30%] xl:w-[20%] h-96 max-h-full overflow-hidden">
+      <div className="p-2 w-full h-full rounded-xl bg-base-200">
         <div className="p-2 text-xl font-semibold text-center">
-          <h2 className="">Contacts</h2>
+          <h2 className="">Contactos</h2>
         </div>
         <div className="flex justify-center w-full p-3">
           <div className="flex w-full gap-2">
@@ -24,7 +24,7 @@ export const Contacts = ({ store, actions }) => {
           </div>
         </div>
 
-        <div className="flex flex-col items-center w-full h-[29rem] gap-1 overflow-y-auto my-auto scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800 scrollbar-thin">
+        <div className="flex flex-col items-center w-full h-full gap-1 overflow-y-auto my-auto  scrollbar-thumb-gray-700 scrollbar-track-gray-800 scrollbar-thin">
           {store?.listChatByMyUser === null ? (
             <span className="loading loading-spinner text-secondary"></span>
           ) : store?.listChatByMyUser?.length > 0 ? (
