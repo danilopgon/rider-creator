@@ -43,8 +43,24 @@ mail.init_app(app)
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 jwt = JWTManager(app)
 
-# configure the SQLite database, relative to the app instance folder
+# configure the databasepi
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+
+# initialize the app with the extension
+db.init_app(app)
+# create tables
+with app.app_context():
+    db.create_all()
+
+
+# migrate the database
+migrate = Migrate()
+migrate.init_app(app, db)
+
+# enable CORS on all domains
+CORS(app)
 
 #configure cloudinary
 cloudinary.config( 
@@ -55,17 +71,6 @@ cloudinary.config(
 
 #socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins='*')
-
-# migrate the database
-migrate = Migrate(app, db)
-CORS(app)
-
-
-# initialize the app with the extension
-db.init_app(app)
-# create tables
-with app.app_context():
-    db.create_all()
 
 app.register_blueprint(api, url_prefix="/api")
 

@@ -25,25 +25,22 @@ export const ChatCard = ({ chat, store, actions }) => {
   return (
     <article
       onClick={actions.handleSelectChat}
-      className="flex overflow-hidden h-14 bg-base-100/5 hover:bg-base-100/10"
+      className="flex w-full rounded p-2 overflow-hidden h-20 bg-base-300 hover:bg-base-200"
       id={chat.id}
       key={user?.chat_id}
     >
-      <div className="min-w-[20%] h-full p-1">
-        {user?.img !== null ? (
-          <img className="w-full h-full rounded" src={user?.img} alt="" />
-        ) : (
-          <div className="flex items-center justify-center w-full h-full text-2xl font-bold text-base-content bg-success rounded">
-            {user?.username?.charAt(0).toUpperCase()}
-          </div>
-        )}
-      </div>
-      <div className="overflow-hidden">
-        <h2 className="font-semibold ms-3">{user?.username}</h2>
-        <p className="p-0 m-0 mt-1 overflow-hidden ms-3">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam
-          optio corrupti quam, numquam harum quis. Totam nisi quasi nostrum,
-          illum ex ad molestias dolor praesentium sunt id neque minima sapiente!
+      {user?.img !== null ? (
+        <img className="w-20 p-3 h-full rounded" src={user?.img} alt="" />
+      ) : (
+        <div className="flex items-center justify-center w-20 h-full text-2xl font-bold text-base-content bg-success rounded">
+          {user?.username?.charAt(0).toUpperCase()}
+        </div>
+      )}
+
+      <div className="ms-3 overflow-hidden" onClick={actions.handleSelectChat}>
+        <h2 className="font-semibold ">{user?.username}</h2>
+        <p className="p-0 m-0 mt-1 overflow-hidden">
+          {chat.messages[chat.messages.length - 1]?.content}
         </p>
       </div>
     </article>

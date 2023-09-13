@@ -8,6 +8,7 @@ const activeAccount = async (token) => {
         body: JSON.stringify({ token }),
       }
     );
+
     return response;
   } catch (error) {
     console.log(error);

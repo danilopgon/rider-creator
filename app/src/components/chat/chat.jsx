@@ -50,11 +50,11 @@ export const Chat = ({ store, actions }) => {
 
   return (
     <section
-      className={`h-full p-2 w-[100%] absolute md:w-[80%] md:relative ${
+      className={`max-h-screen p-2 w-[100%] md:w-[80%] md:relative ${
         showChat ? "" : "hidden"
       } animate-fade-left`}
     >
-      <div className="w-full h-full rounded-xl md:bg-base-200/5 bg-base-200">
+      <div className="w-full h-full rounded-xl md:bg-base-200 bg-base-200">
         <div className="w-full h-full">
           <div className="flex p-1">
             <button
@@ -78,7 +78,7 @@ export const Chat = ({ store, actions }) => {
               </div>
             )}
           </div>
-          <div className="w-full h-[80%] p-3">
+          <div className="w-full h-full p-3">
             <div
               className="chat-container w-full h-[26rem] overflow-y-auto scrollbar-thin"
               ref={chatContainerRef}
@@ -104,12 +104,12 @@ export const Chat = ({ store, actions }) => {
             <input
               onChange={actions.handleCaptureMessageInput}
               value={store.newMessage}
-              className="w-[70%] p-2  rounded-s bg-base-200"
+              className="w-full p-2  rounded-s bg-base-200 input input-primary input-bordered"
               type="text"
             />
             <button
               onClick={actions.handleSendMessage}
-              className="h-full  xl:w-[8%] md:w-[18%] bg-base-200 flex items-center p-2 gap-2 rounded-e"
+              className="h-full  xl:w-[8%] md:w-[18%]  flex items-center gap-2 rounded-e btn btn-primary"
             >
               <GrSend />
               Send
