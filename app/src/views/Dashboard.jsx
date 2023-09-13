@@ -63,10 +63,10 @@ const Dashboard = () => {
             <div className="relative">
               <img
                 src={
-                  store?.myUser?.img ||
+                  dashboardStore.img ||
                   `https://ui-avatars.com/api/?name=${store.myUser?.username}`
                 }
-                className="w-40 h-40 mx-auto mb-4 rounded-full"
+                className="w-40 h-40 mx-auto mb-4 rounded-full object-cover"
                 alt={store?.myUser?.username || "username"}
               />
 
@@ -154,7 +154,7 @@ const Dashboard = () => {
             method="dialog"
             className="flex flex-col items-center modal-box"
           >
-            <h3 className="text-lg font-bold">Hello!</h3>
+            <h3 className="text-lg font-bold">¿Necesitas un cambio?</h3>
             <h4>Agrega tu foto de perfil</h4>
             <div className="flex justify-center modal-action">
               <input onChange={appActions.handleChargeImgProfile} type="file" />
@@ -172,7 +172,7 @@ const Dashboard = () => {
               >
                 {store?.myUser?.img === null ? "Save" : "Update"}
               </button>
-              <button className="btn">Close</button>
+              <button className="btn">Cerrar</button>
             </div>
           </form>
         </dialog>

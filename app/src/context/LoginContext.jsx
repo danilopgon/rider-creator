@@ -184,6 +184,7 @@ export const LoginProvider = ({ children }) => {
 
   const handleRolePermissions = (token) => {
     const decoded = jwt_decode(token);
+
     if (decoded?.sub) {
       setMyUser(decoded?.sub);
     }
@@ -196,6 +197,13 @@ export const LoginProvider = ({ children }) => {
     if (decoded?.sub.venue_manager_id) {
       setVenueManagerID(decoded.sub.venue_manager_id);
     }
+  };
+
+  const handleImgProfile = async (imgURL) => {
+    setMyUser((prevState) => ({
+      ...prevState,
+      img: imgURL,
+    }));
   };
 
   useEffect(() => {
@@ -220,6 +228,7 @@ export const LoginProvider = ({ children }) => {
     setMusicianID,
     setTechnicianID,
     setVenueManagerID,
+    handleImgProfile,
   };
 
   const store = {

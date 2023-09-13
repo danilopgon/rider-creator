@@ -8,6 +8,7 @@ import getDefaultGear from "../services/getDefaultGear";
 import translateInstrumentMap from "../utils/translateInstrument";
 import setUserImgProfile from "../services/setUserImgProfile";
 import updateUserImgProfile from "../services/updateUserImgProfile";
+import useLoginContext from "./LoginContext";
 
 const AppContext = createContext();
 
@@ -21,6 +22,9 @@ export const AppProvider = ({ children }) => {
   const [imgProfile, setImgProfile] = useState(null);
   const [selectNewRole, setSelectNewRole] = useState(false);
   const [refreshData, setRefreshData] = useState(false);
+
+  const { actions: loginActions } = useLoginContext();
+  const { handleImgProfile } = loginActions;
 
   const navigate = useNavigate();
 
@@ -107,8 +111,10 @@ export const AppProvider = ({ children }) => {
   const handleSaveImgProfile = async () => {
     setUserImgProfile(imgProfile).then((response) => {
       if (response.status === 200) {
-        toast.success("Imagen guardada!");
+        handleImgProfile(response.url);
+        handleRefreshData();
         setImgProfile(null);
+        toast.success("¡Imagen guardada!");
       }
       if (response.status === 400) {
         toast.error(`${response.message}`);
@@ -118,8 +124,6 @@ export const AppProvider = ({ children }) => {
   };
 
   const handleChargeImgProfile = (e) => {
-    console.log("click");
-
     if (!e.target.files || e.target.files.length === 0) {
       toast.error("No se ha seleccionado ninguna imagen");
       return;
@@ -135,16 +139,22 @@ export const AppProvider = ({ children }) => {
     toast.success("Imagen cargada");
   };
 
-  const handleUpdateImgProfile = () => {
-    updateUserImgProfile(imgProfile).then((response) => {
-      if (response.status === 200) {
-        toast.success("Imagen actualizada!");
-        setImgProfile(null);
-      }
-      if (response.status === 400) {
-        toast.error(`${response.message}`);
-      }
+  const handleUpdateImgProfile = async () => {
+    const toastImage = toast.loading("Actualizando imagen...");
+    const response = await updateUserImgProfile(imgProfile);
+
+    if (response.status === 400) {
+      toast.error(`Error al actualizar la imagen`, {
+        id: toastImage,
+      });
+    }
+
+    const data = await response.json();
+    toast.success("¡Imagen actualizada!", {
+      id: toastImage,
     });
+    handleImgProfile(data.img);
+    setImgProfile(null);
   };
 
   const handleNewRoleSelection = () => {
