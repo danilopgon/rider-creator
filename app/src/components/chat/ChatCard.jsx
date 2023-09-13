@@ -23,9 +23,9 @@ export const ChatCard = ({ chat, store, actions }) => {
   }, [chat, myUser]);
 
   return (
-    <article
+    <button
       onClick={actions.handleSelectChat}
-      className="flex w-full rounded p-2 overflow-hidden h-20 bg-base-300 hover:bg-base-200"
+      className="flex items-center w-full rounded p-2 overflow-hidden h-20 bg-base-300 hover:shadow-sm hover:shadow-primary hover:-translate-y-1 transform transition-all"
       id={chat.id}
       key={user?.chat_id}
     >
@@ -37,12 +37,12 @@ export const ChatCard = ({ chat, store, actions }) => {
         </div>
       )}
 
-      <div className="ms-3 overflow-hidden" onClick={actions.handleSelectChat}>
+      <div className="ms-3 overflow-hidden w-full text-left">
         <h2 className="font-semibold ">{user?.username}</h2>
         <p className="p-0 m-0 mt-1 overflow-hidden">
           {chat.messages[chat.messages.length - 1]?.content}
         </p>
       </div>
-    </article>
+    </button>
   );
 };

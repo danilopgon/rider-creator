@@ -12,11 +12,11 @@ export const Contacts = ({ store, actions }) => {
         <div className="flex justify-center w-full p-3">
           <div className="flex w-full gap-2">
             <input
-              className="w-[80%] p-2 text-xl text-base-content rounded bg-base-200"
+              className="w-[80%] p-2 text-xl text-base-content rounded bg-base-200 input input-primary input-bordered"
               type="text"
             />
             <button
-              className=" w-[15%] btn btn-primary"
+              className=" w-[20%] btn btn-primary"
               onClick={() => window.my_modal_3.showModal()}
             >
               +
@@ -52,7 +52,7 @@ export const Contacts = ({ store, actions }) => {
           <button className="absolute btn btn-sm btn-circle btn-ghost right-2 top-2">
             ✕
           </button>
-          <h3 className="text-lg font-bold">Quieres crear un nuevo chat?</h3>
+          <h3 className="text-lg font-bold">¿Quieres crear un nuevo chat?</h3>
           <label htmlFor="findUserById"></label>
           <div className="flex items-center justify-center w-full p-3">
             <input
